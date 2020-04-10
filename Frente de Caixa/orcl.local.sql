@@ -1,0 +1,38 @@
+DECLARE
+    CONN         UTL_TCP.CONNECTION;
+    RETVAL       BINARY_INTEGER;
+    L_RESPONSE   VARCHAR2(1000) := '';
+    L_TEXT  VARCHAR2(1000);   
+BEGIN
+   
+    --OPEN THE CONNECTION
+    CONN := UTL_TCP.OPEN_CONNECTION(
+        REMOTE_HOST   => 'echo.websocket.org',
+        REMOTE_PORT   => 80,
+        TX_TIMEOUT    => 3000
+    );
+
+    L_TEXT := '{"operacao":"112","valorTransacao":"4579"}';
+    --WRITE TO SOCKET
+    RETVAL := UTL_TCP.WRITE_LINE(CONN,L_TEXT);
+    UTL_TCP.FLUSH(CONN);
+   
+    -- CHECK AND READ RESPONSE FROM SOCKET
+    BEGIN
+      DBMS_OUTPUT.PUT_LINE('Aguardando retorno');
+      WHILE UTL_TCP.AVAILABLE(CONN,10) > 0 LOOP
+        L_RESPONSE := L_RESPONSE ||  UTL_TCP.GET_LINE(CONN, TRUE);
+        DBMS_OUTPUT.PUT_LINE('Retorno:'||L_RESPONSE);
+      END LOOP;
+    EXCEPTION
+        WHEN UTL_TCP.END_OF_INPUT THEN
+            NULL;
+    END;
+
+    DBMS_OUTPUT.PUT_LINE('Response from Socket Server : ' || L_RESPONSE);
+    UTL_TCP.CLOSE_CONNECTION(CONN);
+EXCEPTION
+    WHEN OTHERS THEN
+        RAISE_APPLICATION_ERROR(-20101,SQLERRM);
+        UTL_TCP.CLOSE_CONNECTION(CONN);
+END; 

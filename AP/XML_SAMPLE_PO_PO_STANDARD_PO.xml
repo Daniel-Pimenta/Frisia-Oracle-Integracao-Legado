@@ -1,0 +1,1523 @@
+<?xml version="1.0" encoding="UTF-8"?>                                          
+<!-- $Header: PO_STANDARD_PO.xml 120.4 2020/04/05 15:58:12 ababujan ship $ -->
+<!-- dbdrv: exec java oracle/apps/xdo/oa/util XDOLoader.class java &phase=dat checkfile:~PROD:patch/115/publisher/defs:PO_STANDARD_PO.xml UPLOAD -DB_USERNAME &un_apps -DB_PASSWORD &pw_apps -JDBC_CONNECTION &jdbc_db_addr -LOB_TYPE XML_SAMPLE -APPS_SHORT_NAME ~PROD -LOB_CODE PO_STANDARD_PO -LANGUAGE 00 -XDO_FILE_TYPE XML -FILE_NAME &fullpath:~PROD:patch/115/publisher/defs:PO_STANDARD_PO.xml -->
+<!-- GSCC_Category="Xdo Data Definition" -->
+<PO_DATA>                                                                       
+ <TYPE_LOOKUP_CODE>STANDARD</TYPE_LOOKUP_CODE>                                  
+ <SEGMENT1>21263</SEGMENT1>                                                     
+ <REVISION_NUM>0</REVISION_NUM>                                                 
+ <PRINT_COUNT>0</PRINT_COUNT>                                                   
+ <CREATION_DATE>12-AUG-2004 00:08:06</CREATION_DATE>                            
+ <PRINTED_DATE/>                                                                
+ <REVISED_DATE/>                                                                
+ <START_DATE/>                                                                  
+ <END_DATE/>                                                                    
+ <NOTE_TO_VENDOR>Terms Supplier Note</NOTE_TO_VENDOR>                           
+ <DOCUMENT_BUYER_FIRST_NAME>Pat</DOCUMENT_BUYER_FIRST_NAME>                     
+
+ <DOCUMENT_BUYER_LAST_NAME>Stock</DOCUMENT_BUYER_LAST_NAME>                     
+ <DOCUMENT_BUYER_TITLE>MS.</DOCUMENT_BUYER_TITLE>                               
+ <DOCUMENT_BUYER_AGENT_ID>25</DOCUMENT_BUYER_AGENT_ID>                          
+ <ARCHIVE_BUYER_AGENT_ID/>                                                      
+ <ARCHIVE_BUYER_FIRST_NAME/>                                                    
+ <ARCHIVE_BUYER_LAST_NAME/>                                                     
+ <ARCHIVE_BUYER_TITLE/>                                                         
+ <AMOUNT_AGREED/>                                                               
+ <CANCEL_FLAG>N</CANCEL_FLAG>                                                   
+ <CONFIRMING_ORDER_FLAG>N</CONFIRMING_ORDER_FLAG>                               
+ <ACCEPTANCE_REQUIRED_FLAG>N</ACCEPTANCE_REQUIRED_FLAG>                         
+ <ACCEPTANCE_DUE_DATE/>                                                         
+ <CURRENCY_CODE>USD</CURRENCY_CODE>                                             
+
+ <CURRENCY_NAME>US dollar</CURRENCY_NAME>                                       
+ <RATE/>                                                                        
+ <SHIP_VIA>UPS</SHIP_VIA>                                                       
+ <FOB>Origin</FOB>                                                              
+ <FREIGHT_TERMS>Due</FREIGHT_TERMS>                                             
+ <PAYMENT_TERMS>30 Net (terms date + 30)</PAYMENT_TERMS>                        
+ <CUSTOMER_NUM>ABCXYZ</CUSTOMER_NUM>                                            
+ <VENDOR_NUM>1008</VENDOR_NUM>                                                  
+ <VENDOR_NAME>Office Supplies, Inc.</VENDOR_NAME>                               
+ <VENDOR_ADDRESS_LINE1>3605 Warrensville Center Road</VENDOR_ADDRESS_LINE1>     
+ <VENDOR_ADDRESS_LINE2/>                                                        
+ <VENDOR_ADDRESS_LINE3/>                                                        
+ <VENDOR_CITY>Shaker Heights</VENDOR_CITY>                                      
+
+ <VENDOR_STATE>OH</VENDOR_STATE>                                                
+ <VENDOR_POSTAL_CODE>44122</VENDOR_POSTAL_CODE>                                 
+ <VENDOR_COUNTRY>Canada</VENDOR_COUNTRY>                                        
+ <VENDOR_PHONE>283-4000</VENDOR_PHONE>                                          
+ <VENDOR_CONTACT_FIRST_NAME>Maxwell</VENDOR_CONTACT_FIRST_NAME>                 
+ <VENDOR_CONTACT_LAST_NAME>Olden</VENDOR_CONTACT_LAST_NAME>                     
+ <VENDOR_CONTACT_TITLE/>                                                        
+ <VENDOR_CONTACT_PHONE>283-1865</VENDOR_CONTACT_PHONE>                          
+ <SHIP_TO_LOCATION_ID>204</SHIP_TO_LOCATION_ID>                                 
+ <SHIP_TO_LOCATION_NAME>V1- New York City</SHIP_TO_LOCATION_NAME>               
+ <SHIP_TO_ADDRESS_LINE1>90 Fifth Avenue</SHIP_TO_ADDRESS_LINE1>                 
+ <SHIP_TO_ADDRESS_LINE2/>                                                       
+ <SHIP_TO_ADDRESS_LINE3/>                                                       
+
+ <SHIP_TO_ADDRESS_LINE4/>                                                       
+ <SHIP_TO_ADDRESS_INFO>New York, NY  10022-3422</SHIP_TO_ADDRESS_INFO>          
+ <SHIP_TO_COUNTRY>United States</SHIP_TO_COUNTRY>                               
+ <BILL_TO_LOCATION_ID>204</BILL_TO_LOCATION_ID>                                 
+ <BILL_TO_LOCATION_NAME>V1- New York City</BILL_TO_LOCATION_NAME>               
+ <BILL_TO_ADDRESS_LINE1>90 Fifth Avenue</BILL_TO_ADDRESS_LINE1>                 
+ <BILL_TO_ADDRESS_LINE2/>                                                       
+ <BILL_TO_ADDRESS_LINE3/>                                                       
+ <BILL_TO_ADDRESS_LINE4/>                                                       
+ <BILL_TO_ADDRESS_INFO>New York, NY  10022-3422</BILL_TO_ADDRESS_INFO>          
+ <BILL_TO_COUNTRY>United States</BILL_TO_COUNTRY>                               
+ <ATTRIBUTE1>Header Descriptive FlexField</ATTRIBUTE1>                          
+ <ATTRIBUTE2>ATTRIBUTE2</ATTRIBUTE2>                                        
+ <ATTRIBUTE3>ATTRIBUTE3</ATTRIBUTE3>                                        
+ <ATTRIBUTE4>ATTRIBUTE4</ATTRIBUTE4>                                        
+ <ATTRIBUTE5>ATTRIBUTE5</ATTRIBUTE5>                                        
+ <ATTRIBUTE6>ATTRIBUTE6</ATTRIBUTE6>                                        
+ <ATTRIBUTE7>ATTRIBUTE7</ATTRIBUTE7>                                        
+ <ATTRIBUTE8>ATTRIBUTE8</ATTRIBUTE8>                                        
+ <ATTRIBUTE9>ATTRIBUTE9</ATTRIBUTE9>                                        
+ <ATTRIBUTE10>ATTRIBUTE10</ATTRIBUTE10>                                        
+ <ATTRIBUTE11>ATTRIBUTE11</ATTRIBUTE11>                                        
+ <ATTRIBUTE12>ATTRIBUTE12</ATTRIBUTE12>                                        
+ <ATTRIBUTE13>ATTRIBUTE13</ATTRIBUTE13>                                        
+ <ATTRIBUTE14>ATTRIBUTE14</ATTRIBUTE14>                                        
+ <ATTRIBUTE15>ATTRIBUTE15</ATTRIBUTE15>                                        
+
+ <VENDOR_SITE_ID>12</VENDOR_SITE_ID>                                            
+ <PO_HEADER_ID>48033</PO_HEADER_ID>                                             
+ <APPROVED_FLAG>N</APPROVED_FLAG>                                               
+ <LANGUAGE/>                                                                    
+ <VENDOR_ID>9</VENDOR_ID>                                                       
+ <CLOSED_CODE/>                                                                 
+ <USSGL_TRANSACTION_CODE>AJB.Header</USSGL_TRANSACTION_CODE>                    
+ <GOVERNMENT_CONTEXT/>                                                          
+ <REQUEST_ID/>                                                                  
+ <PROGRAM_APPLICATION_ID/>                                                      
+ <PROGRAM_ID/>                                                                  
+ <PROGRAM_UPDATE_DATE/>                                                         
+ <ORG_ID>204</ORG_ID>                                                           
+
+ <COMMENTS>Standard Purchase Order Description</COMMENTS>                       
+ <REPLY_DATE/>                                                                  
+ <REPLY_METHOD_LOOKUP_CODE/>                                                    
+ <RFQ_CLOSE_DATE/>                                                              
+ <QUOTE_TYPE_LOOKUP_CODE/>                                                      
+ <QUOTATION_CLASS_CODE/>                                                        
+ <QUOTE_WARNING_DELAY_UNIT/>                                                    
+ <QUOTE_WARNING_DELAY/>                                                         
+ <QUOTE_VENDOR_QUOTE_NUMBER/>                                                   
+ <CLOSED_DATE/>                                                                 
+ <USER_HOLD_FLAG/>                                                              
+ <APPROVAL_REQUIRED_FLAG/>                                                      
+ <FIRM_STATUS_LOOKUP_CODE>N</FIRM_STATUS_LOOKUP_CODE>                           
+
+ <FIRM_DATE/>                                                                   
+ <FROZEN_FLAG>N</FROZEN_FLAG>                                                   
+ <EDI_PROCESSED_FLAG/>                                                          
+ <EDI_PROCESSED_STATUS/>                                                        
+ <ATTRIBUTE_CATEGORY/>                                                          
+ <CREATED_BY>1318</CREATED_BY>                                                  
+ <VENDOR_CONTACT_ID>212</VENDOR_CONTACT_ID>                                     
+ <TERMS_ID>10002</TERMS_ID>                                                     
+ <FOB_LOOKUP_CODE>Origin</FOB_LOOKUP_CODE>                                      
+ <FREIGHT_TERMS_LOOKUP_CODE>Due</FREIGHT_TERMS_LOOKUP_CODE>                     
+ <STATUS_LOOKUP_CODE/>                                                          
+ <RATE_TYPE/>                                                                   
+ <RATE_DATE>12-AUG-2004 00:00:00</RATE_DATE>                                    
+
+ <FROM_HEADER_ID/>                                                              
+ <FROM_TYPE_LOOKUP_CODE/>                                                       
+ <AUTHORIZATION_STATUS>N</AUTHORIZATION_STATUS>                                 
+ <APPROVED_DATE/>                                                               
+ <AMOUNT_LIMIT/>                                                                
+ <MIN_RELEASE_AMOUNT/>                                                          
+ <NOTE_TO_AUTHORIZER/>                                                          
+ <NOTE_TO_RECEIVER>Terms Receiver Note</NOTE_TO_RECEIVER>                       
+ <VENDOR_ORDER_NUM/>                                                            
+ <LAST_UPDATE_DATE>12-AUG-2004 00:10:38</LAST_UPDATE_DATE>                      
+ <LAST_UPDATED_BY>1318</LAST_UPDATED_BY>                                        
+ <SUMMARY_FLAG>N</SUMMARY_FLAG>                                                 
+ <ENABLED_FLAG>Y</ENABLED_FLAG>                                                 
+
+ <SEGMENT2/>                                                                    
+ <SEGMENT3/>                                                                    
+ <SEGMENT4/>                                                                    
+ <SEGMENT5/>                                                                    
+ <START_DATE_ACTIVE/>                                                           
+ <END_DATE_ACTIVE/>                                                             
+ <LAST_UPDATE_LOGIN>3353185</LAST_UPDATE_LOGIN>                                 
+ <SUPPLY_AGREEMENT_FLAG>N</SUPPLY_AGREEMENT_FLAG>                               
+ <GLOBAL_ATTRIBUTE_CATEGORY/>                                                   
+ <GLOBAL_ATTRIBUTE1>GLOBAL_ATTRIBUTE1</GLOBAL_ATTRIBUTE1>                     
+ <GLOBAL_ATTRIBUTE2>GLOBAL_ATTRIBUTE2</GLOBAL_ATTRIBUTE2>                     
+ <GLOBAL_ATTRIBUTE3>GLOBAL_ATTRIBUTE3</GLOBAL_ATTRIBUTE3>                     
+ <GLOBAL_ATTRIBUTE4>GLOBAL_ATTRIBUTE4</GLOBAL_ATTRIBUTE4>                     
+ <GLOBAL_ATTRIBUTE5>GLOBAL_ATTRIBUTE5</GLOBAL_ATTRIBUTE5>                     
+ <GLOBAL_ATTRIBUTE6>GLOBAL_ATTRIBUTE6</GLOBAL_ATTRIBUTE6>                     
+ <GLOBAL_ATTRIBUTE7>GLOBAL_ATTRIBUTE7</GLOBAL_ATTRIBUTE7>                     
+ <GLOBAL_ATTRIBUTE8>GLOBAL_ATTRIBUTE8</GLOBAL_ATTRIBUTE8>                     
+ <GLOBAL_ATTRIBUTE9>GLOBAL_ATTRIBUTE9</GLOBAL_ATTRIBUTE9>                     
+ <GLOBAL_ATTRIBUTE10>GLOBAL_ATTRIBUTE10</GLOBAL_ATTRIBUTE10>                     
+ <GLOBAL_ATTRIBUTE11>GLOBAL_ATTRIBUTE11</GLOBAL_ATTRIBUTE11>                     
+ <GLOBAL_ATTRIBUTE12>GLOBAL_ATTRIBUTE12</GLOBAL_ATTRIBUTE12>                     
+ <GLOBAL_ATTRIBUTE13>GLOBAL_ATTRIBUTE13</GLOBAL_ATTRIBUTE13>                     
+ <GLOBAL_ATTRIBUTE14>GLOBAL_ATTRIBUTE14</GLOBAL_ATTRIBUTE14>                     
+ <GLOBAL_ATTRIBUTE15>GLOBAL_ATTRIBUTE15</GLOBAL_ATTRIBUTE15>                     
+ <GLOBAL_ATTRIBUTE16>GLOBAL_ATTRIBUTE16</GLOBAL_ATTRIBUTE16>                     
+ <GLOBAL_ATTRIBUTE17>GLOBAL_ATTRIBUTE17</GLOBAL_ATTRIBUTE17>                     
+ <GLOBAL_ATTRIBUTE18>GLOBAL_ATTRIBUTE18</GLOBAL_ATTRIBUTE18>                     
+ <GLOBAL_ATTRIBUTE19>GLOBAL_ATTRIBUTE19</GLOBAL_ATTRIBUTE19>                     
+ <GLOBAL_ATTRIBUTE20>GLOBAL_ATTRIBUTE20</GLOBAL_ATTRIBUTE20>                     
+ <INTERFACE_SOURCE_CODE/>                                                       
+ <REFERENCE_NUM/>                                                               
+ <WF_ITEM_TYPE/>                                                                
+ <WF_ITEM_KEY/>                                                                 
+ <PCARD_ID/>                                                                    
+ <PRICE_UPDATE_TOLERANCE/>                                                      
+ <MRC_RATE_TYPE/>                                                               
+ <MRC_RATE_DATE/>                                                               
+ <MRC_RATE/>                                                                    
+ <PAY_ON_CODE/>                                                                 
+
+ <XML_FLAG/>                                                                    
+ <XML_SEND_DATE/>                                                               
+ <XML_CHANGE_SEND_DATE/>                                                        
+ <GLOBAL_AGREEMENT_FLAG/>                                                       
+ <CONSIGNED_CONSUMPTION_FLAG/>                                                  
+ <CBC_ACCOUNTING_DATE/>                                                         
+ <CONSUME_REQ_DEMAND_FLAG/>                                                     
+ <CHANGE_REQUESTED_BY/>                                                         
+ <SHIPPING_CONTROL/>                                                            
+ <CONTERMS_EXIST_FLAG/>                                                         
+ <CONTERMS_ARTICLES_UPD_DATE/>                                                  
+ <CONTERMS_DELIV_UPD_DATE/>                                                     
+ <PENDING_SIGNATURE_FLAG>N</PENDING_SIGNATURE_FLAG>                             
+
+ <OU_NAME>Vision Operations</OU_NAME>                                           
+ <OU_ADDR1>90 Fifth Avenue</OU_ADDR1>                                           
+ <OU_ADDR2/>                                                                    
+ <OU_ADDR3/>                                                                    
+ <OU_TOWN_CITY>New York</OU_TOWN_CITY>                                          
+ <OU_REGION2>NY</OU_REGION2>                                                    
+ <OU_POSTALCODE>10022-3422</OU_POSTALCODE>                                      
+ <OU_COUNTRY>United States</OU_COUNTRY>                                         
+ <BUYER_LOCATION_ID>207</BUYER_LOCATION_ID>                                     
+ <BUYER_ADDRESS_LINE1>3455 108th Avenue</BUYER_ADDRESS_LINE1>                   
+ <BUYER_ADDRESS_LINE2/>                                                         
+ <BUYER_ADDRESS_LINE3/>                                                         
+ <BUYER_ADDRESS_LINE4/>                                                         
+
+ <BUYER_CITY_STATE_ZIP>Seattle, WA  98101</BUYER_CITY_STATE_ZIP>                
+ <BUYER_CONTACT_PHONE/>                                                         
+ <BUYER_CONTACT_FAX/>                                                           
+ <VENDOR_FAX>283-3365</VENDOR_FAX>                                              
+ <TOTAL_AMOUNT>150D39</TOTAL_AMOUNT>                                            
+ <BUYER_COUNTRY>United States</BUYER_COUNTRY>                                   
+ <VENDOR_ADDRESS_LINE4/>                                                        
+ <VENDOR_AREA_CODE>216</VENDOR_AREA_CODE>                                       
+ <VENDOR_CONTACT_AREA_CODE>216</VENDOR_CONTACT_AREA_CODE>                       
+ <LE_NAME>Vision Operations</LE_NAME>                                           
+ <LE_ADDR1>90 Fifth Avenue</LE_ADDR1>                                           
+ <LE_ADDR2/>                                                                    
+ <LE_ADDR3/>                                                                    
+
+ <LE_TOWN_CITY>New York</LE_TOWN_CITY>                                          
+ <LE_STAE_PROVINCE>NY</LE_STAE_PROVINCE>                                        
+ <LE_POSTALCODE>10022-3422</LE_POSTALCODE>                                      
+ <LE_COUNTRY>United States</LE_COUNTRY>                                         
+ <CANCEL_DATE/>                                                                 
+ <CHANGE_SUMMARY/>                                                              
+ <DOCUMENT_CREATION_METHOD>ENTER_PO</DOCUMENT_CREATION_METHOD>                  
+ <ENCUMBRANCE_REQUIRED_FLAG/>                                                   
+ <DOCUMENT_TYPE>Standard Purchase Order</DOCUMENT_TYPE>                         
+ <COVER_MESSAGE>This document has important legal consequences. The information 
+contained in this document is proprietary of Vision Operations. It shall not be 
+used, reproduced, or disclosed to others without the express and written consent
+ of Vision Operations.                                                          
+
+                                                                                
+This agreement between Vision Operations and Office Supplies, Inc. is authorized
+ for binding commitment. The parties hereto have read and executed this agreemen
+t as of the                                                                     
+                                                                                
+_______________ day of ______________, ___________.</COVER_MESSAGE>             
+ <TIMEZONE>All dates  referenced in this document are in GMT-8 America/Los_Angel
+es</TIMEZONE>                                                                   
+ <AMMENDMENT_MESSAGE>This Amendment supersedes the Agreement 21263 and all its p
+rior modifications. This agreement can only be changed by a signed agreement bet
+ween the affected parties.                                                      
+                                                                                
+                                                                                
+
+                                                                                
+The parties hereto have read and executed this contract modification as of the  
+                                                                                
+_____________ day of ______________, _________.                                 
+</AMMENDMENT_MESSAGE>                                                           
+ <TEST_FLAG>N</TEST_FLAG>                                                       
+ <DIST_SHIPMENT_COUNT>1</DIST_SHIPMENT_COUNT>                                   
+ <DOCUMENT_NAME>Standard Purchase Order 21263, 0</DOCUMENT_NAME>                
+ <SIGNED>F</SIGNED>                                                             
+ <AMENDMENT_PROFILE>Y</AMENDMENT_PROFILE>                                       
+ <WITH_TERMS>N</WITH_TERMS>                                                     
+ <MESSAGE>                                                                      
+  <MESSAGE_ROW>                                                                 
+
+   <MESSAGE>PO_FO_AGREEMENT_CANCELED</MESSAGE>                                  
+   <TEXT>This agreement CANCELED on</TEXT>                                      
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_AMOUNT_AGREED</MESSAGE>                                       
+   <TEXT>Amount Agreed</TEXT>                                                   
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+     <MESSAGE>PO_FO_BLANKET</MESSAGE>                                       
+     <TEXT>Blanket Agreement :</TEXT>                                                   
+  </MESSAGE_ROW>
+  <MESSAGE_ROW>                                                                 
+       <MESSAGE>PO_FO_BLANKET_PRICE_STRUCT</MESSAGE>                                       
+       <TEXT>Price Structure</TEXT>                                                   
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_AMOUNT_CANCELED</MESSAGE>                                     
+   <TEXT>Amount CANCELED:</TEXT>                                                
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_BILL_TO</MESSAGE>                                             
+
+   <TEXT>Bill To:</TEXT>                                                        
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_CHARGE_ACCOUNT</MESSAGE>                                      
+   <TEXT>Charge Account:</TEXT>                                                 
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_COMPANY</MESSAGE>                                             
+   <TEXT>Company</TEXT>                                                         
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_CONFIRM_NOT_DUPLICATE</MESSAGE>                               
+   <TEXT>CONFIRMATION - DO NOT DUPLICATE</TEXT>                                 
+  </MESSAGE_ROW> 
+<MESSAGE_ROW>
+   <MESSAGE>PO_FO_MODIFIER_TYPE</MESSAGE>
+   <TEXT>Modifier Type</TEXT>
+  </MESSAGE_ROW> 
+ <MESSAGE_ROW>
+   <MESSAGE>PO_FO_RATE_APP_METHOD</MESSAGE>
+   <TEXT>Rate Application Method</TEXT>
+  </MESSAGE_ROW>
+ <MESSAGE_ROW>
+   <MESSAGE>PO_FO_ADJUSTED_AMT</MESSAGE>
+   <TEXT>Adjusted Amount</TEXT>
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_CONTACT_NAME</MESSAGE>                                        
+   <TEXT>Contact</TEXT>                                                         
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_CONTRACTOR</MESSAGE>                                          
+   <TEXT>Contractor Details:</TEXT>                                             
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_CONTRACTOR_NAME</MESSAGE>                                     
+   <TEXT>Contractor Name:</TEXT>                                                
+  </MESSAGE_ROW>                                                                
+
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_CUSTOMER_ACCOUNT_NO</MESSAGE>                                 
+   <TEXT>Customer Account No.</TEXT>                                            
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_CUST_ITEM_DESC</MESSAGE>                                      
+   <TEXT>Customer Item Description:</TEXT>                                      
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_CUST_PO_NUMBER</MESSAGE>                                      
+   <TEXT>Customer PO Number:</TEXT>                                             
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+
+   <MESSAGE>PO_FO_DATE</MESSAGE>                                                
+   <TEXT>Date:</TEXT>                                                           
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_DELIVER_DATE_TIME</MESSAGE>                                   
+   <TEXT>Delivery Date/Time</TEXT>                                              
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_DELIVER_TO_LOCATION</MESSAGE>                                 
+   <TEXT>Deliver To:</TEXT>                                                     
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_DRAFT</MESSAGE>                                               
+
+   <TEXT>DRAFT</TEXT>                                                           
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_EFFECTIVE_END_DATE</MESSAGE>                                  
+   <TEXT>Effective End Date</TEXT>                                              
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_EFFECTIVE_START_DATE</MESSAGE>                                
+   <TEXT>Effective Start Date</TEXT>                                            
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_EMAIL</MESSAGE>                                               
+   <TEXT>Email</TEXT>                                                           
+
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_END_DATE</MESSAGE>                                            
+   <TEXT>End Date:</TEXT>                                                       
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_FAX</MESSAGE>                                                 
+   <TEXT>Fax</TEXT>                                                             
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_FORMAL_ACCEPT</MESSAGE>                                       
+   <TEXT>Please formally accept this order by</TEXT>                            
+  </MESSAGE_ROW>                                                                
+
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_HAZARD_CLASS</MESSAGE>                                        
+   <TEXT>Hazard Class:</TEXT>                                                   
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_LINE_CANCELED</MESSAGE>                                       
+   <TEXT>This line CANCELED on</TEXT>                                           
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_LINE_NUMBER</MESSAGE>                                         
+   <TEXT>Line number:</TEXT>                                                    
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+
+   <MESSAGE>PO_FO_LINE_REF_BPA</MESSAGE>                                        
+   <TEXT>This line references Blanket Agreement</TEXT>                          
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_LINE_REF_CONTRACT</MESSAGE>                                   
+   <TEXT>This line references Contract Agreement</TEXT>                         
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_LINE_SUPPLIER_QUOTATION</MESSAGE>                             
+   <TEXT>This line references Supplier Quotation</TEXT>                         
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_NAME</MESSAGE>                                                
+
+   <TEXT>Name:</TEXT>                                                           
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_NO</MESSAGE>                                                  
+   <TEXT>No:</TEXT>                                                             
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_NOTES</MESSAGE>                                               
+   <TEXT>Notes:</TEXT>                                                          
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_ORG_AGR_ASS</MESSAGE>                                         
+   <TEXT>Organization Agreement Assignments</TEXT>                              
+
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_ORIGINAL_AMOUNT_ORDERED</MESSAGE>                             
+   <TEXT>Original amount ordered:</TEXT>                                        
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_ORIGINAL_QTY_ORDERED</MESSAGE>                                
+   <TEXT>Original quantity ordered:</TEXT>                                      
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_ORIGINAL_SHIPMENT_QTY</MESSAGE>                               
+   <TEXT>Original shipment quantity:</TEXT>                                     
+  </MESSAGE_ROW>                                                                
+
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_PACKING_INSTRUCTION</MESSAGE>                                 
+   <TEXT>Packing Instructions:</TEXT>                                           
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_PO_CANCELED</MESSAGE>                                         
+   <TEXT>This purchase order CANCELED on</TEXT>                                 
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_PRICES_EXPRESSED</MESSAGE>                                    
+   <TEXT>All prices and amounts on this order are expressed in</TEXT>           
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+
+   <MESSAGE>PO_FO_PRICE_BREAK</MESSAGE>                                         
+   <TEXT>Price Break:</TEXT>                                                    
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_PRICE_DIFFERENTIALS</MESSAGE>                                 
+   <TEXT>Price Differentials:</TEXT>                                            
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_PROPRIETARY_INFORMATION</MESSAGE>                             
+   <TEXT>Proprietary and Confidential</TEXT>                                    
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_PURCHASING_ORGANIZATION</MESSAGE>                             
+
+   <TEXT>Purchasing Organization</TEXT>                                         
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_PURCHASING_SUPPLIER_SITE</MESSAGE>                            
+   <TEXT>Purchasing Supplier Site</TEXT>                                        
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_QUANTITY_CANCELED</MESSAGE>                                   
+   <TEXT>Quantity CANCELED:</TEXT>                                              
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_RELEASE_CANCELED</MESSAGE>                                    
+   <TEXT>This release CANCELED on</TEXT>                                        
+
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_REVISED_BY</MESSAGE>                                          
+   <TEXT>Revised By</TEXT>                                                      
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_REVISION</MESSAGE>                                            
+   <TEXT>Revision</TEXT>                                                        
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_REVISION_DATE</MESSAGE>                                       
+   <TEXT>Revision Date</TEXT>                                                   
+  </MESSAGE_ROW>                                                                
+
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_SHIFT_PATTERN</MESSAGE>                                       
+   <TEXT>Shift Pattern:</TEXT>                                                  
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_SHIPMENT_CANCELED</MESSAGE>                                   
+   <TEXT>This shipment CANCELED on</TEXT>                                       
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_SHIPPING_INSTRUCTION</MESSAGE>                                
+   <TEXT>Shipping Instructions:</TEXT>                                          
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+
+   <MESSAGE>PO_FO_SHIP_METHOD</MESSAGE>                                         
+   <TEXT>Ship Method:</TEXT>                                                    
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_SHIP_NUMBER</MESSAGE>                                         
+   <TEXT>Shipment number:</TEXT>                                                
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_SHIP_TO</MESSAGE>                                             
+   <TEXT>Ship To:</TEXT>                                                        
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_START_DATE</MESSAGE>                                          
+
+   <TEXT>Start Date:</TEXT>                                                     
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_SUBMIT_RESPONSE</MESSAGE>                                     
+   <TEXT>Please submit your response to:</TEXT>                                 
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_SUPPLIER_CONFIGURATION</MESSAGE>                              
+   <TEXT>Supplier Configuration ID:</TEXT>                                      
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_SUPPLIER_ITEM</MESSAGE>                                       
+   <TEXT>Supplier Item:</TEXT>                                                  
+
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_TELEPHONE</MESSAGE>                                           
+   <TEXT>Telephone</TEXT>                                                       
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_TEST</MESSAGE>                                                
+   <TEXT>Test Purchase Order</TEXT>                                             
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_TITLE</MESSAGE>                                               
+   <TEXT>Title:</TEXT>                                                          
+  </MESSAGE_ROW>                                                                
+
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_TOTAL</MESSAGE>                                               
+   <TEXT>Total:</TEXT>                                                          
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_TRANSPORTATION_ARRANGED</MESSAGE>                             
+   <TEXT>Transportation</TEXT>                                                  
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_TYPE</MESSAGE>                                                
+   <TEXT>Type</TEXT>                                                            
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+
+   <MESSAGE>PO_FO_UN_NUMBER</MESSAGE>                                           
+   <TEXT>UN Number:</TEXT>                                                      
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_USE_SHIP_ADDRESS_TOP</MESSAGE>                                
+   <TEXT>Use the ship-to address at the top of page</TEXT>                      
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_VENDOR</MESSAGE>                                              
+   <TEXT>Supplier:</TEXT>                                                       
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_FO_WORK_SCHEDULE</MESSAGE>                                       
+
+   <TEXT>Work Schedule:</TEXT>                                                  
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_WF_NOTIF_ADDRESS</MESSAGE>                                       
+   <TEXT>Address</TEXT>                                                         
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_WF_NOTIF_AMOUNT</MESSAGE>                                        
+   <TEXT>Amount</TEXT>                                                          
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_WF_NOTIF_BUYER</MESSAGE>                                         
+   <TEXT>Buyer</TEXT>                                                           
+
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_WF_NOTIF_CONFIRM_TO_TELE</MESSAGE>                               
+   <TEXT>Confirm To/Telephone</TEXT>                                            
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_WF_NOTIF_DESCRIPTION</MESSAGE>                                   
+   <TEXT>Description</TEXT>                                                     
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_WF_NOTIF_EFFECTIVE_DATE</MESSAGE>                                
+   <TEXT>Effective Date</TEXT>                                                  
+  </MESSAGE_ROW>                                                                
+
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_WF_NOTIF_EXPIRES_ON</MESSAGE>                                    
+   <TEXT>Expires On</TEXT>                                                      
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_WF_NOTIF_FOB</MESSAGE>                                           
+   <TEXT>FOB</TEXT>                                                             
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_WF_NOTIF_FREIGHT_TERMS</MESSAGE>                                 
+   <TEXT>Freight Terms</TEXT>                                                   
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+
+   <MESSAGE>PO_WF_NOTIF_HEADER_NOTE</MESSAGE>                                   
+   <TEXT>Note To Supplier</TEXT>                                                
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_WF_NOTIF_LINE_NUMBER</MESSAGE>                                   
+   <TEXT>Line</TEXT>                                                            
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_WF_NOTIF_MULTIPLE</MESSAGE>                                      
+   <TEXT>Multiple</TEXT>                                                        
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_WF_NOTIF_NEEDBY_DATE</MESSAGE>                                   
+
+   <TEXT>Needed:</TEXT>                                                         
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_WF_NOTIF_NOTE</MESSAGE>                                          
+   <TEXT>Justification</TEXT>                                                   
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_WF_NOTIF_ORDER</MESSAGE>                                         
+   <TEXT>Order</TEXT>                                                           
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_WF_NOTIF_ORDER_DATE</MESSAGE>                                    
+   <TEXT>Order Date</TEXT>                                                      
+
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_WF_NOTIF_PART_NO_DESC</MESSAGE>                                  
+   <TEXT>Part Number / Description</TEXT>                                       
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_WF_NOTIF_PAYMENT_TERMS</MESSAGE>                                 
+   <TEXT>Payment Terms</TEXT>                                                   
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_WF_NOTIF_PREPARER</MESSAGE>                                      
+   <TEXT>Created By</TEXT>                                                      
+  </MESSAGE_ROW>                                                                
+
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_WF_NOTIF_PROMISED_DATE</MESSAGE>                                 
+   <TEXT>Promised:</TEXT>                                                       
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_WF_NOTIF_PURCHASE_ORDER</MESSAGE>                                
+   <TEXT>Purchase Order</TEXT>                                                  
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_WF_NOTIF_QUANTITY</MESSAGE>                                      
+   <TEXT>Quantity</TEXT>                                                        
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+
+   <MESSAGE>PO_WF_NOTIF_REQUESTER_DELIVER</MESSAGE>                             
+   <TEXT>Requester/Deliver To</TEXT>                                            
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_WF_NOTIF_REVISION</MESSAGE>                                      
+   <TEXT>Revision</TEXT>                                                        
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_WF_NOTIF_SHIP_VIA</MESSAGE>                                      
+   <TEXT>Ship Via</TEXT>                                                        
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_WF_NOTIF_SUPPLIER_ITEM</MESSAGE>                                 
+
+   <TEXT>Your # :</TEXT>                                                        
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_WF_NOTIF_TAX</MESSAGE>                                           
+   <TEXT>Tax</TEXT>                                                             
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_WF_NOTIF_TOTAL</MESSAGE>                                         
+   <TEXT>Total</TEXT>                                                           
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_WF_NOTIF_UNIT_PRICE</MESSAGE>                                    
+   <TEXT>Unit Price</TEXT>                                                      
+
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_WF_NOTIF_UOM</MESSAGE>                                           
+   <TEXT>UOM</TEXT>                                                             
+  </MESSAGE_ROW>                                                                
+  <MESSAGE_ROW>                                                                 
+   <MESSAGE>PO_WF_NOTIF_VENDOR_NO</MESSAGE>                                     
+   <TEXT>Supplier No.</TEXT>                                                    
+  </MESSAGE_ROW>                                                                
+ </MESSAGE>                                                                     
+ <HEADER_SHORT_TEXT>                                                            
+ </HEADER_SHORT_TEXT>                                                           
+ <LINES>                                                                        
+
+  <LINES_ROW>                                                                   
+   <ITEM_REVISION/>                                                             
+   <LINE_NUM>1</LINE_NUM>                                                       
+   <ITEM_DESCRIPTION>Item Desctiption</ITEM_DESCRIPTION>                        
+   <CANCEL_FLAG>N</CANCEL_FLAG>                                                 
+   <CANCEL_DATE/>                                                               
+   <CANCEL_REASON/>                                                             
+   <VENDOR_PRODUCT_NUM>Line Supplier Item</VENDOR_PRODUCT_NUM>                  
+   <NOTE_TO_VENDOR>Note to Supplier</NOTE_TO_VENDOR>                            
+   <UNIT_MEAS_LOOKUP_CODE>Each</UNIT_MEAS_LOOKUP_CODE>                          
+   <UN_NUMBER>CJ1001</UN_NUMBER>                                                
+   <UN_DESC>CJ Petrol</UN_DESC>                                                 
+   <HAZARD_CLASS>Flammable Liquid</HAZARD_CLASS>                                
+
+   <ORDER_TYPE_LOOKUP_CODE>QUANTITY</ORDER_TYPE_LOOKUP_CODE>                    
+   <CONTRACT_NUM/>                                                              
+   <GLOBAL_AGREEMENT_FLAG/>                                                     
+   <QUOTE_VENDOR_QUOTE_NUMBER/>                                                 
+   <QUOTATION_LINE/>                                                            
+   <ATTRIBUTE_CATEGORY/>                                                        
+   <ATTRIBUTE1>ATTRIBUTE1</ATTRIBUTE1>                                        
+   <ATTRIBUTE2>ATTRIBUTE2</ATTRIBUTE2>                                        
+   <ATTRIBUTE3>ATTRIBUTE3</ATTRIBUTE3>                                        
+   <ATTRIBUTE4>ATTRIBUTE4</ATTRIBUTE4>                                        
+   <ATTRIBUTE5>ATTRIBUTE5</ATTRIBUTE5>                                        
+   <ATTRIBUTE6>ATTRIBUTE6</ATTRIBUTE6>                                        
+   <ATTRIBUTE7>ATTRIBUTE7</ATTRIBUTE7>                                        
+   <ATTRIBUTE8>ATTRIBUTE8</ATTRIBUTE8>                                        
+   <ATTRIBUTE9>ATTRIBUTE9</ATTRIBUTE9>                                        
+   <ATTRIBUTE10>ATTRIBUTE10</ATTRIBUTE10>                                        
+   <ATTRIBUTE11>ATTRIBUTE11</ATTRIBUTE11>                                        
+   <ATTRIBUTE12>ATTRIBUTE12</ATTRIBUTE12>                                        
+   <ATTRIBUTE13>ATTRIBUTE13</ATTRIBUTE13>                                        
+   <ATTRIBUTE14>ATTRIBUTE14</ATTRIBUTE14>                                        
+   <ATTRIBUTE15>ATTRIBUTE15</ATTRIBUTE15>                                        
+   <UNIT_PRICE>150D39</UNIT_PRICE>                                              
+   <QUANTITY>1</QUANTITY>                                                       
+   <QUANTITY_COMMITTED/>                                                        
+   <PO_HEADER_ID>48033</PO_HEADER_ID>                                           
+
+   <PO_LINE_ID>56937</PO_LINE_ID>                                               
+   <ITEM_ID>249</ITEM_ID>                                                       
+   <FROM_HEADER_ID/>                                                            
+   <FROM_LINE_ID/>                                                              
+   <REFERENCE_NUM/>                                                             
+   <MIN_RELEASE_AMOUNT/>                                                        
+   <PRICE_TYPE_LOOKUP_CODE>FIXED</PRICE_TYPE_LOOKUP_CODE>                       
+   <CLOSED_CODE/>                                                               
+   <PRICE_BREAK_LOOKUP_CODE/>                                                   
+   <USSGL_TRANSACTION_CODE>AJB.Scratch</USSGL_TRANSACTION_CODE>                 
+   <GOVERNMENT_CONTEXT/>                                                        
+   <REQUEST_ID/>                                                                
+   <PROGRAM_APPLICATION_ID/>                                                    
+
+   <PROGRAM_ID/>                                                                
+   <PROGRAM_UPDATE_DATE/>                                                       
+   <CLOSED_DATE/>                                                               
+   <CLOSED_REASON/>                                                             
+   <CLOSED_BY/>                                                                 
+   <TRANSACTION_REASON_CODE>FIXED_ASSETS</TRANSACTION_REASON_CODE>              
+   <ORG_ID>204</ORG_ID>                                                         
+   <HAZARD_CLASS_ID>3</HAZARD_CLASS_ID>                                         
+   <MIN_ORDER_QUANTITY/>                                                        
+   <MAX_ORDER_QUANTITY/>                                                        
+   <QTY_RCV_TOLERANCE/>                                                         
+   <OVER_TOLERANCE_ERROR_FLAG/>                                                 
+   <MARKET_PRICE>160D00</MARKET_PRICE>                                          
+
+   <UNORDERED_FLAG>N</UNORDERED_FLAG>                                           
+   <CLOSED_FLAG>N</CLOSED_FLAG>                                                 
+   <USER_HOLD_FLAG/>                                                            
+   <CANCELLED_BY/>                                                              
+   <FIRM_STATUS_LOOKUP_CODE/>                                                   
+   <FIRM_DATE/>                                                                 
+   <TAXABLE_FLAG>Y</TAXABLE_FLAG>                                               
+   <TYPE_1099>DJE/JP</TYPE_1099>                                                
+   <CAPITAL_EXPENSE_FLAG>Y</CAPITAL_EXPENSE_FLAG>                               
+   <NEGOTIATED_BY_PREPARER_FLAG>Y</NEGOTIATED_BY_PREPARER_FLAG>                 
+   <QC_GRADE/>                                                                  
+   <BASE_UOM/>                                                                  
+   <BASE_QTY/>                                                                  
+
+   <SECONDARY_UOM/>                                                             
+   <SECONDARY_QTY/>                                                             
+   <LAST_UPDATE_DATE>12-AUG-2004 00:09:50</LAST_UPDATE_DATE>                    
+   <LAST_UPDATED_BY>1318</LAST_UPDATED_BY>                                      
+   <LINE_TYPE_ID>1</LINE_TYPE_ID>                                               
+   <LAST_UPDATE_LOGIN>3353185</LAST_UPDATE_LOGIN>                               
+   <CREATION_DATE>12-AUG-2004 00:08:12</CREATION_DATE>                          
+   <CREATED_BY>1318</CREATED_BY>                                                
+   <CATEGORY_ID>31</CATEGORY_ID>                                                
+   <COMMITTED_AMOUNT/>                                                          
+   <ALLOW_PRICE_OVERRIDE_FLAG>N</ALLOW_PRICE_OVERRIDE_FLAG>                     
+   <NOT_TO_EXCEED_PRICE/>                                                       
+   <LIST_PRICE_PER_UNIT>150D393</LIST_PRICE_PER_UNIT>                           
+
+   <UN_NUMBER_ID>61</UN_NUMBER_ID>                                              
+   <GLOBAL_ATTRIBUTE_CATEGORY/>                                                 
+   <GLOBAL_ATTRIBUTE1>GLOBAL_ATTRIBUTE1</GLOBAL_ATTRIBUTE1>                     
+   <GLOBAL_ATTRIBUTE2>GLOBAL_ATTRIBUTE2</GLOBAL_ATTRIBUTE2>                     
+   <GLOBAL_ATTRIBUTE3>GLOBAL_ATTRIBUTE3</GLOBAL_ATTRIBUTE3>                     
+   <GLOBAL_ATTRIBUTE4>GLOBAL_ATTRIBUTE4</GLOBAL_ATTRIBUTE4>                     
+   <GLOBAL_ATTRIBUTE5>GLOBAL_ATTRIBUTE5</GLOBAL_ATTRIBUTE5>                     
+   <GLOBAL_ATTRIBUTE6>GLOBAL_ATTRIBUTE6</GLOBAL_ATTRIBUTE6>                     
+   <GLOBAL_ATTRIBUTE7>GLOBAL_ATTRIBUTE7</GLOBAL_ATTRIBUTE7>                     
+   <GLOBAL_ATTRIBUTE8>GLOBAL_ATTRIBUTE8</GLOBAL_ATTRIBUTE8>                     
+   <GLOBAL_ATTRIBUTE9>GLOBAL_ATTRIBUTE9</GLOBAL_ATTRIBUTE9>                     
+   <GLOBAL_ATTRIBUTE10>GLOBAL_ATTRIBUTE10</GLOBAL_ATTRIBUTE10>                     
+   <GLOBAL_ATTRIBUTE11>GLOBAL_ATTRIBUTE11</GLOBAL_ATTRIBUTE11>                     
+   <GLOBAL_ATTRIBUTE12>GLOBAL_ATTRIBUTE12</GLOBAL_ATTRIBUTE12>                     
+   <GLOBAL_ATTRIBUTE13>GLOBAL_ATTRIBUTE13</GLOBAL_ATTRIBUTE13>                     
+   <GLOBAL_ATTRIBUTE14>GLOBAL_ATTRIBUTE14</GLOBAL_ATTRIBUTE14>                     
+   <GLOBAL_ATTRIBUTE15>GLOBAL_ATTRIBUTE15</GLOBAL_ATTRIBUTE15>                     
+   <GLOBAL_ATTRIBUTE16>GLOBAL_ATTRIBUTE16</GLOBAL_ATTRIBUTE16>                     
+   <GLOBAL_ATTRIBUTE17>GLOBAL_ATTRIBUTE17</GLOBAL_ATTRIBUTE17>                     
+   <GLOBAL_ATTRIBUTE18>GLOBAL_ATTRIBUTE18</GLOBAL_ATTRIBUTE18>                     
+   <GLOBAL_ATTRIBUTE19>GLOBAL_ATTRIBUTE19</GLOBAL_ATTRIBUTE19>                     
+   <GLOBAL_ATTRIBUTE20>GLOBAL_ATTRIBUTE20</GLOBAL_ATTRIBUTE20>                     
+   <LINE_REFERENCE_NUM/>                                                        
+   <PROJECT_ID/>                                                                
+   <TASK_ID/>                                                                   
+   <EXPIRATION_DATE/>                                                           
+
+   <TAX_CODE_ID>11239</TAX_CODE_ID>                                             
+   <OKE_CONTRACT_HEADER_ID/>                                                    
+   <OKE_CONTRACT_VERSION_ID/>                                                   
+   <TAX_NAME/>                                                                  
+   <SECONDARY_UNIT_OF_MEASURE/>                                                 
+   <SECONDARY_QUANTITY/>                                                        
+   <PREFERRED_GRADE/>                                                           
+   <AUCTION_HEADER_ID/>                                                         
+   <AUCTION_DISPLAY_NUMBER/>                                                    
+   <AUCTION_LINE_NUMBER/>                                                       
+   <BID_NUMBER/>                                                                
+   <BID_LINE_NUMBER/>                                                           
+   <RETROACTIVE_DATE/>                                                          
+
+   <SUPPLIER_REF_NUMBER/>                                                       
+   <CONTRACT_ID/>                                                               
+   <JOB_ID/>                                                                    
+   <AMOUNT/>                                                                    
+   <START_DATE/>                                                                
+   <LINE_TYPE>QUANTITY</LINE_TYPE>                                              
+   <PURCHASE_BASIS>GOODS</PURCHASE_BASIS>                                       
+   <ITEM_NUM>CM13139</ITEM_NUM>                                                 
+   <JOB_NAME/>                                                                  
+   <CONTRACTOR_FIRST_NAME/>                                                     
+   <CONTRACTOR_LAST_NAME/>                                                      
+   <LINE_AMOUNT>150D39</LINE_AMOUNT>                                            
+   <CANCELED_AMOUNT/>                                                           
+
+   <TOTAL_LINE_AMOUNT/>                                                         
+   <BASE_UNIT_PRICE>150D393</BASE_UNIT_PRICE>                                   
+   <MANUAL_PRICE_CHANGE_FLAG>N</MANUAL_PRICE_CHANGE_FLAG>                       
+   <MATCHING_BASIS>QUANTITY</MATCHING_BASIS>                                    
+   <SVC_AMOUNT_NOTIF_SENT/>                                                     
+   <SVC_COMPLETION_NOTIF_SENT/>                                                 
+   <FROM_LINE_LOCATION_ID/>                                                     
+   <PRICE_DIFF>                                                                 
+   </PRICE_DIFF>                                                                
+   <LINE_SHORT_TEXT>                                                            
+   </LINE_SHORT_TEXT>                                                           
+<PRICE_MODIFIERS>
+ <PRICE_MODIFIERS_ROW>
+  <PRICE_ADJUSTMENT_ID>100004</PRICE_ADJUSTMENT_ID>
+  <CREATION_DATE>05-JAN-09</CREATION_DATE>
+  <CREATED_BY>1011862</CREATED_BY>
+  <LAST_UPDATE_DATE>05-JAN-09</LAST_UPDATE_DATE>
+  <LAST_UPDATED_BY>1011862</LAST_UPDATED_BY>
+  <LAST_UPDATE_LOGIN>4114123</LAST_UPDATE_LOGIN>
+  <PROGRAM_APPLICATION_ID></PROGRAM_APPLICATION_ID>
+  <PROGRAM_ID></PROGRAM_ID>
+  <PROGRAM_UPDATE_DATE></PROGRAM_UPDATE_DATE>
+  <REQUEST_ID></REQUEST_ID>
+  <HEADER_ID>81228</HEADER_ID>
+  <DISCOUNT_ID></DISCOUNT_ID>
+  <DISCOUNT_LINE_ID></DISCOUNT_LINE_ID>
+  <AUTOMATIC_FLAG>N</AUTOMATIC_FLAG>
+  <PERCENT></PERCENT>
+  <LINE_ID>102465</LINE_ID>
+  <ADJ_LINE_NUM>101</ADJ_LINE_NUM>
+  <LINE_INDEX></LINE_INDEX>
+  <LINE_DETAIL_INDEX></LINE_DETAIL_INDEX>
+  <CONTEXT></CONTEXT>
+  <ATTRIBUTE1></ATTRIBUTE1>
+  <ATTRIBUTE2></ATTRIBUTE2>
+  <ATTRIBUTE3></ATTRIBUTE3>
+  <ATTRIBUTE4></ATTRIBUTE4>
+  <ATTRIBUTE5></ATTRIBUTE5>
+  <ATTRIBUTE6></ATTRIBUTE6>
+  <ATTRIBUTE7></ATTRIBUTE7>
+  <ATTRIBUTE8></ATTRIBUTE8>
+  <ATTRIBUTE9></ATTRIBUTE9>
+  <ATTRIBUTE10></ATTRIBUTE10>
+  <ATTRIBUTE11></ATTRIBUTE11>
+  <ATTRIBUTE12></ATTRIBUTE12>
+  <ATTRIBUTE13></ATTRIBUTE13>
+  <ATTRIBUTE14></ATTRIBUTE14>
+  <ATTRIBUTE15></ATTRIBUTE15>
+  <ORIG_SYS_DISCOUNT_REF></ORIG_SYS_DISCOUNT_REF>
+  <CHANGE_SEQUENCE></CHANGE_SEQUENCE>
+  <LIST_HEADER_ID>183531</LIST_HEADER_ID>
+  <LIST_TYPE_CODE></LIST_TYPE_CODE>
+  <LIST_LINE_ID>226831</LIST_LINE_ID>
+  <MODIFIER_DESC>Test</MODIFIER_DESC>
+  <LIST_LINE_TYPE_CODE>DIS</LIST_LINE_TYPE_CODE>
+  <MODIFIER_LINE_TYPE>Discount</MODIFIER_LINE_TYPE>
+  <MODIFIED_FROM></MODIFIED_FROM>
+  <MODIFIED_TO></MODIFIED_TO>
+  <UPDATE_ALLOWED>Y</UPDATE_ALLOWED>
+  <CHANGE_REASON_CODE></CHANGE_REASON_CODE>
+  <CHANGE_REASON_TEXT></CHANGE_REASON_TEXT>
+  <MODIFIER_MECHANISM_TYPE_CODE></MODIFIER_MECHANISM_TYPE_CODE>
+  <UPDATED_FLAG>N</UPDATED_FLAG>
+  <APPLIED_FLAG>Y</APPLIED_FLAG>
+  <OPERAND>13</OPERAND>
+  <ARITHMETIC_OPERATOR>%</ARITHMETIC_OPERATOR>
+  <COST_ID></COST_ID>
+  <TAX_CODE></TAX_CODE>
+  <TAX_EXEMPT_FLAG></TAX_EXEMPT_FLAG>
+  <TAX_EXEMPT_NUMBER></TAX_EXEMPT_NUMBER>
+  <TAX_EXEMPT_REASON_CODE></TAX_EXEMPT_REASON_CODE>
+  <PARENT_ADJUSTMENT_ID></PARENT_ADJUSTMENT_ID>
+  <INVOICED_FLAG></INVOICED_FLAG>
+  <ESTIMATED_FLAG></ESTIMATED_FLAG>
+  <INC_IN_SALES_PERFORMANCE></INC_IN_SALES_PERFORMANCE>
+  <SPLIT_ACTION_CODE></SPLIT_ACTION_CODE>
+  <ADJUSTED_AMOUNT>0.26</ADJUSTED_AMOUNT>
+  <PRICING_PHASE_ID></PRICING_PHASE_ID>
+  <CHARGE_TYPE_CODE></CHARGE_TYPE_CODE>
+  <CHARGE_SUBTYPE_CODE></CHARGE_SUBTYPE_CODE>
+  <RANGE_BREAK_QUANTITY>0</RANGE_BREAK_QUANTITY>
+  <ACCRUAL_CONVERSION_RATE></ACCRUAL_CONVERSION_RATE>
+  <PRICING_GROUP_SEQUENCE></PRICING_GROUP_SEQUENCE>
+  <ACCRUAL_FLAG>N</ACCRUAL_FLAG>
+  <LIST_LINE_NO>226831</LIST_LINE_NO>
+  <SOURCE_SYSTEM_CODE>PO - PA</SOURCE_SYSTEM_CODE>
+  <BENEFIT_QTY></BENEFIT_QTY>
+  <BENEFIT_UOM_CODE></BENEFIT_UOM_CODE>
+  <PRINT_ON_INVOICE_FLAG>Y</PRINT_ON_INVOICE_FLAG>
+  <EXPIRATION_DATE></EXPIRATION_DATE>
+  <REBATE_TRANSACTION_TYPE_CODE></REBATE_TRANSACTION_TYPE_CODE>
+  <REBATE_TRANSACTION_REFERENCE></REBATE_TRANSACTION_REFERENCE>
+  <REBATE_PAYMENT_SYSTEM_CODE></REBATE_PAYMENT_SYSTEM_CODE>
+  <REDEEMED_DATE></REDEEMED_DATE>
+  <REDEEMED_FLAG></REDEEMED_FLAG>
+  <MODIFIER_LEVEL_CODE>LINE</MODIFIER_LEVEL_CODE>
+  <PRICE_BREAK_TYPE_CODE></PRICE_BREAK_TYPE_CODE>
+  <SUBSTITUTION_ATTRIBUTE></SUBSTITUTION_ATTRIBUTE>
+  <PRORATION_TYPE_CODE></PRORATION_TYPE_CODE>
+  <INCLUDE_ON_RETURNS_FLAG></INCLUDE_ON_RETURNS_FLAG>
+  <CREDIT_OR_CHARGE_FLAG></CREDIT_OR_CHARGE_FLAG>
+  <AC_CONTEXT></AC_CONTEXT>
+  <AC_ATTRIBUTE1></AC_ATTRIBUTE1>
+  <AC_ATTRIBUTE2></AC_ATTRIBUTE2>
+  <AC_ATTRIBUTE3></AC_ATTRIBUTE3>
+  <AC_ATTRIBUTE4></AC_ATTRIBUTE4>
+  <AC_ATTRIBUTE5></AC_ATTRIBUTE5>
+  <AC_ATTRIBUTE6></AC_ATTRIBUTE6>
+  <AC_ATTRIBUTE7></AC_ATTRIBUTE7>
+  <AC_ATTRIBUTE8></AC_ATTRIBUTE8>
+  <AC_ATTRIBUTE9></AC_ATTRIBUTE9>
+  <AC_ATTRIBUTE10></AC_ATTRIBUTE10>
+  <AC_ATTRIBUTE11></AC_ATTRIBUTE11>
+  <AC_ATTRIBUTE12></AC_ATTRIBUTE12>
+  <AC_ATTRIBUTE13></AC_ATTRIBUTE13>
+  <AC_ATTRIBUTE14></AC_ATTRIBUTE14>
+  <AC_ATTRIBUTE15></AC_ATTRIBUTE15>
+  <LOCK_CONTROL>1</LOCK_CONTROL>
+  <OPERAND_PER_PQTY>13</OPERAND_PER_PQTY>
+  <ADJUSTED_AMOUNT_PER_PQTY>-0.26</ADJUSTED_AMOUNT_PER_PQTY>
+  <INTERCO_INVOICED_FLAG></INTERCO_INVOICED_FLAG>
+  <INVOICED_AMOUNT></INVOICED_AMOUNT>
+  <RETROBILL_REQUEST_ID></RETROBILL_REQUEST_ID>
+  <TAX_RATE_ID></TAX_RATE_ID>
+ </PRICE_MODIFIERS_ROW>
+</PRICE_MODIFIERS>   
+<ADD_PRICE_MODIFIERS>
+ <ADD_PRICE_MODIFIERS_ROW>
+  <PRICE_ADJUSTMENT_ID>100004</PRICE_ADJUSTMENT_ID>
+  <CREATION_DATE>05-JAN-09</CREATION_DATE>
+  <CREATED_BY>1011862</CREATED_BY>
+  <LAST_UPDATE_DATE>05-JAN-09</LAST_UPDATE_DATE>
+  <LAST_UPDATED_BY>1011862</LAST_UPDATED_BY>
+  <LAST_UPDATE_LOGIN>4114123</LAST_UPDATE_LOGIN>
+  <PROGRAM_APPLICATION_ID></PROGRAM_APPLICATION_ID>
+  <PROGRAM_ID></PROGRAM_ID>
+  <PROGRAM_UPDATE_DATE></PROGRAM_UPDATE_DATE>
+  <REQUEST_ID></REQUEST_ID>
+  <HEADER_ID>81228</HEADER_ID>
+  <DISCOUNT_ID></DISCOUNT_ID>
+  <DISCOUNT_LINE_ID></DISCOUNT_LINE_ID>
+  <AUTOMATIC_FLAG>N</AUTOMATIC_FLAG>
+  <PERCENT></PERCENT>
+  <LINE_ID>102465</LINE_ID>
+  <ADJ_LINE_NUM>101</ADJ_LINE_NUM>
+  <LINE_INDEX></LINE_INDEX>
+  <LINE_DETAIL_INDEX></LINE_DETAIL_INDEX>
+  <CONTEXT></CONTEXT>
+  <ATTRIBUTE1></ATTRIBUTE1>
+  <ATTRIBUTE2></ATTRIBUTE2>
+  <ATTRIBUTE3></ATTRIBUTE3>
+  <ATTRIBUTE4></ATTRIBUTE4>
+  <ATTRIBUTE5></ATTRIBUTE5>
+  <ATTRIBUTE6></ATTRIBUTE6>
+  <ATTRIBUTE7></ATTRIBUTE7>
+  <ATTRIBUTE8></ATTRIBUTE8>
+  <ATTRIBUTE9></ATTRIBUTE9>
+  <ATTRIBUTE10></ATTRIBUTE10>
+  <ATTRIBUTE11></ATTRIBUTE11>
+  <ATTRIBUTE12></ATTRIBUTE12>
+  <ATTRIBUTE13></ATTRIBUTE13>
+  <ATTRIBUTE14></ATTRIBUTE14>
+  <ATTRIBUTE15></ATTRIBUTE15>
+  <ORIG_SYS_DISCOUNT_REF></ORIG_SYS_DISCOUNT_REF>
+  <CHANGE_SEQUENCE></CHANGE_SEQUENCE>
+  <LIST_HEADER_ID>183531</LIST_HEADER_ID>
+  <LIST_TYPE_CODE></LIST_TYPE_CODE>
+  <LIST_LINE_ID>226831</LIST_LINE_ID>
+  <MODIFIER_DESC>Test</MODIFIER_DESC>
+  <LIST_LINE_TYPE_CODE>DIS</LIST_LINE_TYPE_CODE>
+  <MODIFIER_LINE_TYPE>Discount</MODIFIER_LINE_TYPE>
+  <MODIFIED_FROM></MODIFIED_FROM>
+  <MODIFIED_TO></MODIFIED_TO>
+  <UPDATE_ALLOWED>Y</UPDATE_ALLOWED>
+  <CHANGE_REASON_CODE></CHANGE_REASON_CODE>
+  <CHANGE_REASON_TEXT></CHANGE_REASON_TEXT>
+  <MODIFIER_MECHANISM_TYPE_CODE></MODIFIER_MECHANISM_TYPE_CODE>
+  <UPDATED_FLAG>N</UPDATED_FLAG>
+  <APPLIED_FLAG>Y</APPLIED_FLAG>
+  <OPERAND>13</OPERAND>
+  <ARITHMETIC_OPERATOR>%</ARITHMETIC_OPERATOR>
+  <COST_ID></COST_ID>
+  <TAX_CODE></TAX_CODE>
+  <TAX_EXEMPT_FLAG></TAX_EXEMPT_FLAG>
+  <TAX_EXEMPT_NUMBER></TAX_EXEMPT_NUMBER>
+  <TAX_EXEMPT_REASON_CODE></TAX_EXEMPT_REASON_CODE>
+  <PARENT_ADJUSTMENT_ID></PARENT_ADJUSTMENT_ID>
+  <INVOICED_FLAG></INVOICED_FLAG>
+  <ESTIMATED_FLAG></ESTIMATED_FLAG>
+  <INC_IN_SALES_PERFORMANCE></INC_IN_SALES_PERFORMANCE>
+  <SPLIT_ACTION_CODE></SPLIT_ACTION_CODE>
+  <ADJUSTED_AMOUNT>0.26</ADJUSTED_AMOUNT>
+  <PRICING_PHASE_ID></PRICING_PHASE_ID>
+  <CHARGE_TYPE_CODE></CHARGE_TYPE_CODE>
+  <CHARGE_SUBTYPE_CODE></CHARGE_SUBTYPE_CODE>
+  <RANGE_BREAK_QUANTITY>0</RANGE_BREAK_QUANTITY>
+  <ACCRUAL_CONVERSION_RATE></ACCRUAL_CONVERSION_RATE>
+  <PRICING_GROUP_SEQUENCE></PRICING_GROUP_SEQUENCE>
+  <ACCRUAL_FLAG>N</ACCRUAL_FLAG>
+  <LIST_LINE_NO>226831</LIST_LINE_NO>
+  <SOURCE_SYSTEM_CODE>PO - PA</SOURCE_SYSTEM_CODE>
+  <BENEFIT_QTY></BENEFIT_QTY>
+  <BENEFIT_UOM_CODE></BENEFIT_UOM_CODE>
+  <PRINT_ON_INVOICE_FLAG>Y</PRINT_ON_INVOICE_FLAG>
+  <EXPIRATION_DATE></EXPIRATION_DATE>
+  <REBATE_TRANSACTION_TYPE_CODE></REBATE_TRANSACTION_TYPE_CODE>
+  <REBATE_TRANSACTION_REFERENCE></REBATE_TRANSACTION_REFERENCE>
+  <REBATE_PAYMENT_SYSTEM_CODE></REBATE_PAYMENT_SYSTEM_CODE>
+  <REDEEMED_DATE></REDEEMED_DATE>
+  <REDEEMED_FLAG></REDEEMED_FLAG>
+  <MODIFIER_LEVEL_CODE>LINE</MODIFIER_LEVEL_CODE>
+  <PRICE_BREAK_TYPE_CODE></PRICE_BREAK_TYPE_CODE>
+  <SUBSTITUTION_ATTRIBUTE></SUBSTITUTION_ATTRIBUTE>
+  <PRORATION_TYPE_CODE></PRORATION_TYPE_CODE>
+  <INCLUDE_ON_RETURNS_FLAG></INCLUDE_ON_RETURNS_FLAG>
+  <CREDIT_OR_CHARGE_FLAG></CREDIT_OR_CHARGE_FLAG>
+  <AC_CONTEXT></AC_CONTEXT>
+  <AC_ATTRIBUTE1></AC_ATTRIBUTE1>
+  <AC_ATTRIBUTE2></AC_ATTRIBUTE2>
+  <AC_ATTRIBUTE3></AC_ATTRIBUTE3>
+  <AC_ATTRIBUTE4></AC_ATTRIBUTE4>
+  <AC_ATTRIBUTE5></AC_ATTRIBUTE5>
+  <AC_ATTRIBUTE6></AC_ATTRIBUTE6>
+  <AC_ATTRIBUTE7></AC_ATTRIBUTE7>
+  <AC_ATTRIBUTE8></AC_ATTRIBUTE8>
+  <AC_ATTRIBUTE9></AC_ATTRIBUTE9>
+  <AC_ATTRIBUTE10></AC_ATTRIBUTE10>
+  <AC_ATTRIBUTE11></AC_ATTRIBUTE11>
+  <AC_ATTRIBUTE12></AC_ATTRIBUTE12>
+  <AC_ATTRIBUTE13></AC_ATTRIBUTE13>
+  <AC_ATTRIBUTE14></AC_ATTRIBUTE14>
+  <AC_ATTRIBUTE15></AC_ATTRIBUTE15>
+  <LOCK_CONTROL>1</LOCK_CONTROL>
+  <OPERAND_PER_PQTY>13</OPERAND_PER_PQTY>
+  <ADJUSTED_AMOUNT_PER_PQTY>-0.26</ADJUSTED_AMOUNT_PER_PQTY>
+  <INTERCO_INVOICED_FLAG></INTERCO_INVOICED_FLAG>
+  <INVOICED_AMOUNT></INVOICED_AMOUNT>
+  <RETROBILL_REQUEST_ID></RETROBILL_REQUEST_ID>
+  <TAX_RATE_ID></TAX_RATE_ID>
+ </ADD_PRICE_MODIFIERS_ROW>
+</ADD_PRICE_MODIFIERS>   
+<ADD_PRICE_PONUM>
+ <ADD_PRICE_PONUM_ROW>
+   <PONUM>1</PONUM>
+  </ADD_PRICE_PONUM_ROW>
+</ADD_PRICE_PONUM>
+   <LINE_LOCATIONS>                                                             
+    <LINE_LOCATIONS_ROW>                                                        
+
+     <SHIPMENT_NUM>1</SHIPMENT_NUM>                                             
+     <DUE_DATE>25-AUG-2004 02:00:00</DUE_DATE>                                  
+     <QUANTITY>1</QUANTITY>                                                     
+     <PRICE_OVERRIDE>150D39</PRICE_OVERRIDE>                                    
+     <QUANTITY_CANCELLED>0</QUANTITY_CANCELLED>                                 
+     <CANCEL_FLAG>N</CANCEL_FLAG>                                               
+     <CANCEL_DATE/>                                                             
+     <CANCEL_REASON/>                                                           
+     <TAXABLE_FLAG>Y</TAXABLE_FLAG>                                             
+     <START_DATE/>                                                              
+     <END_DATE/>                                                                
+     <ATTRIBUTE_CATEGORY/>                                                      
+     <ATTRIBUTE1>ATTRIBUTE1</ATTRIBUTE1>                                        
+     <ATTRIBUTE2>ATTRIBUTE2</ATTRIBUTE2>                                        
+     <ATTRIBUTE3>ATTRIBUTE3</ATTRIBUTE3>                                        
+     <ATTRIBUTE4>ATTRIBUTE4</ATTRIBUTE4>                                        
+     <ATTRIBUTE5>ATTRIBUTE5</ATTRIBUTE5>                                        
+     <ATTRIBUTE6>ATTRIBUTE6</ATTRIBUTE6>                                        
+     <ATTRIBUTE7>ATTRIBUTE7</ATTRIBUTE7>                                        
+     <ATTRIBUTE8>ATTRIBUTE8</ATTRIBUTE8>                                        
+     <ATTRIBUTE9>ATTRIBUTE9</ATTRIBUTE9>                                        
+     <ATTRIBUTE10>ATTRIBUTE10</ATTRIBUTE10>                                        
+     <ATTRIBUTE11>ATTRIBUTE11</ATTRIBUTE11>                                        
+     <ATTRIBUTE12>ATTRIBUTE12</ATTRIBUTE12>                                        
+     <ATTRIBUTE13>ATTRIBUTE13</ATTRIBUTE13>                                        
+     <ATTRIBUTE14>ATTRIBUTE14</ATTRIBUTE14>                                        
+     <ATTRIBUTE15>ATTRIBUTE15</ATTRIBUTE15>                                        
+     <PO_HEADER_ID>48033</PO_HEADER_ID>                                         
+     <PO_LINE_ID>56937</PO_LINE_ID>                                             
+     <LINE_LOCATION_ID>75256</LINE_LOCATION_ID>                                 
+     <SHIPMENT_TYPE>STANDARD</SHIPMENT_TYPE>                                    
+     <PO_RELEASE_ID/>                                                           
+     <CONSIGNED_FLAG/>                                                          
+     <USSGL_TRANSACTION_CODE>AJB.Scratch</USSGL_TRANSACTION_CODE>               
+     <GOVERNMENT_CONTEXT/>                                                      
+     <RECEIVING_ROUTING_ID>3</RECEIVING_ROUTING_ID>                             
+     <ACCRUE_ON_RECEIPT_FLAG>Y</ACCRUE_ON_RECEIPT_FLAG>                         
+     <CLOSED_REASON/>                                                           
+     <CLOSED_DATE/>                                                             
+
+     <CLOSED_BY/>                                                               
+     <ORG_ID>204</ORG_ID>                                                       
+     <UNIT_OF_MEASURE_CLASS/>                                                   
+     <ENCUMBER_NOW/>                                                            
+     <INSPECTION_REQUIRED_FLAG>N</INSPECTION_REQUIRED_FLAG>                     
+     <RECEIPT_REQUIRED_FLAG>N</RECEIPT_REQUIRED_FLAG>                           
+     <QTY_RCV_TOLERANCE>5</QTY_RCV_TOLERANCE>                                   
+     <QTY_RCV_EXCEPTION_CODE>WARNING</QTY_RCV_EXCEPTION_CODE>                   
+     <ENFORCE_SHIP_TO_LOCATION_CODE>WARNING</ENFORCE_SHIP_TO_LOCATION_CODE>     
+     <ALLOW_SUBSTITUTE_RECEIPTS_FLAG>Y</ALLOW_SUBSTITUTE_RECEIPTS_FLAG>         
+     <DAYS_EARLY_RECEIPT_ALLOWED>3</DAYS_EARLY_RECEIPT_ALLOWED>                 
+     <DAYS_LATE_RECEIPT_ALLOWED>2</DAYS_LATE_RECEIPT_ALLOWED>                   
+     <RECEIPT_DAYS_EXCEPTION_CODE>WARNING</RECEIPT_DAYS_EXCEPTION_CODE>         
+
+     <INVOICE_CLOSE_TOLERANCE>5</INVOICE_CLOSE_TOLERANCE>                       
+     <RECEIVE_CLOSE_TOLERANCE>10</RECEIVE_CLOSE_TOLERANCE>                      
+     <SHIP_TO_ORGANIZATION_ID>204</SHIP_TO_ORGANIZATION_ID>                     
+     <SOURCE_SHIPMENT_ID/>                                                      
+     <CLOSED_CODE>OPEN</CLOSED_CODE>                                            
+     <REQUEST_ID/>                                                              
+     <PROGRAM_APPLICATION_ID/>                                                  
+     <PROGRAM_ID/>                                                              
+     <PROGRAM_UPDATE_DATE/>                                                     
+     <LAST_ACCEPT_DATE/>                                                        
+     <ENCUMBERED_FLAG>N</ENCUMBERED_FLAG>                                       
+     <ENCUMBERED_DATE/>                                                         
+     <UNENCUMBERED_QUANTITY/>                                                   
+
+     <FOB_LOOKUP_CODE/>                                                         
+     <FREIGHT_TERMS_LOOKUP_CODE/>                                               
+     <ESTIMATED_TAX_AMOUNT/>                                                    
+     <FROM_HEADER_ID/>                                                          
+     <FROM_LINE_ID/>                                                            
+     <FROM_LINE_LOCATION_ID/>                                                   
+     <LEAD_TIME/>                                                               
+     <LEAD_TIME_UNIT/>                                                          
+     <PRICE_DISCOUNT/>                                                          
+     <TERMS_ID/>                                                                
+     <APPROVED_FLAG>N</APPROVED_FLAG>                                           
+     <APPROVED_DATE/>                                                           
+     <CLOSED_FLAG/>                                                             
+
+     <CANCELLED_BY/>                                                            
+     <FIRM_STATUS_LOOKUP_CODE/>                                                 
+     <FIRM_DATE/>                                                               
+     <LAST_UPDATE_DATE>12-AUG-2004 00:40:24</LAST_UPDATE_DATE>                  
+     <LAST_UPDATED_BY>1318</LAST_UPDATED_BY>                                    
+     <LAST_UPDATE_LOGIN>3353185</LAST_UPDATE_LOGIN>                             
+     <CREATION_DATE>12-AUG-2004 00:08:12</CREATION_DATE>                        
+     <CREATED_BY>1318</CREATED_BY>                                              
+     <QUANTITY_RECEIVED>0</QUANTITY_RECEIVED>                                   
+     <QUANTITY_ACCEPTED>0</QUANTITY_ACCEPTED>                                   
+     <QUANTITY_REJECTED>0</QUANTITY_REJECTED>                                   
+     <QUANTITY_BILLED>0</QUANTITY_BILLED>                                       
+     <UNIT_MEAS_LOOKUP_CODE>Each</UNIT_MEAS_LOOKUP_CODE>                        
+
+     <SHIP_VIA_LOOKUP_CODE/>                                                    
+     <GLOBAL_ATTRIBUTE_CATEGORY/>                                               
+     <GLOBAL_ATTRIBUTE1>GLOBAL_ATTRIBUTE1</GLOBAL_ATTRIBUTE1>                     
+     <GLOBAL_ATTRIBUTE2>GLOBAL_ATTRIBUTE2</GLOBAL_ATTRIBUTE2>                     
+     <GLOBAL_ATTRIBUTE3>GLOBAL_ATTRIBUTE3</GLOBAL_ATTRIBUTE3>                     
+     <GLOBAL_ATTRIBUTE4>GLOBAL_ATTRIBUTE4</GLOBAL_ATTRIBUTE4>                     
+     <GLOBAL_ATTRIBUTE5>GLOBAL_ATTRIBUTE5</GLOBAL_ATTRIBUTE5>                     
+     <GLOBAL_ATTRIBUTE6>GLOBAL_ATTRIBUTE6</GLOBAL_ATTRIBUTE6>                     
+     <GLOBAL_ATTRIBUTE7>GLOBAL_ATTRIBUTE7</GLOBAL_ATTRIBUTE7>                     
+     <GLOBAL_ATTRIBUTE8>GLOBAL_ATTRIBUTE8</GLOBAL_ATTRIBUTE8>                     
+     <GLOBAL_ATTRIBUTE9>GLOBAL_ATTRIBUTE9</GLOBAL_ATTRIBUTE9>                     
+     <GLOBAL_ATTRIBUTE10>GLOBAL_ATTRIBUTE10</GLOBAL_ATTRIBUTE10>                     
+     <GLOBAL_ATTRIBUTE11>GLOBAL_ATTRIBUTE11</GLOBAL_ATTRIBUTE11>                     
+     <GLOBAL_ATTRIBUTE12>GLOBAL_ATTRIBUTE12</GLOBAL_ATTRIBUTE12>                     
+     <GLOBAL_ATTRIBUTE13>GLOBAL_ATTRIBUTE13</GLOBAL_ATTRIBUTE13>                     
+     <GLOBAL_ATTRIBUTE14>GLOBAL_ATTRIBUTE14</GLOBAL_ATTRIBUTE14>                     
+     <GLOBAL_ATTRIBUTE15>GLOBAL_ATTRIBUTE15</GLOBAL_ATTRIBUTE15>                     
+     <GLOBAL_ATTRIBUTE16>GLOBAL_ATTRIBUTE16</GLOBAL_ATTRIBUTE16>                     
+     <GLOBAL_ATTRIBUTE17>GLOBAL_ATTRIBUTE17</GLOBAL_ATTRIBUTE17>                     
+     <GLOBAL_ATTRIBUTE18>GLOBAL_ATTRIBUTE18</GLOBAL_ATTRIBUTE18>                     
+     <GLOBAL_ATTRIBUTE19>GLOBAL_ATTRIBUTE19</GLOBAL_ATTRIBUTE19>                     
+     <GLOBAL_ATTRIBUTE20>GLOBAL_ATTRIBUTE20</GLOBAL_ATTRIBUTE20>                     
+     <QUANTITY_SHIPPED/>                                                        
+     <COUNTRY_OF_ORIGIN_CODE/>                                                  
+     <TAX_USER_OVERRIDE_FLAG>N</TAX_USER_OVERRIDE_FLAG>                         
+     <MATCH_OPTION>P</MATCH_OPTION>                                             
+
+     <TAX_CODE_ID>11239</TAX_CODE_ID>                                           
+     <CALCULATE_TAX_FLAG>N</CALCULATE_TAX_FLAG>                                 
+     <CHANGE_PROMISED_DATE_REASON/>                                             
+     <NOTE_TO_RECEIVER>Shipment Note for Receiver</NOTE_TO_RECEIVER>            
+     <SECONDARY_UNIT_OF_MEASURE/>                                               
+     <SECONDARY_QUANTITY/>                                                      
+     <PREFERRED_GRADE/>                                                         
+     <SECONDARY_QUANTITY_RECEIVED/>                                             
+     <SECONDARY_QUANTITY_ACCEPTED/>                                             
+     <SECONDARY_QUANTITY_REJECTED/>                                             
+     <SECONDARY_QUANTITY_CANCELLED/>                                            
+     <VMI_FLAG/>                                                                
+     <RETROACTIVE_DATE/>                                                        
+
+     <SUPPLIER_ORDER_LINE_NUMBER/>                                              
+     <AMOUNT>150D39</AMOUNT>                                                    
+     <AMOUNT_RECEIVED/>                                                         
+     <AMOUNT_BILLED/>                                                           
+     <AMOUNT_CANCELLED/>                                                        
+     <AMOUNT_ACCEPTED/>                                                         
+     <AMOUNT_REJECTED/>                                                         
+     <DROP_SHIP_FLAG/>                                                          
+     <SALES_ORDER_UPDATE_DATE/>                                                 
+     <SHIP_TO_LOCATION_ID>204</SHIP_TO_LOCATION_ID>                             
+     <SHIP_TO_LOCATION_NAME>V1- New York City</SHIP_TO_LOCATION_NAME>           
+     <SHIP_TO_ADDRESS_LINE1>90 Fifth Avenue</SHIP_TO_ADDRESS_LINE1>             
+     <SHIP_TO_ADDRESS_LINE2/>                                                   
+
+     <SHIP_TO_ADDRESS_LINE3/>                                                   
+     <SHIP_TO_ADDRESS_LINE4/>                                                   
+     <SHIP_TO_ADDRESS_INFO>New York, NY  10022-3422</SHIP_TO_ADDRESS_INFO>      
+     <SHIP_TO_COUNTRY>United States</SHIP_TO_COUNTRY>                           
+     <DETAILS/>                                                                 
+     <SHIP_CONT_PHONE/>                                                         
+     <SHIP_CONT_EMAIL/>                                                         
+     <ULTIMATE_DELIVER_CONT_PHONE/>                                             
+     <ULTIMATE_DELIVER_CONT_EMAIL/>                                             
+     <SHIP_CONT_NAME/>                                                          
+     <ULTIMATE_DELIVER_CONT_NAME/>                                              
+     <SHIP_CUST_NAME/>                                                          
+     <SHIP_CUST_LOCATION/>                                                      
+
+     <ULTIMATE_DELIVER_CUST_NAME/>                                              
+     <ULTIMATE_DELIVER_CUST_LOCATION/>                                          
+     <SHIP_TO_CONTACT_FAX/>                                                     
+     <ULTIMATE_DELIVER_TO_CONT_NAME/>                                           
+     <ULTIMATE_DELIVER_TO_CONT_FAX/>                                            
+     <SHIPPING_METHOD/>                                                         
+     <SHIPPING_INSTRUCTIONS/>                                                   
+     <PACKING_INSTRUCTIONS/>                                                    
+     <CUSTOMER_PRODUCT_DESC/>                                                   
+     <CUSTOMER_PO_NUM/>                                                         
+     <CUSTOMER_PO_LINE_NUM/>                                                    
+     <CUSTOMER_PO_SHIPMENT_NUM/>                                                
+     <NEED_BY_DATE>25-AUG-2004 02:00:00</NEED_BY_DATE>                          
+
+     <PROMISED_DATE>12-AUG-2004 02:00:00</PROMISED_DATE>                        
+     <TOTAL_SHIPMENT_AMOUNT/>                                                   
+     <FINAL_MATCH_FLAG/>                                                        
+     <MANUAL_PRICE_CHANGE_FLAG/>                                                
+     <TAX_NAME/>                                                                
+     <TRANSACTION_FLOW_HEADER_ID/>                                              
+     <LINE_LOC_SHORT_TEXT>                                                      
+     </LINE_LOC_SHORT_TEXT>                                                     
+     <DISTRIBUTIONS>                                                            
+      <DISTRIBUTIONS_ROW>                                                       
+       <AMOUNT_ORDERED/>                                                        
+       <AMOUNT_DELIVERED/>                                                      
+       <AMOUNT_CANCELLED/>                                                      
+
+       <DISTRIBUTION_TYPE>STANDARD</DISTRIBUTION_TYPE>                          
+       <AMOUNT_TO_ENCUMBER/>                                                    
+       <INVOICE_ADJUSTMENT_FLAG/>                                               
+       <DEST_CHARGE_ACCOUNT_ID/>                                                
+       <DEST_VARIANCE_ACCOUNT_ID/>                                              
+       <PROGRAM_UPDATE_DATE/>                                                   
+       <PROJECT_ID>2921</PROJECT_ID>                                            
+       <TASK_ID>4201</TASK_ID>                                                  
+       <EXPENDITURE_TYPE/>                                                      
+       <PROJECT_ACCOUNTING_CONTEXT/>                                            
+       <EXPENDITURE_ORGANIZATION_ID/>                                           
+       <GL_CLOSED_DATE/>                                                        
+       <ACCRUE_ON_RECEIPT_FLAG>Y</ACCRUE_ON_RECEIPT_FLAG>                       
+
+       <EXPENDITURE_ITEM_DATE/>                                                 
+       <ORG_ID>204</ORG_ID>                                                     
+       <GL_ENCUMBERED_PERIOD_NAME/>                                             
+       <GL_CANCELLED_DATE/>                                                     
+       <DESTINATION_TYPE_CODE>INVENTORY</DESTINATION_TYPE_CODE>                 
+       <DESTINATION_ORGANIZATION_ID>204</DESTINATION_ORGANIZATION_ID>           
+       <DESTINATION_SUBINVENTORY>FG</DESTINATION_SUBINVENTORY>                  
+       <ATTRIBUTE_CATEGORY/>                                                    
+       <ATTRIBUTE1>ATTRIBUTE1</ATTRIBUTE1>                                        
+       <ATTRIBUTE2>ATTRIBUTE2</ATTRIBUTE2>                                        
+       <ATTRIBUTE3>ATTRIBUTE3</ATTRIBUTE3>                                        
+       <ATTRIBUTE4>ATTRIBUTE4</ATTRIBUTE4>                                        
+       <ATTRIBUTE5>ATTRIBUTE5</ATTRIBUTE5>                                        
+       <ATTRIBUTE6>ATTRIBUTE6</ATTRIBUTE6>                                        
+       <ATTRIBUTE7>ATTRIBUTE7</ATTRIBUTE7>                                        
+       <ATTRIBUTE8>ATTRIBUTE8</ATTRIBUTE8>                                        
+       <ATTRIBUTE9>ATTRIBUTE9</ATTRIBUTE9>                                        
+       <ATTRIBUTE10>ATTRIBUTE10</ATTRIBUTE10>                                        
+       <ATTRIBUTE11>ATTRIBUTE11</ATTRIBUTE11>                                        
+       <ATTRIBUTE12>ATTRIBUTE12</ATTRIBUTE12>                                        
+       <ATTRIBUTE13>ATTRIBUTE13</ATTRIBUTE13>                                        
+       <ATTRIBUTE14>ATTRIBUTE14</ATTRIBUTE14>                                        
+       <ATTRIBUTE15>ATTRIBUTE15</ATTRIBUTE15>                                        
+       <WIP_ENTITY_ID/>                                                         
+       <WIP_OPERATION_SEQ_NUM/>                                                 
+       <WIP_RESOURCE_SEQ_NUM/>                                                  
+
+       <WIP_REPETITIVE_SCHEDULE_ID/>                                            
+       <WIP_LINE_ID/>                                                           
+       <BOM_RESOURCE_ID/>                                                       
+       <BUDGET_ACCOUNT_ID/>                                                     
+       <ACCRUAL_ACCOUNT_ID>12854</ACCRUAL_ACCOUNT_ID>                           
+       <VARIANCE_ACCOUNT_ID>13517</VARIANCE_ACCOUNT_ID>                         
+       <PREVENT_ENCUMBRANCE_FLAG>N</PREVENT_ENCUMBRANCE_FLAG>                   
+       <USSGL_TRANSACTION_CODE>AJB.Scratch</USSGL_TRANSACTION_CODE>             
+       <GOVERNMENT_CONTEXT/>                                                    
+       <PO_DISTRIBUTION_ID>74497</PO_DISTRIBUTION_ID>                           
+       <LAST_UPDATE_DATE>12-AUG-2004 00:40:24</LAST_UPDATE_DATE>                
+       <LAST_UPDATED_BY>1318</LAST_UPDATED_BY>                                  
+       <PO_HEADER_ID>48033</PO_HEADER_ID>                                       
+
+       <PO_LINE_ID>56937</PO_LINE_ID>                                           
+       <LINE_LOCATION_ID>75256</LINE_LOCATION_ID>                               
+       <SET_OF_BOOKS_ID>1</SET_OF_BOOKS_ID>                                     
+       <CODE_COMBINATION_ID>13401</CODE_COMBINATION_ID>                         
+       <QUANTITY_ORDERED>1</QUANTITY_ORDERED>                                   
+       <LAST_UPDATE_LOGIN>3353185</LAST_UPDATE_LOGIN>                           
+       <CREATION_DATE>12-AUG-2004 00:08:12</CREATION_DATE>                      
+       <CREATED_BY>1318</CREATED_BY>                                            
+       <PO_RELEASE_ID/>                                                         
+       <QUANTITY_DELIVERED>0</QUANTITY_DELIVERED>                               
+       <QUANTITY_BILLED>0</QUANTITY_BILLED>                                     
+       <QUANTITY_CANCELLED>0</QUANTITY_CANCELLED>                               
+       <REQ_HEADER_REFERENCE_NUM>1.2344</REQ_HEADER_REFERENCE_NUM>              
+
+       <REQ_LINE_REFERENCE_NUM>1.2345</REQ_LINE_REFERENCE_NUM>                  
+       <REQ_DISTRIBUTION_ID/>                                                   
+       <DELIVER_TO_LOCATION_ID>12092</DELIVER_TO_LOCATION_ID>                   
+       <DELIVER_TO_PERSON_ID>92</DELIVER_TO_PERSON_ID>                          
+       <RATE_DATE>12-AUG-2004 00:00:00</RATE_DATE>                              
+       <RATE/>                                                                  
+       <AMOUNT_BILLED/>                                                         
+       <ACCRUED_FLAG/>                                                          
+       <ENCUMBERED_FLAG>N</ENCUMBERED_FLAG>                                     
+       <ENCUMBERED_AMOUNT/>                                                     
+       <UNENCUMBERED_QUANTITY/>                                                 
+       <UNENCUMBERED_AMOUNT/>                                                   
+       <FAILED_FUNDS_LOOKUP_CODE/>                                              
+
+       <GL_ENCUMBERED_DATE/>                                                    
+       <KANBAN_CARD_ID/>                                                        
+       <END_ITEM_UNIT_NUMBER/>                                                  
+       <AWARD_ID/>                                                              
+       <MRC_RATE_DATE/>                                                         
+       <MRC_RATE/>                                                              
+       <MRC_ENCUMBERED_AMOUNT/>                                                 
+       <MRC_UNENCUMBERED_AMOUNT/>                                               
+       <RECOVERABLE_TAX>0D08</RECOVERABLE_TAX>                                  
+       <NONRECOVERABLE_TAX>7D44</NONRECOVERABLE_TAX>                            
+       <RECOVERY_RATE>1D00</RECOVERY_RATE>                                      
+       <TAX_RECOVERY_OVERRIDE_FLAG>Y</TAX_RECOVERY_OVERRIDE_FLAG>               
+       <OKE_CONTRACT_LINE_ID/>                                                  
+
+       <OKE_CONTRACT_DELIVERABLE_ID/>                                           
+       <DESTINATION_CONTEXT/>                                                   
+       <DISTRIBUTION_NUM>1</DISTRIBUTION_NUM>                                   
+       <SOURCE_DISTRIBUTION_ID/>                                                
+       <REQUEST_ID/>                                                            
+       <PROGRAM_APPLICATION_ID/>                                                
+       <PROGRAM_ID/>                                                            
+       <CHARGE_ACCOUNT>01-000-1410-0000-000</CHARGE_ACCOUNT>                    
+       <FULL_NAME>Adams, Mr. Brian</FULL_NAME>                                  
+       <WORK_TELEPHONE/>                                                        
+       <EMAIL_ADDRESS>badams@vision.com</EMAIL_ADDRESS>                         
+       <REQUESTER_DELIVER_FIRST_NAME>Brian</REQUESTER_DELIVER_FIRST_NAME>       
+       <REQUESTER_DELIVER_LAST_NAME>Adams</REQUESTER_DELIVER_LAST_NAME>         
+
+       <REQUESTER_DELIVER_TITLE>MR.</REQUESTER_DELIVER_TITLE>                   
+      </DISTRIBUTIONS_ROW>                                                      
+     </DISTRIBUTIONS>                                                           
+    </LINE_LOCATIONS_ROW>                                                       
+   </LINE_LOCATIONS>                                                            
+  </LINES_ROW>                                                                  
+ </LINES>                                                                       
+<ADDRESS_DETAILS>                                                               
+ <LOCATION_ID>204</LOCATION_ID>                                                 
+ <ADDRESS_STYLE>US</ADDRESS_STYLE>                                              
+ <ADDR_LABEL_1>Address Line 1</ADDR_LABEL_1>                                    
+ <ADDR_LABEL_2>Address Line 2</ADDR_LABEL_2>                                    
+ <ADDR_LABEL_3>Address Line 3</ADDR_LABEL_3>                                    
+
+ <ADDR_LABEL_4>City</ADDR_LABEL_4>                                              
+ <ADDR_LABEL_5>State</ADDR_LABEL_5>                                             
+ <ADDR_LABEL_6>Zip_Code</ADDR_LABEL_6>                                          
+ <ADDR_LABEL_7>County</ADDR_LABEL_7>                                            
+ <ADDR_LABEL_8>Country</ADDR_LABEL_8>                                           
+ <ADDR_LABEL_9>Telephone</ADDR_LABEL_9>                                         
+ <ADDR_LABEL_10>Fax</ADDR_LABEL_10>                                             
+ <ADDR_LABEL_11>Sales Tax Override</ADDR_LABEL_11>                              
+ <ADDR_LABEL_12>Inside City Limits Flag</ADDR_LABEL_12>                         
+ <ADDR_LABEL_13>Pay_City</ADDR_LABEL_13>                                        
+ <ADDR_LABEL_14>Pay_State</ADDR_LABEL_14>                                       
+ <ADDR_LABEL_15>Pay_Zip</ADDR_LABEL_15>                                         
+ <ADDR_LABEL_16>Pay_County</ADDR_LABEL_16>                                      
+
+ <ADDR_LABEL_17/>                                                               
+ <ADDR_LABEL_18/>                                                               
+ <ADDR_LABEL_19/>                                                               
+ <ADDR_LABEL_20/>                                                               
+ <ADDR_DATA_1>90 Fifth Avenue</ADDR_DATA_1>                                     
+ <ADDR_DATA_2/>                                                                 
+ <ADDR_DATA_3/>                                                                 
+ <ADDR_DATA_4>New York</ADDR_DATA_4>                                            
+ <ADDR_DATA_5>NY</ADDR_DATA_5>                                                  
+ <ADDR_DATA_6>10022-3422</ADDR_DATA_6>                                          
+ <ADDR_DATA_7>New York</ADDR_DATA_7>                                            
+ <ADDR_DATA_8>US</ADDR_DATA_8>                                                  
+ <ADDR_DATA_9/>                                                                 
+
+ <ADDR_DATA_10/>                                                                
+ <ADDR_DATA_11/>                                                                
+ <ADDR_DATA_12/>                                                                
+ <ADDR_DATA_13/>                                                                
+ <ADDR_DATA_14/>                                                                
+ <ADDR_DATA_15/>                                                                
+ <ADDR_DATA_16/>                                                                
+ <ADDR_DATA_17/>                                                                
+ <ADDR_DATA_18/>                                                                
+ <ADDR_DATA_19/>                                                                
+ <ADDR_DATA_20/>                                                                
+ <LOCATION_ID>207</LOCATION_ID>                                                 
+ <ADDRESS_STYLE>US</ADDRESS_STYLE>                                              
+
+ <ADDR_LABEL_1>Address Line 1</ADDR_LABEL_1>                                    
+ <ADDR_LABEL_2>Address Line 2</ADDR_LABEL_2>                                    
+ <ADDR_LABEL_3>Address Line 3</ADDR_LABEL_3>                                    
+ <ADDR_LABEL_4>City</ADDR_LABEL_4>                                              
+ <ADDR_LABEL_5>State</ADDR_LABEL_5>                                             
+ <ADDR_LABEL_6>Zip_Code</ADDR_LABEL_6>                                          
+ <ADDR_LABEL_7>County</ADDR_LABEL_7>                                            
+ <ADDR_LABEL_8>Country</ADDR_LABEL_8>                                           
+ <ADDR_LABEL_9>Telephone</ADDR_LABEL_9>                                         
+ <ADDR_LABEL_10>Fax</ADDR_LABEL_10>                                             
+ <ADDR_LABEL_11>Sales Tax Override</ADDR_LABEL_11>                              
+ <ADDR_LABEL_12>Inside City Limits Flag</ADDR_LABEL_12>                         
+ <ADDR_LABEL_13>Pay_City</ADDR_LABEL_13>                                        
+
+ <ADDR_LABEL_14>Pay_State</ADDR_LABEL_14>                                       
+ <ADDR_LABEL_15>Pay_Zip</ADDR_LABEL_15>                                         
+ <ADDR_LABEL_16>Pay_County</ADDR_LABEL_16>                                      
+ <ADDR_LABEL_17/>                                                               
+ <ADDR_LABEL_18/>                                                               
+ <ADDR_LABEL_19/>                                                               
+ <ADDR_LABEL_20/>                                                               
+ <ADDR_DATA_1>3455 108th Avenue</ADDR_DATA_1>                                   
+ <ADDR_DATA_2/>                                                                 
+ <ADDR_DATA_3/>                                                                 
+ <ADDR_DATA_4>Seattle</ADDR_DATA_4>                                             
+ <ADDR_DATA_5>WA</ADDR_DATA_5>                                                  
+ <ADDR_DATA_6>98101</ADDR_DATA_6>                                               
+
+ <ADDR_DATA_7>King</ADDR_DATA_7>                                                
+ <ADDR_DATA_8>US</ADDR_DATA_8>                                                  
+ <ADDR_DATA_9/>                                                                 
+ <ADDR_DATA_10/>                                                                
+ <ADDR_DATA_11/>                                                                
+ <ADDR_DATA_12/>                                                                
+ <ADDR_DATA_13/>                                                                
+ <ADDR_DATA_14/>                                                                
+ <ADDR_DATA_15/>                                                                
+ <ADDR_DATA_16/>                                                                
+ <ADDR_DATA_17/>                                                                
+ <ADDR_DATA_18/>                                                                
+ <ADDR_DATA_19/>                                                                
+
+ <ADDR_DATA_20/>                                                                
+</ADDRESS_DETAILS></PO_DATA>                                                    
