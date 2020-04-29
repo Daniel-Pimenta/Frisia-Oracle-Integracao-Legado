@@ -1,9 +1,9 @@
 SET SERVEROUTPUT ON
 DECLARE
 
-  p_seq_det NUMBER := -170;
-  p_seq_cab NUMBER := -95;
-  isNew     boolean := false;
+  p_seq_cab NUMBER := 9;
+  p_seq_det NUMBER := -13;
+  isNew     boolean := true;
   OK        BOOLEAN;
   
   
@@ -21,21 +21,20 @@ DECLARE
     "codigoUnidadeOperacional" : "UO_FRISIA",
     "aprovaRequisicao" : "SIM",
     "notaFiscalDevolucao" : [{
-      "codigoTipoRecebimento" : "DCO009",
-      "codigoFornecedor" : 77278151953,
+      "codigoFornecedor" : 1865,
       "numeroPropriedadeFornecedor" : 195606,
       "tipoReferenciaOrigem" : "EGR_NOTAEMI_PROPRIEDADE",
-      "codigoReferenciaOrigem" : "344446.1",
+      "codigoReferenciaOrigem" : "344854.1",
       "linhas" : [{
         "numeroLinhaDevolucao" : 1,
         "cnpjEmissor" : "76107770000108",
-        "numeroNotaFiscal" : 867,
+        "numeroNotaFiscal" : 16,
         "codigoSerie" : "0",
         "numeroLinhaNotaFiscal" : 1,
-        "quantidade" : 200,
+        "quantidade" : 1000,
         "unidadeMedida" : "KG",
         "tipoReferenciaOrigemLinha" : "EGR_NOTAEMI_PROPRIEDADE",
-        "codigoReferenciaOrigemLinha" : "344446.1"
+        "codigoReferenciaOrigemLinha" : "344854.1"
       }]
     }]
   }

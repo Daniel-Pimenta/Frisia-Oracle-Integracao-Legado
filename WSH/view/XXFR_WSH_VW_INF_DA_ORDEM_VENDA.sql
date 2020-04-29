@@ -97,12 +97,10 @@ select distinct
   wnd.global_attribute9        cod_lacres,
   wnd.attribute1               cod_controle_entrega_cliente,
   wdd.attribute1               percentual_gordura,
-  wnd.planned_flag             conteudo_firme,
   --
   trip.trip_id, 
   trip.name                    nome_percurso,
   --
-  trip.planned_flag            percurso_firme,
   trip.vehicle_item_id,
   trip.vehicle_number,
   trip.vehicle_organization_id,
@@ -114,7 +112,9 @@ select distinct
   nvl(trip.attribute4,0)       peso_liquido,
   nvl(trip.attribute6,0)       peso_embalagem,
   nvl(trip.attribute5,0)       cod_lacre_veiculo,
-  trip.status_code             status_percurso
+  trip.status_code             status_percurso,
+  wnd.planned_flag             conteudo_firme,
+  trip.planned_flag            percurso_firme
 from 
   oe_order_headers_all         h,
   oe_order_lines_all           l,
@@ -211,31 +211,29 @@ where 1=1
 ;
 /
 
-
+22L_371855
 
 select *
 from XXFR_WSH_VW_INF_DA_ORDEM_VENDA
 WHERE 1=1
-  --AND RELEASED_STATUS <> 'C'
-  --AND flow_status_code NOT IN ('CANCELLED','CLOSED','INVOICE_INCOMPLETE','SHIPPED')
+  AND RELEASED_STATUS <> 'C'
+  AND flow_status_code NOT IN ('CANCELLED','CLOSED','INVOICE_INCOMPLETE','SHIPPED')
   --and MOVE_ORDER_LINE_ID is not null
   --and STATUS_PERCURSO is null
   --and PICK_STATUS_NAME like '%Back%'
   --and delivery_id  in (198024, 198025)
-  --and trip_id =  226029
+  --and trip_id =  236026 -- 011_25697
   --and OE_HEADER = 229099
-  --AND delivery_detail_id  IN (223026,223027,223028)
-  and nome_percurso = '011_25676' 
+  --AND delivery_detail_id  IN (289075)
+  --and nome_percurso = 'SOL.813868'         
   --and ORDERED_ITEM    = '90170'  
   --and ORGANIZATION_CODE = substr('011_VENDA_CONTRA_ORDEM',1,3)
-  --          OE:806 1.1 - 124_VENDA_FUTURA
-  --and tipo_ordem        = '124_VENDA_FUTURA'
+  and numero_ordem      in ('51')
+  and tipo_ordem        = '124_VENDA'
   --and linha             = '1'
-  --and numero_ordem      in ('806')
-  --  Na Argentina os efeitos da quarentena tambem estão sendo sentidos...
+  --and envio             = '1'
   --and SPLIT_FROM_DELIVERY_DETAIL_ID is null
-  --and envio            = '1'
-ORDER BY TIPO_ORDEM, NUMERO_ORDEM, LINHA, ENVIO, RELEASED_STATUS
+ORDER BY TIPO_ORDEM, NUMERO_ORDEM, LINHA, ENVIO, DELIVERY_DETAIL_ID, RELEASED_STATUS
 ;
 
 select distinct RELEASED_STATUS, PICK_STATUS_NAME from  XXFR_WSH_VW_INF_DA_ORDEM_VENDA;
@@ -248,25 +246,99 @@ B	Com Backorder
 D	Cancelado
 
 select * from wsh_deliverables_v where DELIVERY_DETAIL_ID=256074;
-select * from wsh_delivery_details where DELIVERY_DETAIL_ID = 257066;
+
+select *
+from wsh_delivery_details where DELIVERY_DETAIL_ID = 43014;
+
+update wsh_delivery_details 
+  set 
+    attribute_category = 105,
+    attribute1         = '40'
+where 1=1
+  and DELIVERY_DETAIL_ID = 44009
+;
+
+
 select * from wsh_new_deliveries where DELIVERY_ID=0;
-select * from wsh_trips where name = 'S200403003';
+select * from wsh_trips where name = '22L_371855';
   
-  mtl_txn_request_lines mtrl
+  select distinct 
+    wt.trip_id, wt.name, wt.status_code
+    ,a.delivery_id
+    ,ov.flow_status_code, ov.conteudo_firme, ov.percurso_firme
+  from 
+    wsh_trips wt,
+    xxfr_wsh_vw_inf_da_ordem_venda ov,
+    (
+      select distinct wts.trip_id, wdl.delivery_id
+      from 
+        wsh_trip_stops    wts,
+        wsh_delivery_legs wdl
+      where 
+        wts.stop_id = wdl.pick_up_stop_id
+        or
+        wts.stop_id = wdl.drop_off_stop_id
+    ) a
+  where 1=1
+    and wt.trip_id = a.trip_id (+)
+    and wt.trip_id = ov.trip_id (+)
+    and wt.name    ='22L_371854'
+;
+
+
+declare
+  v_retorno varchar2(100);
+  v_line_id   number := 69068;
+  v_header_id number := 81088;
+  v_txt    varchar2(1000);
+begin
+  select 'Preço Unitario: '||unit_selling_price||' Calcular Preço:'||calculate_price_flag
+  into v_txt
+  from oe_order_lines_all
+  where line_id = v_line_id;
+  
+  dbms_output.put_line(v_txt);     
+  
+  dbms_output.put_line('Reprecificando...');     
+  xxfr_pck_variaveis_ambiente.inicializar('ONT','UO_FRISIA','MARCEL.FABRIS');
+  xxfr_om_pck_transacoes.reprecificar(
+    p_id_ordem_venda            => v_header_id,
+    p_id_linha_ordem_venda      => v_line_id,
+    p_atualizar_preco_congelado => 'S',
+    p_retorno                   => v_retorno
+  );
+   dbms_output.put_line(v_retorno);    
+    
+  select 'Preço Unitario: '||unit_selling_price||' Calcular Preço:'||calculate_price_flag
+  into v_txt
+  from oe_order_lines_all
+  where line_id = v_line_id;
+  
+  dbms_output.put_line(v_txt);         
+  commit;
+end;
+/
+
+
+
+
+
+
+mtl_txn_request_lines mtrl
 where 1=1
   and wdd.move_order_line_id = mtrl.line_id
   and wdd.move_order_line_id in ('224044','224045','224043')
 ;
 
-
-select h.*
+select l.*
 from 
-  OE_ORDER_HEADERS_all h
-  OE_ORDER_LINES_V  l
+  OE_ORDER_HEADERS_all h,
+  OE_ORDER_LINES_all   l
 where 1=1
   --and h.ORDER_NUMBER = '129'
   --and h.ORDER_TYPE   = '011_VENDA_CONTRA_ORDEM'
   --and l.LINE_NUMBER  = '1'
+  and l.line_id = 52052
   and h.ORG_ID       = l.ORG_ID
   and h.HEADER_ID    = l.HEADER_ID
 ;
@@ -331,43 +403,4 @@ where 1=1
 --and name='XXFR_OPM_PCK_INT_QUALIDADE'
 and referenced_name like 'XXFR%'
 order by referenced_name, referenced_type;
-
-
-INTGR-09 - Manter Entrega (Processar Entrega/Confimar Entrega/Cancelar Entrega)      
-XXFR_WSH_PCK_INT_ENTREGA
-XXFR_WSH_PCK_TRANSACOES
-XXFR_WSH_VW_INF_DA_ORDEM_VENDA
-XXFR_WSH_VW_INT_CANC_ENTREGA
-XXFR_WSH_VW_INT_CONF_ENTREGA
-XXFR_WSH_VW_INT_PROC_ENTREGA
---
-INTGR-15 - Manter Ordem de Retirada/Separação de Sementes (Criar/Cancelar)
-XXFR_WMS_VW_INT_PROC_SEPARACAO
-XXFR_WMS_PCK_INT_SEPARACAO
---
-INTGR-17 - Manter Recebimento RI (Criar Lançamento a partir do AR e Devolução via RI)
-XXFR_RI_PCK_INT_NFDEVOLUCAO
-XXFR_AR_PCK_GERA_RI
-XXFR_RI_VW_INT_PROC_DEVOLUCAO
-XXFR_RI_VW_INF_DA_LINHA_NFE
-XXFR_RI_VW_INF_DA_NFENTRADA
---
-INTGR-20 - Manter Contabilidade (Criar Lançamento)
-XXFR_GL_PCK_INT_LOTE_CONTABIL
-XXFR_GL_PCK_TRANSACOES
-XXFR_GL_VW_INT_LOTECONTABIL
---
-
-C:\orant\BIN\ifrun60.EXE \\servoracle\exec-vrs6i\VRSMENU.fmx desen/pandora@bcad
-\\Servoracle\exec-vrs6i
-
-XXFR_AR_VW_INF_DA_NF_LINHA
-XXFR_AR_VW_INF_DA_NF_CABECALHO
-XXFR_AR_PCK_INT_SINCRO_NF
---
-XXFR_F189_CHECK_HOLDS_PKG
-XXFR_F189_INTERFACE_PKG
-XXFR_F189_OPEN_INTERFACE_PKG
-XXFR_F189_OPEN_PROCESSES_PUB
-XXFR_F189_OPEN_INTERFACE_PKG
 

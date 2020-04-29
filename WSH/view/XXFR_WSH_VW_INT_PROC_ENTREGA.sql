@@ -1,10 +1,12 @@
-drop view XXFR_WSH_VW_INT_PROC_ENTREGA;
+--drop view XXFR_WSH_VW_INT_PROC_ENTREGA;
 CREATE OR REPLACE FORCE EDITIONABLE VIEW XXFR_WSH_VW_INT_PROC_ENTREGA as
 SELECT distinct
   -- Portaria
    d.id_integracao_cabecalho
   ,d.id_integracao_detalhe
   ,d.ie_status_processamento
+  ,d.dt_criacao
+  ,d.dt_atualizacao
   --
   ,json_value(d.ds_dados_requisicao, '$.idTransacao')    id_transacao
   ,json_value(d.ds_dados_requisicao, '$.versaoPayload')  vr_payload
@@ -94,11 +96,14 @@ where 1=1
 /*
 select * from XXFR_WSH_VW_INT_PROC_ENTREGA 
 where 1=1
-  --and nu_ordem_venda = '397'
+  and nu_ordem_venda = '51'
+  AND CD_TIPO_ORDEM_VENDA = '124_VENDA'
   --and ID_INTEGRACAO_cabecalho=-90
   --and ID_INTEGRACAO_detalhe=-90
-  and nm_percurso = 'SOL.790020'
+  --and nm_percurso = 'SOL.790020'
 ;
+
+
 select * from xxfr_integracao_detalhe 
 where 1=1
   --and ID_INTEGRACAO_detalhe=4051

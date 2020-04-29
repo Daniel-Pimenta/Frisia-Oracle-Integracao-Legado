@@ -10,20 +10,21 @@ declare
   l_retorno       clob;
   l_msg_retorno   varchar2(3000);
 
-  op              number := 7;     
-  l_delivery_id   number := 218034;
-  l_trip_id       number := 227026;
-  p_id_integracao number := -175;
+  op              number := 1;     
+  l_delivery_id   number := 249025;
+  l_trip_id       number := 25009;
+  p_id_integracao number := 1172;
 
   isCommit        boolean := false;
   
 begin
-
-  UPDATE xxfr_integracao_detalhe 
-  SET IE_STATUS_PROCESSAMENTO = 'PENDENTE' 
-  WHERE ID_INTEGRACAO_DETALHE = p_id_integracao
-  ; 
-  commit;
+  if (op in (1,2,3)) then
+    UPDATE xxfr_integracao_detalhe 
+    SET IE_STATUS_PROCESSAMENTO = 'PENDENTE' 
+    WHERE ID_INTEGRACAO_DETALHE = p_id_integracao
+    ; 
+    commit;
+  end if;
   --
   if (op = 1) then
     XXFR_WSH_PCK_INT_ENTREGA.processar_entrega(
@@ -51,7 +52,7 @@ begin
       p_delivery_id    => l_delivery_id,
       p_trip_id        => null,
       p_r              => 1,
-      p_tipo_liberacao => null,
+      p_tipo_liberacao => NULL,
       x_msg_retorno    => l_msg_retorno,
       x_retorno        => l_retorno
     );
@@ -72,60 +73,50 @@ begin
    );
   end if;
   if (op=66) then
-    XXFR_WSH_PCK_INT_ENTREGA.processar_backorder(
+    XXFR_WSH_PCK_INT_ENTREGA.processar_om_backorder(
       p_delivery_id => l_delivery_id, 
-      x_retorno => l_retorno
+      p_trip_id     => l_trip_id,
+      x_retorno     => l_retorno
    );
   end if;
   --
   if (op=7) then
     XXFR_WSH_PCK_INT_ENTREGA.processar_trip_confirm(
       p_trip_id     => l_trip_id, 
-      p_action      => 'TRIP-CONFIRM',
+      p_action_code => 'TRIP-CONFIRM',
       x_retorno     => l_retorno
     );
   end if;
+  if (op=8) then
+    XXFR_WSH_PCK_INT_ENTREGA.processar_conteudo_firme (
+      p_delivery_id => l_delivery_id, 
+      p_action_code => 'PLAN',
+      x_retorno     => l_retorno
+    );
+    dbms_output.put_line(l_retorno);
+    XXFR_WSH_PCK_INT_ENTREGA.processar_percurso_firme (
+      p_trip_id     => l_trip_id, 
+      p_action_code => 'PLAN',
+      x_retorno     => l_retorno
+    );
+  end if;
+  
   dbms_output.put_line(l_retorno);
+exception when others then
+  dbms_output.put_line('Erro da Chamada não previsto:'||sqlerrm);
 end;
 /
+
 
 /*
 
-select * from MTL_TXN_REQUEST_LINES_V where REQUEST_NUMBER=231029;
-
-212064
-
-set SERVEROUTPUT ON;
-declare
-  l_return_status varchar2(10);
-  l_msg_count     number;
-  l_msg_data      varchar2(3000);
-begin
-  INV_MO_BACKORDER_PVT.BACKORDER(
-    p_line_id       => 212064,
-    x_return_status => l_return_status,
-    x_msg_count     => l_msg_count,
-    x_msg_data      => l_msg_data
-  );
-  dbms_output.put_line('  Retorno :'||l_return_status);
-  if (l_return_status <> 'S') then
-    for i in 1 .. l_msg_count loop
-      l_msg_data := fnd_msg_pub.get( 
-        p_msg_index => i, 
-        p_encoded   => 'F'
-      );
-      dbms_output.put_line( i|| ') '|| l_msg_data);
-    end loop;
-  end if;
-end;
-/
-
-
-select lot_control_code,  from mtl_system_items_b where inventory_item_id = '46002';
+-- ***************************************************************************************************
+--  INTEGRACAO
+-- ***************************************************************************************************
 
 select * from xxfr_integracao_detalhe 
 where 1=1
-  and id_integracao_detalhe = 7987
+  and id_integracao_detalhe = -113
   --and id_transacao = 159508
   --and cd_interface_detalhe = 'PROCESSAR_ENTREGA'
   --and cd_interface_detalhe = 'CONFIRMAR_ENTREGA'
@@ -133,42 +124,73 @@ where 1=1
 order by dt_atualizacao desc
 ;
 
-select * from xxfr_integracao_detalhe 
+select * 
+from xxfr_integracao_detalhe 
 where 1=1
-  --and CD_INTERFACE_DETALHE = 'PROCESSAR_ENTREGA' 
-  and id_integracao_detalhe = 8510 --8288
+  and CD_INTERFACE_DETALHE = 'PROCESSAR_ENTREGA' 
+  --and id_integracao_detalhe = 11393
 order by 1 desc
 ;
-select id_integracao_cabecalho, dt_criacao, nm_usuario_criacao, cd_programa_criacao from  xxfr_integracao_cabecalho where id_integracao_cabecalho = 7225;
+
+select 
+  id_integracao_cabecalho, dt_criacao, nm_usuario_criacao, cd_programa_criacao 
+from  xxfr_integracao_cabecalho 
+where id_integracao_cabecalho = 7225;
 
 
-select ds_escopo, nvl(ds_log,' ') log
---from xxfr_logger_log x
-from xxfr_logger_log x --_60_min x
-where 1=1 
-  and x.dt_criacao >= sysdate -1
-  and upper(ds_escopo) = upper('processar_entrega_5708')
-order by id;
-
-select * 
+select * --id_integracao_detalhe, ie_status_processamento, tp_operacao, dt_criacao, dt_atualizacao, nm_percurso, cd_tipo_ordem_venda, nu_ordem_venda, nu_linha_ordem_venda, nu_envio_linha_ordem_venda 
 from xxfr_wsh_vw_int_proc_entrega 
 where 1=1
-  --and nu_ordem_venda = '684'
-  and nm_percurso = '011_25676'
-  --and id_integracao_detalhe=8087
+  --and nu_ordem_venda = '7'
+  --and nm_percurso = '011_25697'
+  --and id_integracao_detalhe=10819
+  and id_integraco_detalhe= 11154
+order by nu_ordem_venda, nu_linha_ordem_venda, nu_envio_linha_ordem_venda, ID_INTEGRACAO_DETALHE
 ;
-
+-- ***************************************************************************************************
+--  LOGS
+-- ***************************************************************************************************
 select ds_escopo, nvl(ds_log,' ') log
 from xxfr_logger_log
 where 1=1
-and upper(ds_escopo) like 'XXFR_RI_PCK_INTEGRACAO_AR%'--'CONFIRMAR_ENTREGA_-175'
-and DT_CRIACAO >= sysdate -1
+  and upper(ds_escopo) = 'PROCESSAR_ENTREGA_1172'
+  --and upper(ds_escopo) = 'XXFR_RI_PCK_INTEGRACAO_AR_261053' 
+  --and DT_CRIACAO >= sysdate -1
 order by 
-  --DT_CRIACAO desc
+  --DT_CRIACAO desc,
   id
 ;
 
-ID_TRANSACAO_DETALHE = 8510
+"  1) Erro inesperado: Erro na Rotina WSH_TRIPS_PVT.CREATE_TRIP,  Erro Oracle - -1
+ORA-00001: restrição exclusiva (WSH.WSH_TRIPS_U2) violada"
+
+"  1) Erro inesperado: Erro na Rotina WSH_TRIPS_PVT.CREATE_TRIP,  Erro Oracle - -1
+ORA-00001: restrição exclusiva (WSH.WSH_TRIPS_U2) violada"
+
+"  1) Erro inesperado: Erro na Rotina WSH_TRIPS_PVT.CREATE_TRIP,  Erro Oracle - -1
+ORA-00001: restrição exclusiva (WSH.WSH_TRIPS_U2) violada"
+
+select DS_LOG 
+from xxfr_logger_log x 
+where x.ds_escopo = 'PROCESSAR_ENTREGA_572' order by ID ;
+
+select ds_escopo, nvl(ds_log,' ') log
+from xxfr_logger_logs_60_min x
+where 1=1 
+  and x.dt_criacao >= sysdate -1
+  and upper(ds_escopo) like upper('processar_entrega_%')
+order by id;
+
+-- ***************************************************************************************************
+--  OUTROS
+-- ***************************************************************************************************
+
+select * from xxfr_sif_vw_agricola_principio;
+select * from MTL_TXN_REQUEST_LINES_V where REQUEST_NUMBER=231029;
+
+select lot_control_code,  from mtl_system_items_b where inventory_item_id = '46002';
+
+SELECT * FROM FND_USER where user_id = 1511
 
 select RESERVATION_ID, ORGANIZATION_ID, INVENTORY_ITEM_ID, RESERVATION_QUANTITY, SUBINVENTORY_CODE, LOCATOR_ID, LOT_NUMBER 
 from MTL_RESERVATIONS_ALL_V
@@ -177,7 +199,26 @@ where 1=1
   --and INVENTORY_ITEM_ID = 13588
   and DEMAND_SOURCE_LINE_ID = 219394 --Linha da OE
 
-select * from xxfr_logger_log x where x.ds_escopo = 'CANCELAR_ENTREGA_8316' order by dt_criacao ;
+--CHECAGEM DOS LOTES...
+select distinct 
+  moqd.inventory_item_id, msib.SEGMENT1, msib.DESCRIPTION, 
+  (mil.segment1||'.'||mil.segment2||'.'||mil.segment3||'.'||mil.segment4) cd_endereco_estoque, mil.subinventory_code , moqd.lot_number 
+from 
+  mtl_onhand_quantities_detail moqd,
+  mtl_system_items_b           msib,
+  mtl_item_locations           mil,
+  org_organization_definitions ood
+where 1=1
+  and moqd.locator_id           = mil.inventory_location_id
+  and moqd.organization_id      = mil.organization_id
+  and msib.inventory_item_id    = moqd.inventory_item_id
+  and msib.organization_id      = moqd.organization_id 
+  and mil.organization_id       = ood.organization_id
+  and moqd.inventory_item_id    = 46002  -- ID Item
+  and msib.segment1             = '79792' -- Cod Item
+  and ood.organization_code     = '22L'
+  and mil.segment1||'.'||mil.segment2||'.'||mil.segment3||'.'||mil.segment4 = 'MPG.00.101.00'
+;
 
 */
 

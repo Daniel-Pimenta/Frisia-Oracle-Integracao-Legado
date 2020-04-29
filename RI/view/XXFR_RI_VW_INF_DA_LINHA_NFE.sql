@@ -1,3 +1,4 @@
+DROP VIEW XXFR_RI_VW_INF_DA_LINHA_NFE;
 CREATE OR REPLACE VIEW XXFR_RI_VW_INF_DA_LINHA_NFE as
   select 
     rctl.customer_trx_id,
@@ -10,9 +11,12 @@ CREATE OR REPLACE VIEW XXFR_RI_VW_INF_DA_LINHA_NFE as
     rctl.unit_selling_price, 
     rctl.line_type, 
     rctl.interface_line_context,
-    --po.PO_HEADER_ID, 
-    --po.PO_LINE_ID,
-    rctl.interface_line_attribute3 po_line_location_id,
+    --
+    po.segment1,
+    po.po_header_id,
+    po.po_line_id,
+    po.line_location_id,
+    --
     rctl.uom_code, 
     rctl.org_id, 
     rctl.warehouse_id,
@@ -99,17 +103,31 @@ CREATE OR REPLACE VIEW XXFR_RI_VW_INF_DA_LINHA_NFE as
         )
         and rctla.extended_amount > 0
       group by rctla.customer_trx_id, rctla.link_to_cust_trx_line_id --, rctla.customer_trx_line_id
-    ) impostos
-    --,po_line_locations_all    po
+    ) impostos,
+    (
+      select ph.segment1, pll.PO_HEADER_ID, pll.PO_LINE_ID, pll.LINE_LOCATION_ID 
+      from 
+        po_headers_all        ph,
+        po_line_locations_all pll
+      where 1=1
+        and pll.PO_HEADER_ID     = ph.PO_HEADER_ID
+    ) po
   where 1=1
     and rctl.line_type                 = 'LINE' 
-    --and rctl.interface_line_attribute3 = po.LINE_LOCATION_ID (+)
     and rctl.customer_trx_line_id      = impostos.link_to_cust_trx_line_id (+)
+    and rctl.interface_line_attribute3 = po.LINE_LOCATION_ID (+)  
 ;
 /
 
-select * from XXFR_RI_VW_INF_DA_LINHA_NFE where customer_trx_id = '251031';
+select * from XXFR_RI_VW_INF_DA_LINHA_NFE where customer_trx_id = '263045';
 
-select PO_HEADER_ID, PO_LINE_ID from po_line_locations_all where LINE_LOCATION_ID=232092;
+
+select ph.segment1, pll.PO_HEADER_ID, pll.PO_LINE_ID, pll.LINE_LOCATION_ID 
+from 
+  po_headers_all        ph,
+  po_line_locations_all pll
+where 1=1
+  and pll.PO_HEADER_ID     = ph.PO_HEADER_ID
+  and pll.LINE_LOCATION_ID = 232092;
 
 select * from ra_customer_trx_lines_all where customer_trx_id = '251031';

@@ -195,9 +195,7 @@ create or replace package xxfr_wsh_pck_int_entrega is
     x_delivery_id         out number,
     x_retorno             out varchar2
   );
-  
-  function check_hold(p_delivery_id in number) return number;
-  
+    
   procedure proc_delivery_pick_release(
     p_delivery_id    in number,
     p_trip_id        in number,
@@ -212,29 +210,27 @@ create or replace package xxfr_wsh_pck_int_entrega is
     x_msg_retorno    out varchar2,
     x_retorno        out varchar2
   );
-  procedure processar_backorder(
+  procedure processar_om_backorder(
     p_delivery_id             in number,
+    p_trip_id                 in number,
     x_retorno                 out varchar2
   );
   procedure processar_trip_confirm(
     p_trip_id        in number ,
-    p_action         in varchar2,
+    p_action_code    in varchar2,
     x_retorno        out varchar2
-  );
-  procedure processar_conteudo_firme(
-    p_delivery_id in number ,
-    p_action_code in varchar2,
-    x_retorno     out varchar2
-  );
-  procedure processar_mov_subinventario(
-    p_delivery_id             in number,
-    x_retorno                 out varchar2
   );
   procedure criar_reserva(
     p_linhas                 IN tp_linhas,
     p_operacao               IN varchar2,
     x_lot_number             out varchar2,
     x_retorno                out varchar2
+  );
+
+  procedure processar_conteudo_firme(
+    p_delivery_id in number ,
+    p_action_code in varchar2,
+    x_retorno     out varchar2
   );
   procedure processar_percurso_firme (
     p_trip_id     in number,
@@ -246,14 +242,22 @@ create or replace package xxfr_wsh_pck_int_entrega is
     p_linha                   in xxfr_wsh_pck_int_entrega.tp_linhas,
     x_retorno                 out varchar2
   );
-  
+
+  procedure reverter_mov_inventario(
+    p_delivery_id             in number,
+    x_retorno                 out varchar2
+  );
   procedure criar_mov_subinventario(
     p_trip_id               in number,
     p_cd_endereco_estoque   in varchar2,
     p_qtd                   in number,
     x_retorno               out varchar2
   );
-  
+
+  function check_hold(
+    p_delivery_id in number
+    --
+  ) return number;  
   function informacoes_lote(
     p_organization_id     in number,
     p_inventory_item_id   in number,

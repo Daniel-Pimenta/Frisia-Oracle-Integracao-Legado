@@ -66,7 +66,9 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_TRANSACOES as
     print_out('    ACAO:'||p_action_code);
     print_out('    Id  :'||l_trip_info.trip_id);
     print_out('    Name:'||l_trip_info.name);
+    
     limpa_msg;
+    
     WSH_TRIPS_PUB.Create_Update_Trip( 
       p_api_version_number => 1.0,
       p_init_msg_list      => FND_API.g_false,
@@ -94,9 +96,11 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_TRANSACOES as
       );
       print_out('  '|| i|| ') '|| l_msg_data);
     end loop;
+    
     if (l_msg_count > 0) then
       x_retorno := l_msg_data;
     end if;
+    
     print_out('  FIM XXFR_WSH_PCK_TRANSACOES.CRIAR_ATUALIZAR_PERCURSO');
   END;
 
@@ -182,18 +186,20 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_TRANSACOES as
     wsh_deliveries_pub.delivery_action ( 
       p_api_version_number       => 1.0,
       p_init_msg_list            => fnd_api.g_false,
-      x_return_status            => l_return_status,
-      x_msg_count                => l_msg_count,
-      x_msg_data                 => l_msg_data,
       p_action_code              => 'ASSIGN-TRIP',
       p_delivery_id              => p_delivery_id,
       p_delivery_name            => null,
       p_asg_trip_id              => p_trip_id,
       p_asg_trip_name            => null,
       x_trip_id                  => l_trip_id,
-      x_trip_name                => l_trip_name
+      x_trip_name                => l_trip_name,
+      x_return_status            => l_return_status,
+      x_msg_count                => l_msg_count,
+      x_msg_data                 => l_msg_data
     );
-    print_out('  Saida:'||l_return_status);
+    print_out('  Retorno:'||l_return_status);
+    print_out('    Trip_id  :'||l_trip_id);
+    print_out('    Trip_name:'||l_trip_name);
     if (l_return_status = 'S') then
       null;
     else
@@ -232,6 +238,7 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_TRANSACOES as
     --end loop;
     --
     limpa_msg;
+    --EXECUTE IMMEDIATE 'ALTER SESSION SET NLS_LANGUAGE= ''AMERICAN''';
     WSH_DELIVERY_DETAILS_PUB.detail_to_delivery(
       -- Standard parameters
       p_api_version        => 1.0,
@@ -363,7 +370,7 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_TRANSACOES as
     print_out('    Ação         :'||p_action_code);
     print_out('    Delivery_id  :'||l_delivery_rec_typ.delivery_id);
     print_out('    Delivery_name:'||l_delivery_rec_typ.name);
-    EXECUTE IMMEDIATE 'ALTER SESSION SET NLS_LANGUAGE= ''AMERICAN''';
+    --EXECUTE IMMEDIATE 'ALTER SESSION SET NLS_LANGUAGE= ''AMERICAN''';
     WSH_DELIVERIES_PUB.CREATE_UPDATE_DELIVERY(
       p_api_version_number  => 1.0, 
       p_init_msg_list       => fnd_api.g_false, 
@@ -473,42 +480,43 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_TRANSACOES as
       and trip_id      = nvl(p_trip_id    ,trip_id)
       and flow_status_code not in ('CANCELLED','CLOSED','INVOICE_INCOMPLETE','SHIPPED')
     ;  
-    
-    print_out('    ----------------------------------------------');
-    print_out('    Procurando regra:'||l_organization_code||'.'||p_tipo_liberacao);
-    --RESGATA REGRAS DE PICKING
-    begin
-      select distinct 
-           wpr.picking_rule_id, wpr.picking_rule_name --, flv.description, wpr.auto_pick_confirm_flag, wpr.autodetail_pr_flag
-      into v_release_rule_id,   v_release_rule       --, v_auto_pick_confirm_flag,   v_autodetail_pr_flag
-      from 
-        wsh_picking_rules_v wpr,
-        fnd_lookup_values   flv
-      where 1=1
-        and flv.language     = 'PTB'
-        and flv.lookup_type  = 'XXFR_INT_LKP_REGRAS_LIBERACAO'
-        and flv.ENABLED_FLAG = 'Y' 
-        and (
-          upper(wpr.picking_rule_name)      = upper(flv.description)
-          or 
-          upper(wpr.picking_rule_name)      = upper(lookup_code)
-        )
-        --
-        and nvl(wpr.end_date_active,sysdate) >= sysdate
-        and wpr.warehouse_code               = l_organization_code
-        and upper(flv.lookup_code)           = upper(l_organization_code||'.'||p_tipo_liberacao)
-        and rownum = 1
-      ;      
-    exception
-      when no_data_found then
-        x_retorno := 'Regra de liberação não encontrada para a organização :' ||l_organization_code||'.'||p_tipo_liberacao||' -  Verifcar o cadastro da lookup:XXFR_INT_LKP_REGRAS_LIBERACAO';
-        print_out('    '||x_retorno);
-        ok := false;
-      when too_many_rows then
-        x_retorno := 'Mais de uma regra de liberação encontrada para a organização :' ||l_organization_code;
-        print_out('    '||x_retorno);
-        ok:= false;
-    end;
+    if (p_tipo_liberacao is not null) then
+      print_out('    ----------------------------------------------');
+      print_out('    Procurando regra:'||l_organization_code||'.'||p_tipo_liberacao);
+      --RESGATA REGRAS DE PICKING
+      begin
+        select distinct 
+             wpr.picking_rule_id, wpr.picking_rule_name --, flv.description, wpr.auto_pick_confirm_flag, wpr.autodetail_pr_flag
+        into v_release_rule_id,   v_release_rule       --, v_auto_pick_confirm_flag,   v_autodetail_pr_flag
+        from 
+          wsh_picking_rules_v wpr,
+          fnd_lookup_values   flv
+        where 1=1
+          and flv.language     = 'PTB'
+          and flv.lookup_type  = 'XXFR_INT_LKP_REGRAS_LIBERACAO'
+          and flv.ENABLED_FLAG = 'Y' 
+          and (
+            upper(wpr.picking_rule_name)      = upper(flv.description)
+            or 
+            upper(wpr.picking_rule_name)      = upper(lookup_code)
+          )
+          --
+          and nvl(wpr.end_date_active,sysdate) >= sysdate
+          and wpr.warehouse_code               = l_organization_code
+          and upper(flv.lookup_code)           = upper(l_organization_code||'.'||p_tipo_liberacao)
+          and rownum = 1
+        ;      
+      exception
+        when no_data_found then
+          x_retorno := 'Regra de liberação não encontrada para a organização :' ||l_organization_code||'.'||p_tipo_liberacao||' -  Verifcar o cadastro da lookup:XXFR_INT_LKP_REGRAS_LIBERACAO';
+          print_out('    '||x_retorno);
+          ok := false;
+        when too_many_rows then
+          x_retorno := 'Mais de uma regra de liberação encontrada para a organização :' ||l_organization_code;
+          print_out('    '||x_retorno);
+          ok:= false;
+      end;
+    end if;
     --
     if (ok) then
       print_out('    Regra de liberação: Id:'||v_release_rule_id||' - Cod:'||v_release_rule);
@@ -695,8 +703,9 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_TRANSACOES as
     p_sc_report_set_name      VARCHAR2(60);
     p_wv_override_flag        VARCHAR2(10);
     p_sc_defer_interface_flag VARCHAR2(1);
-    x_trip_id                 VARCHAR2(30);
-    x_trip_name               VARCHAR2(30);
+    --
+    l_trip_id                 VARCHAR2(30);
+    l_trip_name               VARCHAR2(30);
     --out parameters
     l_return_status           VARCHAR2(10);
     l_msg_count               NUMBER;
@@ -737,13 +746,11 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_TRANSACOES as
       p_api_version_number      => 1.0,
       p_init_msg_list           => p_init_msg_list,
       p_action_code             => l_action_code,
-      --
       p_delivery_id             => p_delivery_id,
       p_delivery_name           => p_delivery_name,
       --
       p_asg_trip_id             => p_asg_trip_id,
       p_asg_trip_name           => p_asg_trip_name,
-      --
       p_asg_pickup_stop_id      => p_asg_pickup_stop_id,
       p_asg_pickup_loc_id       => p_asg_pickup_loc_id,
       p_asg_pickup_loc_code     => p_asg_pickup_loc_code,
@@ -758,34 +765,36 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_TRANSACOES as
       --
       p_sc_action_flag          => p_sc_action_flag,
       p_sc_close_trip_flag      => p_sc_close_trip_flag,
-      p_sc_create_bol_flag      => p_sc_create_bol_flag,
       p_sc_stage_del_flag       => p_sc_stage_del_flag,
+      
+      p_sc_create_bol_flag      => p_sc_create_bol_flag,
       p_sc_trip_ship_method     => p_sc_trip_ship_method,
       p_sc_actual_dep_date      => p_sc_actual_dep_date,
       p_sc_report_set_id        => p_sc_report_set_id,
       p_sc_report_set_name      => p_sc_report_set_name,
-      --
       p_wv_override_flag        => p_wv_override_flag,
       p_sc_defer_interface_flag => p_sc_defer_interface_flag ,
-      --p_sc_rule_id              => 21,
-      --p_sc_rule_name            => 'UBL a Granel',
-      x_trip_id                 => x_trip_id,
-      x_trip_name               => x_trip_name,
+
+      x_trip_id                 => l_trip_id,
+      x_trip_name               => l_trip_name,
       x_return_status           => l_return_status,
       x_msg_count               => l_msg_count,
       x_msg_data                => l_msg_data
     );
-    print_out('    Retorno :'||l_return_status);
+    print_out('  Retorno:'||l_return_status);
+    print_out('    Trip_id  :'||l_trip_id);
+    print_out('    Trip_name:'||l_trip_name);
     if (l_return_status <> 'S') then
       for i in 1 .. l_msg_count loop
         l_msg_data := fnd_msg_pub.get( 
           p_msg_index => i, 
           p_encoded   => 'F'
         );
-        print_out( i|| ') '|| l_msg_data);
+        print_out('    '||i|| ') '|| l_msg_data);
       end loop; 
     end if;
     x_retorno := l_return_status;
+    print_out('  FIM XXFR_WSH_PCK_TRANSACOES.CONFIRMA_ENTREGA('||p_action_code||')');
   END;
 
   procedure confirma_percurso(
@@ -934,18 +943,19 @@ nulo', 'Weight NULL');
     print_out('  Retorno:'||l_return_status);
     print_out('    Trip_id  :'||l_trip_id);
     print_out('    Trip_name:'||l_trip_name);
+    for i in 1 .. l_msg_count loop
+      l_msg_data := fnd_msg_pub.get( 
+        p_msg_index => i, 
+        p_encoded   => 'F'
+      );
+      print_out('    '||i|| ') '|| l_msg_data);
+    end loop;
     if (l_return_status <> 'S') then
       x_retorno := l_msg_data;
-      for i in 1 .. l_msg_count loop
-        l_msg_data := fnd_msg_pub.get( 
-          p_msg_index => i, 
-          p_encoded   => 'F'
-        );
-        print_out('    '||i|| ') '|| l_msg_data);
-      end loop;
     else
       x_retorno := l_return_status;
     end if;
+    print_out('  FIM XXFR_WSH_PCK_TRANSACOES.ATRIBUIR_CONTEUDO_FIRME');
   end;
 
   procedure criar_reserva(
@@ -1321,6 +1331,7 @@ nulo', 'Weight NULL');
       end if;
       -- NÃO UTILIZAR MAIS ESSA PKG
       if (l_return = 9) then
+        limpa_msg;
         print_out('    Chamando INV_TXN_MANAGER_PUB.PROCESS_TRANSACTIONS...');
         l_return := inv_txn_manager_pub.process_transactions(
           p_api_version      => 1.0,
@@ -1342,8 +1353,6 @@ nulo', 'Weight NULL');
         print_out('    -------------------------------------------');
         x_retorno := l_return_status;
         
-        limpa_msg;
-        
         for j in 1 .. l_msg_count loop
           l_msg_data := fnd_msg_pub.get(j, 'F');
           print_out('    Erro:' || l_msg_data);
@@ -1364,6 +1373,44 @@ nulo', 'Weight NULL');
       --
     end loop;
     print_out('  FIM XXFR_WSH_PCK_TRANSACOES.CRIAR_MOVIMENTACAO_SUBINVETARIO');
+  end;
+
+  procedure atualiza_delivey_detail(
+    p_changed_attributes  in WSH_DELIVERY_DETAILS_PUB.ChangedAttributeTabType,
+    x_retorno             out varchar2
+  ) is 
+  
+    l_changed_attributes  WSH_DELIVERY_DETAILS_PUB.ChangedAttributeTabType;
+    l_return_status       varchar2(10);
+    l_msg_count           number;
+    l_msg_data            varchar2(3000);
+  
+  begin
+
+    fnd_msg_pub.initialize;
+    
+    l_changed_attributes := p_changed_attributes;
+   
+    WSH_DELIVERY_DETAILS_PUB.Update_Shipping_Attributes (
+      p_api_version_number  => 1.0,
+      p_init_msg_list       => FND_API.G_FALSE,
+      p_commit              => FND_API.G_FALSE,
+      p_changed_attributes  => l_changed_attributes,
+      p_source_code         => 'OE',
+      p_container_flag      => '',
+      x_return_status       => l_return_status,
+      x_msg_count           => l_msg_count,
+      x_msg_data            => l_msg_data
+    );
+    print_out('  Saida:'||l_return_status);
+    for i in 1 .. l_msg_count loop
+      l_msg_data := fnd_msg_pub.get( 
+        p_msg_index => i, 
+        p_encoded   => 'F'
+      );
+      print_out('  '|| i|| ') '|| l_msg_data);
+    end loop;
+    x_retorno := l_return_status;
   end;
 
 end XXFR_WSH_PCK_TRANSACOES;

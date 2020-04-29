@@ -45,7 +45,7 @@ create or replace PACKAGE XXFR_RI_PCK_INT_NFDEVOLUCAO AS
 
   procedure insere_interface_header(
     p_customer_trx_id   in number,  
-    p_invoice_type_code in varchar2,
+    --p_invoice_type_code in varchar2,
     p_nf_devolucao      in tp_nf_devolucao,
     p_linha             in tp_linha,
     x_retorno           out varchar2
@@ -85,6 +85,11 @@ create or replace PACKAGE XXFR_RI_PCK_INT_NFDEVOLUCAO AS
     p_cust_trx_type_id in number,
     x_retorno          out varchar
   );
+
+  function retorna_cc_rem_fixar(
+    p_item_id         in number,
+    p_organization_id in number
+  ) return number;
 
 END;
 /

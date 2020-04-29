@@ -16,8 +16,8 @@ begin
   xxfr_pck_variaveis_ambiente.inicializar('ONT', 'UO_FRISIA'); 
   fnd_msg_pub.initialize;
 
-  l_changed_attributes(1).delivery_detail_id := 235064;
-  l_changed_attributes(1).shipped_quantity := 0;
+  l_changed_attributes(1).delivery_detail_id := 289075;
+  l_changed_attributes(1).attribute1 := '666';
 
   WSH_DELIVERY_DETAILS_PUB.Update_Shipping_Attributes (
     p_api_version_number  => 1.0,

@@ -10,7 +10,8 @@ create or replace PACKAGE XXFR_AR_PCK_GERA_RI AS
   
   procedure main(
     p_customer_trx_id   in number,
-    p_invoice_type_code in varchar2,
+    p_processar         in boolean,
+    p_sequencial        in varchar2 default null,
     x_retorno           out varchar2
   );
   
@@ -32,5 +33,10 @@ create or replace PACKAGE XXFR_AR_PCK_GERA_RI AS
   procedure limpa_interface(
     x_retorno           out varchar2
   );
+  
+  function retorna_cc_rem_fixar(
+    p_item_id         in number,
+    p_organization_id in number
+  ) return number;
 
 END;

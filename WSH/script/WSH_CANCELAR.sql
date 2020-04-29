@@ -1,11 +1,11 @@
 SET SERVEROUTPUT ON
 DECLARE
 
-  p_seq_det NUMBER := 8316;
-  p_seq_cab NUMBER := 57618;
+  p_seq_cab NUMBER := -91;
+  p_seq_det NUMBER := -113;
   
   OK        BOOLEAN;
-  isNew     boolean := false;
+  isNew     boolean := FALSE;
 
   STR_JSON VARCHAR2(32000) := ('
 {
@@ -15,7 +15,9 @@ DECLARE
   "codigoServico" : "CANCELAR_ENTREGA",
   "usuario" : null,
   "cancelarEntrega" : {
-    "nomePercurso" : "S200403003X"
+    "codigoUnidadeOperacional" : "UO_FRISIA",
+    "nomePercurso" : "SOL.813868",  
+    "manterPercurso" : "NAO"
   }
 }
 ');
@@ -29,8 +31,8 @@ BEGIN
   OK := TRUE;
   BEGIN
     if (isNew) then
-      select min(ID_INTEGRACAO_CABECALHO) -1 into  p_seq_cab from xxfr_integracao_cabecalho;
-      select min(ID_INTEGRACAO_DETALHE) -1   into  p_seq_det from xxfr_integracao_detalhe;
+      select min(ID_INTEGRACAO_CABECALHO) -100 into  p_seq_cab from xxfr_integracao_cabecalho;
+      select min(ID_INTEGRACAO_DETALHE) -100   into  p_seq_det from xxfr_integracao_detalhe;
     end if;
     
     print_out('Limpando detalhe...');

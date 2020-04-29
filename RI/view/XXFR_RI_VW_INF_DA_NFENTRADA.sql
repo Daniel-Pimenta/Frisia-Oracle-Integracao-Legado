@@ -1,4 +1,4 @@
-DROP VIEW XXFR_RI_VW_INF_DA_NFENTRADA;
+--DROP VIEW XXFR_RI_VW_INF_DA_NFENTRADA;
 CREATE OR REPLACE VIEW XXFR_RI_VW_INF_DA_NFENTRADA as
   select 
     rct.customer_trx_id, 
@@ -19,14 +19,16 @@ CREATE OR REPLACE VIEW XXFR_RI_VW_INF_DA_NFENTRADA as
     rct.trx_date,
     rct.batch_source_id, 
     rctl.warehouse_id,
-    rct.PURCHASE_ORDER,
+    --rct.PURCHASE_ORDER,
     ass.vendor_id, 
     ass.vendor_site_id, 
     ass.vendor_site_code, 
     hl.location_id, 
     ass.party_site_id, 
     ass.payment_priority, 
-    ass.terms_id, 
+    ass.terms_id,
+    rct.term_id, 
+    rct.term_due_date,
     hps.party_id, 
     hca.account_number,
     hca.cust_account_id,
@@ -189,57 +191,30 @@ CREATE OR REPLACE VIEW XXFR_RI_VW_INF_DA_NFENTRADA as
 ;
 /
 
-begin
-  xxfr_pck_variaveis_ambiente.inicializar('CLL','UO_FRISIA','JEAN.BEJES'); 
-end;
 
-select * from ra_customer_trx_all;
+/*
+
+select * from CLL_F189_ENTRY_OPERATIONS where operation_id = 235;
+
+select entity_id from ra_customer_trx_all;
 
 select * from XXFR_RI_VW_INF_DA_NFENTRADA
 where 1=1
-  and trx_number = '1340'
-  and document_number = '54043875053'
+  --and Customer_trx_id = 245031
+  and trx_number = '49'
+  --and document_number = '54043875053'
   --and VENDOR_SITE_CODE = '2243.234525'
 ;
-251031
 
-DOCUMENT_TYPE_ID
 select * from ra_customer_trx_all where CUSTOMER_TRX_ID = 251031;
-select * from ra_customer_trx_lines_all where CUSTOMER_TRX_ID = 144019;
+select entity_id from ra_customer_trx_lines_all where CUSTOMER_TRX_ID = 144019;
 
-select CUST_TRX_TYPE_ID, NAME, DESCRIPTION, TYPE
+select entity_id, CUST_TRX_TYPE_ID, NAME, DESCRIPTION, TYPE
 from ra_cust_trx_types_all
 where 1=1
   and END_DATE is null
   and ORG_ID   = 81
 ;
-
-select 
-  qr.character1  cd_organizacao_inventario,
-  qr.character6  id_organizacao_inventario,
-  qr.character2  tipo_transacao_ar,
-  qr.character3  tp_nota,
-  qr.character12 cfop_saida,
-  qr.character7  cfop_entrada,
-  qr.character8  cst_icms,
-  qr.character9  cst_ipi,
-  qr.character10 cst_pis,
-  qr.character11 cst_cofins,
-  qr.character13 utilizacao_fiscal
-from 
-  qa_plans qp, 
-  qa_results qr, 
-  cll_f189_invoice_types t
-where 1=1
-  and qp.plan_id          = qr.plan_id
-  and t.organization_id   = qr.character6
-  and t.invoice_type_code = qr.character3
-  and qp.name             = 'PC_TRANSFERENCIA_AR_RI'
-  and qr.character1       = 123 --w_warehouse_id
-  and qr.character2 = '&TP_TRANSACAO_AR'
-  and qr.character7 = '&CD_CFOP_ENTRADA'
-;
-
 
 select po_header_id from po_line_locations_all where line_location_id=148060;
 select segment1 from po_headers_all where po_header_id = (
@@ -251,4 +226,4 @@ select * from PO_DISTRIBUTIONS_ALL where PO_DISTRIBUTION_ID=148060;
 
 select table_name from all_tables where table_name like 'PO_LINE%' order by 1;
 
-
+*/

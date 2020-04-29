@@ -13,6 +13,7 @@ SELECT
   ,json_value(d.ds_dados_requisicao, '$.usuario')         usuario
   ,json_value(d.ds_dados_requisicao, '$.cancelarEntrega.codigoUnidadeOperacional') cd_unidade_operacional
   ,json_value(d.ds_dados_requisicao, '$.cancelarEntrega.nomePercurso')             nm_percurso
+  ,json_value(d.ds_dados_requisicao, '$.cancelarEntrega.manterPercurso')           ie_manter_percurso
 from
    xxfr_integracao_cabecalho c
   ,xxfr_integracao_detalhe   d

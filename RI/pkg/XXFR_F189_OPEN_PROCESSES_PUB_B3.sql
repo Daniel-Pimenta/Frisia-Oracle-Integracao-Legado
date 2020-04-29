@@ -594,6 +594,8 @@ create or replace PACKAGE BODY XXFR_F189_OPEN_PROCESSES_PUB AS
     l_debit_free                    cll_f189_fiscal_operations.debit_free%TYPE;       -- 27579747
     l_tpa_control_type              cll_f189_fiscal_operations.tpa_control_type%TYPE; -- 27579747
     l_iss_city_id                   NUMBER; -- 25591653
+    
+    l_cfop_return_id                NUMBER; -- 31001507
 
   BEGIN
     print_log('  CREATE_OPEN_INTERFACE');
@@ -2877,7 +2879,7 @@ create or replace PACKAGE BODY XXFR_F189_OPEN_PROCESSES_PUB AS
             END IF;
             -- End BUG 24387238
             --- 29908009 BEGIN
-            IF l_return_customer_flag = 'F' THEN
+            IF l_return_customer_flag = 'F' THEN            
               CLL_F189_VENDOR_RETURN_PKG.CREATE_LINES( 
                 p_invoice_id                 => g_cll_f189_invoices_s
                 ,p_invoice_type_id            => l_invoice_type_id
@@ -2889,6 +2891,7 @@ create or replace PACKAGE BODY XXFR_F189_OPEN_PROCESSES_PUB AS
                 ,p_vendor_state_id            => NVL(r_invoice_header.source_state_id,l_source_state_id)
                 ,p_additional_tax             => r_invoice_header.additional_tax
                 ,p_user_id                    => l_user_id
+                ,p_cfop_id                    => l_cfop_return_id                                  -- 31001507
                 ---,p_interface                  => 'Y'                                               -- 29908009
                 ---,p_rtv_cfo_id                 => r_invoice_parents_lines.rtv_cfo_id                -- 29908009
                 ---,p_rtv_quantity               => r_invoice_parents_lines.rtv_quantity              -- 29908009
@@ -2897,6 +2900,24 @@ create or replace PACKAGE BODY XXFR_F189_OPEN_PROCESSES_PUB AS
                 ---,p_rtv_pis_tributary_code     => r_invoice_parents_lines.rtv_pis_tributary_code    -- 29908009
                 ---,p_rtv_cofins_tributary_code  => r_invoice_parents_lines.rtv_cofins_tributary_code -- 29908009
               );
+              -- 31001507 - Start
+              IF g_aprova = 'Y' and l_requisition_type = 'NA'  THEN
+                 --
+                 g_index  := r_invoice_header.interface_operation_id;
+                 l_debug := 218;
+                 --
+                 IF NOT(r_cll_f189_operation.exists(g_index))THEN
+                    r_cll_f189_operation(g_index).organization_id        := NVL(l_organization_id,r_invoice_header.organization_id);
+                    r_cll_f189_operation(g_index).new_operation_id       := g_cll_f189_entry_operations_s;
+                    r_cll_f189_operation(g_index).location_id            := NVL(l_location_id,r_invoice_header.location_id);
+                    r_cll_f189_operation(g_index).gl_date                := r_invoice_header.gl_date;
+                    r_cll_f189_operation(g_index).receive_date           := NVL(r_invoice_header.receive_date,SYSDATE);
+                    r_cll_f189_operation(g_index).user_id                := l_user_id;
+                    r_cll_f189_operation(g_index).interface_operation_id := r_invoice_header.interface_operation_id;
+                    r_cll_f189_operation(g_index).interface_invoice_id   := r_invoice_header.interface_invoice_id;
+                 END IF;
+              END IF; --IF g_aprova = 'Y' and l_requisition_type = 'NA' THEN
+              -- 31001507 - End
             END IF;
             --- 29908009 END
             -- Atualizando a nota para processado na Open
@@ -2908,27 +2929,46 @@ create or replace PACKAGE BODY XXFR_F189_OPEN_PROCESSES_PUB AS
               );
             END IF; --IF p_open_source = 'RI' THEN
             l_debug := $$PLSQL_LINE; print_log('    Err:'||check_erro);  --219;
-            --
-            -- 27579747 - Start
-            BEGIN
-              SELECT 
-                NVL(rfo.debit_free,'N')
-                ,rfo.tpa_control_type
-              INTO 
-                l_debit_free
-                ,l_tpa_control_type
-              FROM 
-                cll_f189_invoice_lines_iface ril
-                , cll_f189_fiscal_operations rfo
-              WHERE 1=1
-                AND ril.interface_invoice_id = r_invoice_header.interface_invoice_id
-                AND (ril.cfo_code = rfo.cfo_code OR ril.cfo_id = rfo.cfo_id)
-                AND ROWNUM = 1;
-            EXCEPTION WHEN OTHERS THEN
-              l_debug := $$PLSQL_LINE; print_log('    Err:'||check_erro);  --219;
-              l_debit_free       := NULL;
-              l_tpa_control_type := NULL;
-            END;
+            -- 31001507 - Start
+            IF l_return_customer_flag = 'F' THEN    
+              BEGIN
+                SELECT NVL(rfo.debit_free,'N')
+                , rfo.tpa_control_type
+                INTO l_debit_free
+                , l_tpa_control_type
+                FROM   cll_f189_fiscal_operations rfo
+                WHERE  rfo.cfo_id = l_cfop_return_id;
+              EXCEPTION
+                WHEN OTHERS THEN
+                  l_debit_free       := 'N';
+                  l_tpa_control_type := NULL;
+              END;
+            ELSE
+            -- 31001507 - End
+              --
+              -- 27579747 - Start
+              BEGIN
+                SELECT 
+                  NVL(rfo.debit_free,'N')
+                  ,rfo.tpa_control_type
+                INTO 
+                  l_debit_free
+                  ,l_tpa_control_type
+                FROM 
+                  cll_f189_invoice_lines_iface ril
+                  , cll_f189_fiscal_operations rfo
+                WHERE 1=1
+                  AND ril.interface_invoice_id = r_invoice_header.interface_invoice_id
+                  AND (ril.cfo_code = rfo.cfo_code OR ril.cfo_id = rfo.cfo_id)
+                  AND ROWNUM = 1;
+              EXCEPTION WHEN OTHERS THEN
+                l_debug := $$PLSQL_LINE; print_log('    Err:'||check_erro);  --219;
+                --l_debit_free       := NULL; -- 31001507
+                l_debit_free       := 'N';  -- 31001507
+                l_tpa_control_type := NULL;
+              END;
+            END IF; -- 31001507
+
             print_log('g_aprova          :'||g_aprova);
             print_log('l_requisition_type:'||l_requisition_type);
             IF g_aprova = 'Y' AND l_requisition_type <> 'NA' THEN
@@ -3029,8 +3069,24 @@ create or replace PACKAGE BODY XXFR_F189_OPEN_PROCESSES_PUB AS
             ,p_int_invoice_id  => r_cll_f189_operation(g_index).interface_invoice_id 
           );
           --
-        END IF; -- 27579747
+          --
+          -- BUG 30789077 - Start
+          --
+          IF NVL(l_tpa_control_type, 'x') = 'DEVOLUTION_OF' THEN
             --
+            cll_f189_interface_pkg.ar_tpa (r_cll_f189_operation(g_index).new_operation_id, r_cll_f189_operation(g_index).organization_id) ;
+            -- 31001507 - Start
+          ELSE
+            --
+            CLL_F189_INTERFACE_PKG.AR (r_cll_f189_operation(g_index).new_operation_id, r_cll_f189_operation(g_index).organization_id);
+            --
+            -- 31001507 - End
+          END IF ;
+          --
+          -- BUG 30789077 - End
+          --
+        END IF; -- 27579747
+        --
         --END IF; -- ER 14124731 -- 28806961_27831745
       END IF;
     END LOOP;
@@ -4334,6 +4390,7 @@ create or replace PACKAGE BODY XXFR_F189_OPEN_PROCESSES_PUB AS
                  ,p_invalid_value          => p_entity_id
                  );
     ELSE
+      print_log('  Invoice_Type_Id:'||p_invoice_type_id);
         l_validation_rule_serie := CLL_F189_VALID_RULES_PKG.GET_GENERIC_VALIDATION_RULES (p_lookup_type     => 'CLL_F189_INVOICE_SERIES'
                                                                                          ,p_code            => p_series
                                                                                          ,p_invoice_type_id => p_invoice_type_id
@@ -15975,6 +16032,8 @@ create or replace PACKAGE BODY XXFR_F189_OPEN_PROCESSES_PUB AS
         IF l_holds > 0 THEN
           g_process_flag := 3;
         END IF;
+      EXCEPTION WHEN OTHERS then
+        print_log('*****  CLL_F189_HOLDS_CUSTOM_PKG.FUNC_HOLDS_CUSTOM');
       END;
     END IF;
   END add_error;

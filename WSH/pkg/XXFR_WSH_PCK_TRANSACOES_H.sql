@@ -99,4 +99,9 @@ create or replace package xxfr_wsh_pck_transacoes as
     x_retorno            out varchar2
   );
   
+  procedure atualiza_delivey_detail(
+    p_changed_attributes  in WSH_DELIVERY_DETAILS_PUB.ChangedAttributeTabType,
+    x_retorno             out varchar2
+  );
+  
 end xxfr_wsh_pck_transacoes;
