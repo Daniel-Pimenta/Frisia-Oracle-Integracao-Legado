@@ -28,6 +28,8 @@
 *.html
 *.doc
 *.docx
+*.xls
+*.xlsx
 *.pdf
 *.rtf
 *.odt

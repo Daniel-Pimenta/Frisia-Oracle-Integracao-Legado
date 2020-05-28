@@ -24,7 +24,7 @@ create or replace package body XXFR_PCK_SINCRONIZAR_NOTA is
   function mount(
     p_sistema_origem varchar2,
     p_publica        rec_publica
-  ) return pljson is
+  ) return xxfr_pljson is
     --
     l_escopo                      varchar2(500) := g_scope_prefix || 'mount';
     g_user_name                   varchar2(50);
@@ -42,7 +42,7 @@ create or replace package body XXFR_PCK_SINCRONIZAR_NOTA is
     l_obj_processar := xxfr_pljson();
     l_obj_processar.put('idTransacao', '-1');
     l_obj_processar.put('versaoPayload', g_versao_payload);
-    l_obj_processar.put('sistemaOrigem', 'SIF.VEI');
+    l_obj_processar.put('sistemaOrigem', 'EBS');
     l_obj_processar.put('codigoServico', g_cd_servico);
     l_obj_processar.put('usuario', g_user_name);
     
@@ -72,7 +72,7 @@ create or replace package body XXFR_PCK_SINCRONIZAR_NOTA is
     --
     l_lis_itens := xxfr_pljson_list();    
     for idx_lin in p_nota_fiscal."itens".first .. p_nota_fiscal."itens".last loop
-      l_obj_item := pljson(); 
+      l_obj_item := xxfr_pljson(); 
       print_log('    Linha:'||p_nota_fiscal."itens"(idx_lin)."numeroLinha");
       l_obj_item.put('numeroLinha',   p_nota_fiscal."itens"(idx_lin)."numeroLinha");
       l_obj_item.put('codigoItem',    p_nota_fiscal."itens"(idx_lin)."codigoItem");
@@ -126,7 +126,7 @@ create or replace package body XXFR_PCK_SINCRONIZAR_NOTA is
     p_ie_status               out NOCOPY varchar2
   ) is
   
-    l_publica     pljson;
+    l_publica     xxfr_pljson;
     l_escopo      varchar2(200) := g_scope_prefix || 'registra';
     
   begin

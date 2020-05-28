@@ -4,7 +4,7 @@ DECLARE
   p_seq_det NUMBER :=-175;
   p_seq_cab NUMBER :=-97;
   OK        BOOLEAN;
-  isNew     boolean := false;
+  isNew     boolean := true;
 
   STR_JSON VARCHAR2(32000) := ('
 {
@@ -14,7 +14,7 @@ DECLARE
   "codigoServico" : "CONFIRMAR_ENTREGA",
   "usuario" : null,
   "confirmarEntrega" : {
-    "nomePercurso" : "226029"
+    "nomePercurso" : "SOL.813893"
   }
 } 
 ');

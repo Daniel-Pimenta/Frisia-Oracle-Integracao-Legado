@@ -21,7 +21,14 @@ select distinct
   oe.name                               as "tipoReferenciaOrigem",
   oe.orig_sys_document_ref              as "codigoReferenciaOrigem",
   oe.orig_sys_line_ref                  as "codigoReferenciaOrigemLinha",
-  '12345' as "areaAtendida",
+  (
+    select osl.qt_area
+    from 
+      xxfr_wms_ordem_separacao_lin osl
+    where 1=1
+      and osl.source_order_line_id   = oe.line_id  
+      and osl.inventory_item_id      = msib.inventory_item_id
+  ) as "areaAtendida",
   null   as "observacao"
 from 
   ra_customer_trx_all            rcta,

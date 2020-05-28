@@ -1,6 +1,6 @@
 --DROP VIEW XXFR_WSH_VW_INF_DA_ORDEM_VENDA;
 CREATE OR REPLACE VIEW XXFR_WSH_VW_INF_DA_ORDEM_VENDA AS
-select distinct
+  select distinct
   h.org_id,
   h.header_id         oe_header,
   l.line_id           oe_line,
@@ -16,7 +16,9 @@ select distinct
   ood.organization_id          organization_id,
   ood.organization_code        organization_code,
   h.order_type_id              id_tipo_ordem,
-  ot.name                      tipo_ordem,
+  (select name from oe_transaction_types_tl where 1=1 and LANGUAGE='PTB' and transaction_type_id = h.order_type_id) tipo_ordem,
+  l.line_type_id               id_tipo_linha,
+  (select name from oe_transaction_types_tl where 1=1 and LANGUAGE='PTB' and transaction_type_id = l.line_type_id) tipo_linha,
   l.flow_status_code,
   wdd.released_status,
   (
@@ -77,7 +79,8 @@ select distinct
   wdd.unit_price                preco_unitario, 
   wdd.currency_code,
   --
-  wnd.GROSS_WEIGHT               qtd_pedido, 
+  wnd.gross_weight               peso_pedido,
+  wdd.weight_uom_code            un_peso_pedido,
   --wdd.seal_code,
   --
   trip.carrier_id,
@@ -118,8 +121,6 @@ select distinct
 from 
   oe_order_headers_all         h,
   oe_order_lines_all           l,
-  
-  oe_transaction_types_tl      ot,
   --
   org_organization_definitions ood,
   --
@@ -182,14 +183,12 @@ from
   ) trip
 where 1=1
   and h.header_id            = l.header_id
-  and h.order_type_id        = ot.transaction_type_id 
   --
   and h.header_id            = wdd.source_header_id (+)
   and l.line_id              = wdd.source_line_id (+)
   --
   and ood.operating_unit     = h.org_id
-  and ood.organization_code  = substr(ot.name,1,3)
-  and ood.organization_id    = wdd.organization_id (+)
+  and ood.organization_id    = wdd.organization_id --(+)
   --
   and wdd.delivery_detail_id = wnd.delivery_detail_id (+)
   and wnd.delivery_id        = trip.delivery_id (+)
@@ -211,29 +210,47 @@ where 1=1
 ;
 /
 
-22L_371855
-
 select *
+--select NUMERO_ORDEM, LINHA, ENVIO, TIPO_ORDEM, LINE_RELEASED_STATUS_NAME, CLIENTE, NOME_ENTREGA, ORDERED_ITEM, ITEM_DESCRIPTION, QTD_ORIGINAL, UNIDADE_ORIGINAL, NOME_PERCURSO, CONTEUDO_FIRME, PERCURSO_FIRME
 from XXFR_WSH_VW_INF_DA_ORDEM_VENDA
 WHERE 1=1
-  AND RELEASED_STATUS <> 'C'
-  AND flow_status_code NOT IN ('CANCELLED','CLOSED','INVOICE_INCOMPLETE','SHIPPED')
+  --AND RELEASED_STATUS <> 'C'
+  --AND flow_status_code NOT IN ('CANCELLED','CLOSED','INVOICE_INCOMPLETE','SHIPPED')
   --and MOVE_ORDER_LINE_ID is not null
   --and STATUS_PERCURSO is null
   --and PICK_STATUS_NAME like '%Back%'
   --and delivery_id  in (198024, 198025)
-  --and trip_id =  236026 -- 011_25697
+  and trip_id = 82062
   --and OE_HEADER = 229099
-  --AND delivery_detail_id  IN (289075)
-  --and nome_percurso = 'SOL.813868'         
+  --AND delivery_detail_id  IN (73066)
+  --and nome_percurso = 'SOL.814154.6' 
   --and ORDERED_ITEM    = '90170'  
   --and ORGANIZATION_CODE = substr('011_VENDA_CONTRA_ORDEM',1,3)
-  and numero_ordem      in ('51')
-  and tipo_ordem        = '124_VENDA'
-  --and linha             = '1'
+  --   Linhas:{ OE :5 1. / 191_VENDA - 
+  --and numero_ordem      in ('164')
+  --and tipo_ordem        = '22L_VENDA_ORDEM_INDUSTRIAL'
+  --and linha             = '3'
   --and envio             = '1'
   --and SPLIT_FROM_DELIVERY_DETAIL_ID is null
 ORDER BY TIPO_ORDEM, NUMERO_ORDEM, LINHA, ENVIO, DELIVERY_DETAIL_ID, RELEASED_STATUS
+;
+
+
+Calling program unit OE_MSG_PUB.GET
+ORA-20002: 3825: Erro '-1427 - ORA-01427: a subconsulta de uma única linha retorna mais de uma linha' encontrado na execução da função da Regra 'XXFR_OM_PCK_EVENTOS_COMERCIAIS.alteracao_status' do evento 'oracle.apps.ont.oip.statuschange.update' com a cha
+Error msg: ORA-20002: 3825: Erro '-1427 - ORA-01427: a subconsulta de uma única 
+linha retorna mais de uma linha' encontrado na execução da função da Regra 'XXFR
+_OM_PCK_EVENTOS_COMERCIAIS.alteracao_status' do evento 'oracle.apps.ont.oip.sta
+          ERROR
+
+
+select * from XXFR_WSH_VW_INT_PROC_ENTREGA 
+where 1=1
+  --and nu_ordem_venda = '37'
+  --AND CD_TIPO_ORDEM_VENDA = '011_VENDA'
+  --and ID_INTEGRACAO_cabecalho=-90
+  and ID_INTEGRACAO_detalhe=6908
+  --and nm_percurso = 'SOL.790020'
 ;
 
 select distinct RELEASED_STATUS, PICK_STATUS_NAME from  XXFR_WSH_VW_INF_DA_ORDEM_VENDA;
@@ -245,94 +262,44 @@ R	Pronto para Liberação
 B	Com Backorder
 D	Cancelado
 
-select * from wsh_deliverables_v where DELIVERY_DETAIL_ID=256074;
-
-select *
-from wsh_delivery_details where DELIVERY_DETAIL_ID = 43014;
-
-update wsh_delivery_details 
-  set 
-    attribute_category = 105,
-    attribute1         = '40'
+select * from wsh_delivery_details where freight_terms_code is not null;
+select * from wsh_new_deliveries where DELIVERY_ID=31009;
+select * from wsh_trips where TRIP_ID = 49032;
+  
+select distinct 
+  wt.trip_id, wt.name, wt.status_code
+  ,a.delivery_id
+  ,ov.flow_status_code, ov.conteudo_firme, ov.percurso_firme
+from 
+  wsh_trips wt,
+  xxfr_wsh_vw_inf_da_ordem_venda ov,
+  (
+    select distinct wts.trip_id, wdl.delivery_id
+    from 
+      wsh_trip_stops    wts,
+      wsh_delivery_legs wdl
+    where 
+      wts.stop_id = wdl.pick_up_stop_id
+      or
+      wts.stop_id = wdl.drop_off_stop_id
+  ) a
 where 1=1
-  and DELIVERY_DETAIL_ID = 44009
+  and wt.trip_id = a.trip_id (+)
+  and wt.trip_id = ov.trip_id (+)
+  and wt.name    ='22L_371854'
 ;
 
 
-select * from wsh_new_deliveries where DELIVERY_ID=0;
-select * from wsh_trips where name = '22L_371855';
-  
-  select distinct 
-    wt.trip_id, wt.name, wt.status_code
-    ,a.delivery_id
-    ,ov.flow_status_code, ov.conteudo_firme, ov.percurso_firme
-  from 
-    wsh_trips wt,
-    xxfr_wsh_vw_inf_da_ordem_venda ov,
-    (
-      select distinct wts.trip_id, wdl.delivery_id
-      from 
-        wsh_trip_stops    wts,
-        wsh_delivery_legs wdl
-      where 
-        wts.stop_id = wdl.pick_up_stop_id
-        or
-        wts.stop_id = wdl.drop_off_stop_id
-    ) a
-  where 1=1
-    and wt.trip_id = a.trip_id (+)
-    and wt.trip_id = ov.trip_id (+)
-    and wt.name    ='22L_371854'
-;
-
-
-declare
-  v_retorno varchar2(100);
-  v_line_id   number := 69068;
-  v_header_id number := 81088;
-  v_txt    varchar2(1000);
-begin
-  select 'Preço Unitario: '||unit_selling_price||' Calcular Preço:'||calculate_price_flag
-  into v_txt
-  from oe_order_lines_all
-  where line_id = v_line_id;
-  
-  dbms_output.put_line(v_txt);     
-  
-  dbms_output.put_line('Reprecificando...');     
-  xxfr_pck_variaveis_ambiente.inicializar('ONT','UO_FRISIA','MARCEL.FABRIS');
-  xxfr_om_pck_transacoes.reprecificar(
-    p_id_ordem_venda            => v_header_id,
-    p_id_linha_ordem_venda      => v_line_id,
-    p_atualizar_preco_congelado => 'S',
-    p_retorno                   => v_retorno
-  );
-   dbms_output.put_line(v_retorno);    
+select * 
+from oe_order_holds_all 
+where 1=1
+  and header_id in (96146,96149) 
+  and released_flag  = 'N'
     
-  select 'Preço Unitario: '||unit_selling_price||' Calcular Preço:'||calculate_price_flag
-  into v_txt
-  from oe_order_lines_all
-  where line_id = v_line_id;
-  
-  dbms_output.put_line(v_txt);         
-  commit;
-end;
-/
-
-
-
-
-
-
-mtl_txn_request_lines mtrl
-where 1=1
-  and wdd.move_order_line_id = mtrl.line_id
-  and wdd.move_order_line_id in ('224044','224045','224043')
-;
-
+    
 select l.*
 from 
-  OE_ORDER_HEADERS_all h,
+  --OE_ORDER_HEADERS_all h,
   OE_ORDER_LINES_all   l
 where 1=1
   --and h.ORDER_NUMBER = '129'

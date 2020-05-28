@@ -4,15 +4,16 @@ declare
   x_retorno         varchar2(3000);
 begin 
   XXFR_AR_PCK_GERA_RI.main(
-    p_customer_trx_id   => 20010, 
+    p_customer_trx_id   => 51143, 
     p_processar         => true, --  <-- Indica se processa a Interface ou não
-    p_sequencial        => '003',
+    p_sequencial        => '',
     x_retorno           => x_retorno
   );
   dbms_output.put_line(x_retorno);
 end ;
 /
 
+/*
 select * from xxfr_ri_vw_inf_da_nfentrada where TRX_NUMBER = '16';
 
 
@@ -56,7 +57,10 @@ WHERE 1=1
 
 
 
-select * from cll_f189_invoices_interface;
+select * from cll_f189_invoices_interface
+order by creation_date desc  
+;
+
 select * from q_pc_transferencia_ar_ri_v;
 
 
@@ -87,8 +91,7 @@ end;
 select ds_escopo, nvl(ds_log,' ') log
 from xxfr_logger_log
 where 1=1
---and upper(ds_escopo) like 'CONFIRMAR_ENTREGA_10422%'
-and upper(ds_escopo) = 'XXFR_RI_PCK_INTEGRACAO_AR_261053'
+and upper(ds_escopo) like 'XXFR_RI_PCK_INTEGRACAO_AR%'
 and DT_CRIACAO >= sysdate -1
 order by 
   --DT_CRIACAO desc
@@ -105,5 +108,5 @@ CUSTOMER_TRX_ID=242033;
 
 select PO_HEADER_ID, PO_LINE_ID from po_line_locations_all where LINE_LOCATION_ID=225098;
 
-
 */
+

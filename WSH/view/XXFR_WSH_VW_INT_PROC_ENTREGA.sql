@@ -53,12 +53,15 @@ from
    xxfr_integracao_cabecalho c
   ,xxfr_integracao_detalhe   d
   ,(
-    select d1.id_integracao_cabecalho as id_cab, distrib.* 
+    select 
+      d1.id_integracao_cabecalho as id_cab, 
+      distrib.* 
     from 
       xxfr_integracao_detalhe d1
       ,json_table(
         d1.ds_dados_requisicao, 
         '$.processarEntrega.percurso.distribuicao[*]' columns (
+          idx_distribuicao                            FOR ORDINALITY,
           nm_distribuicao               VARCHAR2(20)  PATH '$.nomeDistribuicao',
           cd_cliente                    VARCHAR2(20)  PATH '$.codigoCliente',
           cd_ship_to                    VARCHAR2(20)  PATH '$.codigoLocalEntregaCliente',
@@ -67,7 +70,8 @@ from
           cd_controle_entrega_cliente   VARCHAR2(50)  PATH '$.codigoControleEntregaCliente',
           cd_lacres                     VARCHAR2(400) PATH '$.codigosLacres',
           ds_dados_adicionais           VARCHAR2(400) PATH '$.dadosAdicionais',      
-          nested path '$.linhasEntrega[*]' columns (      
+          nested path '$.linhasEntrega[*]' columns (  
+            idx_linha                                   FOR ORDINALITY,
             cd_tipo_ordem_venda           VARCHAR2(50)  PATH '$.codigoTipoOrdemVenda',
             nu_ordem_venda                VARCHAR2(10)  PATH '$.numeroOrdemVenda',
             nu_linha_ordem_venda          VARCHAR2(10)  PATH '$.numeroLinhaOrdemVenda',
@@ -96,10 +100,10 @@ where 1=1
 /*
 select * from XXFR_WSH_VW_INT_PROC_ENTREGA 
 where 1=1
-  and nu_ordem_venda = '51'
-  AND CD_TIPO_ORDEM_VENDA = '124_VENDA'
+  --and nu_ordem_venda = '51'
+  --AND CD_TIPO_ORDEM_VENDA = '124_VENDA'
   --and ID_INTEGRACAO_cabecalho=-90
-  --and ID_INTEGRACAO_detalhe=-90
+  and ID_INTEGRACAO_detalhe=1879
   --and nm_percurso = 'SOL.790020'
 ;
 

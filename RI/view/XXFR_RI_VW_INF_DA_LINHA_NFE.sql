@@ -1,4 +1,4 @@
-DROP VIEW XXFR_RI_VW_INF_DA_LINHA_NFE;
+--DROP VIEW XXFR_RI_VW_INF_DA_LINHA_NFE;
 CREATE OR REPLACE VIEW XXFR_RI_VW_INF_DA_LINHA_NFE as
   select 
     rctl.customer_trx_id,
@@ -11,6 +11,7 @@ CREATE OR REPLACE VIEW XXFR_RI_VW_INF_DA_LINHA_NFE as
     rctl.unit_selling_price, 
     rctl.line_type, 
     rctl.interface_line_context,
+    rctl.INTERFACE_LINE_ATTRIBUTE3 id_recebimento,
     --
     po.segment1,
     po.po_header_id,
@@ -119,7 +120,7 @@ CREATE OR REPLACE VIEW XXFR_RI_VW_INF_DA_LINHA_NFE as
 ;
 /
 
-select * from XXFR_RI_VW_INF_DA_LINHA_NFE where customer_trx_id = '263045';
+select SEGMENT1, PO_HEADER_ID from XXFR_RI_VW_INF_DA_LINHA_NFE where customer_trx_id = 51137;
 
 
 select ph.segment1, pll.PO_HEADER_ID, pll.PO_LINE_ID, pll.LINE_LOCATION_ID 
@@ -130,4 +131,7 @@ where 1=1
   and pll.PO_HEADER_ID     = ph.PO_HEADER_ID
   and pll.LINE_LOCATION_ID = 232092;
 
-select * from ra_customer_trx_lines_all where customer_trx_id = '251031';
+select * from ra_customer_trx_lines_all where customer_trx_id = 31013;
+
+
+INTERFACE_LINE_ATTRIBUTE3

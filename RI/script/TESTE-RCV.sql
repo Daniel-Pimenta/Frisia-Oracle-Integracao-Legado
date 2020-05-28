@@ -1,35 +1,3 @@
-set serveroutput on
-declare
-  x_retorno             varchar2(3000);
-  x_cod_retorno         number;
-    l_organization_id   number := 123;
-    l_operation_id      number := 236;
-  
-begin
-
-  dbms_output.put_line('Chamando CLL_F189_WMS_PKG.INSERT_RCV_TABLES...');
-  cll_f189_wms_pkg.insert_rcv_tables (
-    p_organization_id   => l_organization_id,
-    p_operation_id      => l_operation_id,
-    errbuf              => x_retorno,
-    retcode             => x_cod_retorno
-  );
-  dbms_output.put_line('Retorno    :'||x_retorno);
-  dbms_output.put_line('Cod Retorno:'||x_cod_retorno);
-  dbms_output.put_line('');
-
-  dbms_output.put_line('Chamando CLL_F189_WMS_PKG.APPROVE_RECEIPT...');
-  cll_f189_wms_pkg.approve_receipt (
-    p_organization_id   => l_organization_id,
-    p_operation_id      => l_operation_id,
-    errbuf              => x_retorno,
-    retcode             => x_cod_retorno
-  );
-  dbms_output.put_line('Retorno    :'||x_retorno);
-  dbms_output.put_line('Cod Retorno:'||x_cod_retorno);
-  COMMIT;
-end;
-/
 
 select 
   ri.operation_id,
@@ -49,15 +17,28 @@ where 1=1
     from rcv_transactions rcv
     where 1=1
       and rcv.shipment_header_id = ril.shipment_header_id
-      --and rcv.transaction_type = 'DELIVER'
+      and rcv.transaction_type = 'DELIVER'
   )
 order by ri.creation_date desc
 ;
 
-
+select * from rcv_transactions where shipment_header_id = 50009;
 select * from rcv_headers_interface;
 select * from rcv_transactions_interface;
 select * from rcv_shipment_headers order by creation_date desc;
 select * from rcv_shipment_lines order by creation_date desc;
-rcv_transactions         
-mtl_material_transactions
+
+
+
+            l_locator_id    := null;            
+            l_subinv_code   := 'GER';
+            --l_locator_code  := 'TRT.00.000.00';
+            --l_lot_number    := 'L_TESTE';
+            l_exp_date      := sysdate + 200;
+select *
+from mtl_item_locations
+where 1=1
+  and INVENTORY_ITEM_ID is not null;
+  and organization_id       = 123
+  and concatenated_segments = l_locator_code
+;

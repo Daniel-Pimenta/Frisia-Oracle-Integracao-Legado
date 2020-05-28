@@ -2,73 +2,55 @@ SET SERVEROUTPUT ON
 DECLARE
 
 --8288	57590
+  p_seq_cab NUMBER := -293;
+  p_seq_det NUMBER := -315;
 
-  p_seq_det NUMBER := 8288;
-  p_seq_cab NUMBER := 57590;
   isNew     boolean := false;
   OK        BOOLEAN;
 
   STR_JSON VARCHAR2(32000) := ('
 {
-  "idTransacao" : -1,
-  "versaoPayload" : 1.0,
-  "sistemaOrigem" : "SIF.DAT",
+  "idTransacao" : "-1",
+  "versaoPayload" : "1.0",
+  "sistemaOrigem" : "SIF.TRI.ROMANEIO",
   "codigoServico" : "PROCESSAR_ENTREGA",
-  "usuario" : "RENATO.SAMPAIO",
+  "usuario" : "ALEX.ROTH",
   "processarEntrega" : {
     "codigoUnidadeOperacional" : "UO_FRISIA",
-    "dividirLinha" : "NAO",
+    "dividirLinha" : "SIM",
     "conteudoFirme" : "SIM",
     "liberarSeparacao" : "SIM",
-    "percurso" : [ {
-      "operacao" : "INCLUIR",
-      "nomePercurso" : "S200403003X",
-      "codigoReferenciaOrigem" : "790078",
-      "tipoReferenciaOrigem" : "SOLICITACAO_RETIRADA",
-      "ajustaDistribuicao" : "NAO",
-      "lacresVeiculo" : null,
-      "pesoTara" : 0,
-      "pesoBruto" : 0,
-      "codigoCarregamento" : "S200403003",
-      "tipoFrete" : "FOB",
+    "percurso" : [{
+      "operacao" : "ALTERAR",
+      "idPercurso" : 49032,
+      "nomePercurso" : "49032",
+      "codigoReferenciaOrigem" : "113135",
+      "tipoReferenciaOrigem" : "TRI_ROMANEIO",
+      "ajustaDistribuicao" : "SIM",
+      "lacresVeiculo" : " LACRE(s) BAG: 9,10",
+      "pesoTara" : 10000,
+      "pesoBruto" : 10500,
+      "pesoEmbalagemComplementar" : 5,
+      "codigoCarregamento" : null,
+      "tipoFrete" : null,
       "codigoEnderecoEstoqueGranel" : null,
-      "codigoMetodoEntrega" : null,
-      "tipoLiberacao" : "AUTOPICK",
+      "codigoMetodoEntrega" : "000001_7610744000_L_LTL",
+      "tipoLiberacao" : "NORMAL",
       "transportador" : {
-        "codigoTransportador" : "05220925000323",
-        "nomeMotorista" : "ALISSON MIGUEL ORCHANHESKI",
-        "cpfMotorista" : "4499632927"
+        "codigoTransportador" : "76107440000104",
+        "nomeMotorista" : "JO"
       },
       "veiculo" : {
-        "codigoRegistroANTT" : null,
+        "codigoRegistroANTT" : "ABC12345678",
         "codigoRegistroANTTCavalo" : null,
-        "codigoPlaca1" : "BAQ8027",
-        "codigoPlaca2" : "BAQ8028",
+        "codigoPlaca1" : "MOI0100",
+        "codigoPlaca2" : null,
         "codigoPlaca3" : null,
         "codigoPlaca4" : null,
         "codigoPlaca5" : null
       },
-      "distribuicao" : [ {
-        "nomeDistribuicao" : null,
-        "codigoCliente" : "931",
-        "codigoLocalEntregaCliente" : "931.7324",
-        "valorFrete" : 0,
-        "codigoMoeda" : "BRL",
-        "codigoControleEntregaCliente" : null,
-        "codigosLacres" : null,
-        "dadosAdicionais" : null,
-        "linhasEntrega" : [ {
-          "codigoTipoOrdemVenda" : "365_VENDA",
-          "numeroOrdemVenda" : "67",
-          "numeroLinhaOrdemVenda" : "1",
-          "numeroEnvioLinhaOrdemVenda" : "1",
-          "quantidade" : "25000",
-          "codigoUnidadeMedida" : "KG",
-          "codigoEnderecoEstoque" : null,
-          "observacao" : null
-        } ]
-      } ]
-    } ]
+      "distribuicao" : []
+    }]
   }
 }
 ');

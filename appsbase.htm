@@ -1,0 +1,886 @@
+<!-- dbdrv: none -->
+<HTML LANG="en">
+<!-- $Header: appsbase.htm 120.10.12020000.5 2014/05/10 04:28:11 mmanku ship $ -->
+<!--          appsweb.cfg  %appswebVersion% -->
+<!--
+# +======================================================================+
+# |    Copyright (c) 2005, 2014 Oracle and/or its affiliates.            | 
+# |                         All rights reserved.                         | 
+# |                           Version 12.0.0                             | 
+# +======================================================================+ 
+# $AutoConfig$
+-->
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=%encoding%">
+<TITLE>%HTMLpageTitle% %envName%</TITLE>
+<SCRIPT SRC=%HTMLobjectTagSrc%></SCRIPT>
+</HEAD>
+<BODY %HTMLbodyAttrs%>
+%HTMLpreApplet%
+%HTMLpreApplet1%
+%HTMLpreApplet2%
+%HTMLpreApplet3%
+
+<script language="JavaScript">
+   jsver="1.0";
+</script>
+<script language="JavaScript1.1">
+   jsver="1.1";
+</script>
+<script language="JavaScript1.2">
+   jsver="1.2";
+</script>
+<script language="JavaScript1.3">
+   jsver="1.3";
+</script>
+
+<script language="JavaScript">
+<!-- // Hide
+
+// This is the default HTML file for starting an applet using
+// Oracle JInitiator as the JVM for Windows clients. Both Forms and
+// non-Forms client applets can be started with this HTML file.
+// The basejiniHTML parameter in the Forms web CGI configuration
+// file (appsweb.cfg) points to this file.
+
+// IMPORTANT NOTE: default values for all the variables which
+// appear below (delimited by the percent character) are defined
+// in the appsweb.cfg file.  DO NOT MODIFY THIS FILE unless
+// requested so by Oracle.
+
+// ---------------------- Variable Definition ---------------------
+// Browser Identification
+// ----------------------
+// Browser version checking should be done by the cabo_utilities.js
+// library. In case that is not available, here is alternate browser
+// version checking code.
+
+     var _info  = navigator.userAgent.toLowerCase();
+     isNS4 = (document.layers)?true:false;
+     isG   = (navigator.product == 'Gecko' && window.find)?true:false;
+     isS   = (document.childNodes && !document.getElementById && !navigator.taintEnabled && ! navigator.accentColorName)?true:false;
+     isIE = (isG || isNS4)?false:true;
+
+//  "anyNav" really means an NS4 or higher browser.
+//     var anyNav = (  (_info.indexOf('mozilla')!=-1)
+//		&& (_info.indexOf('spoofer')==-1)
+//		&& (_info.indexOf('compatible') == -1)
+//		&& (_info.indexOf('opera')==-1)
+//		&& (_info.indexOf('webtv')==-1)
+//		&& (parseInt(navigator.appVersion) >= 4));
+
+//   "anyIE" really means an IE4 or higher browser.
+//     var anyIE  =  (  (_info.indexOf("msie") != -1)
+//		&& (parseInt(navigator.appVersion) >= 4));
+
+//   Generic browser version check
+//     var UA = navigator.userAgent;
+//     var ua = navigator.userAgent.toLowerCase();
+//     var ver = parseFloat(navigator.appVersion);
+//     var str = UA.substring(UA.indexOf('(') + 1, UA.indexOf(')')).split('; ');
+//     if (ua.indexOf('msie') != -1) {
+//       ver = parseFloat(str[1].substring(5, str[1].length));
+//     }
+//     else if ((start = ua.indexOf("netscape6")) > 0) {
+//       ver = ua.substring(start+10, ua.length);
+//     }
+//     if (parseInt(ver) == parseFloat(ver)) { ver = ver + ".0"; }
+
+
+// Parameters for MSIE 6.0/NSCP 6.2/Mozilla
+//   var msie60  = (anyIE & (ver.toString().indexOf("6.0") != -1));
+//   var nscp62  = (anyNav & (ver.toString().indexOf("6.2") != -1));
+//   var mozilla = (ua.indexOf("gecko") > 0);
+
+
+// Client Platform Identification
+// ------------------------------
+   var is_mac        = (_info.indexOf("mac")!=-1);
+   var is_sun        = (_info.indexOf("sunos")!=-1);
+   var is_linux      = (_info.indexOf("linux")!=-1);
+   var is_windows    = (_info.indexOf("windows")!=-1);
+
+// Mac & Sun clients are not able to autodetect window and font
+// sizing for clientDPI. Defaults are 92 for Sun, and 96 for iMac.
+// Uncomment the sections for appletviewer debug manually.
+
+// Defining JavaScript Variables
+// -----------------------------
+// Note: if this file is used as a static html file, you will
+// have to manually synchronize the JavaScript variables with the
+// values used in the applet definition at the bottom of this file.
+// We do not recommend you attempt that.
+//
+// The Javascript is written to properly handle single quotes within
+// arguments, however, double quotes cannot be passed in as arguments.
+// The exceptions are the HTML* parameters.
+//
+// Oracle Applications default Parameters
+// --------------------------------------
+   var xserverApp    = "%serverApp%"
+   var xregistryPath = "%registryPath%"
+   var xmodule       = "%prependEnv%%prodTop%%appendEnv%/forms/%lang%/%formName%"
+   var xfndnam       = "%fndnam%"
+// Components of Server Arguments
+   var xform_params  = "%form_params%"
+   var xmore_form_params  = "%more_form_params%"
+   var xenv          = "%env%"
+// Java client code information
+   var xcodebase     = "%codebase%"
+   var xcode         = "%code%"
+// JAR files
+   var xjarloading   = "%jarloading%"
+   var xujarfile     = "%userjarfile%"
+   if (xujarfile == 'none' || xujarfile == '' ){
+        xujarfile = '' ;
+   }else{
+        xujarfile = ',' + xujarfile ;
+   }
+   var xajarfile     = "%archive%"
+   var xbjarfile     = "%archive1%"
+   var xcjarfile     = "%archive2%"
+   var xdjarfile     = "%archive3%"
+   var xarchive = xajarfile +xbjarfile+ xujarfile + xcjarfile + xdjarfile ;
+   var xnonformsarchive = xajarfile +  xujarfile;
+
+   var xmacbjarfile     = "%macarchive%"
+   var xmaccjarfile     = "%macarchive2%"
+   var xmacdjarfile     = "%macarchive3%"
+   var xmacarchive = xmacbjarfile + xmaccjarfile + xmacdjarfile + xujarfile ;
+   var xcorejarfile     = "%corejarfile%"
+   var xmacodl          = "%macodl%"
+   var xsunodl          = "%sunodl%"
+
+// Installation-Specific Parameters
+// --------------------------------
+// Forms Server information: name, port, domain, communication
+   var xsport          = "%serverPort%"
+   var xsname          = "%serverName%"
+   var xsurl           = "%serverURL%"
+   var xdname          = "%domainName%"
+   var xconnectMode    = "%connectMode%"
+   var xnetworkRetries = "%networkRetries%"
+   var xdisableValidateClipboard = "%disableValidateClipboard%"
+   if (jsver >=1.2){
+   var match           = /\./
+   //Check for  servername already containing domainname
+   var result          = match.test(xsname)
+   }
+   else{
+   var result          = false
+   }
+
+// JInitiator Parameters
+// ---------------------
+   var xjitype       = "%jinit_mimetype%"
+   var xjiclsid      = "%jinit_classid%"
+   var xjiurl        = "%jinit_url%"
+   var xjipage       = "%jinit_download_page%"
+   var xjiname       = "%jinit_name%"
+   var xjivername    = "%jinit_ver_name%"
+   var xjiappcache   = "%jinit_appletcache%"
+   var xjiprogress   = "%java_showprogress%"
+   var xjiappletname = "%java_appletname%"
+   var xjiprogimage  = "%java_progressimage%"
+   var xjiprogjars   = "%java_progressjars%"
+   var xcacheoption  = "%cache_option%"
+
+// Sun JDK Parameters
+// -------------------
+   var xsunplugintype      = "%sun_plugin_mimetype%"
+   var xsunpluginclsid     = "%sun_plugin_classid%"
+   var xsunpluginversion   = "%sun_plugin_version%"
+   var xsunpluginurl       = "%sun_plugin_url%"
+   var xsunpluginlifecycle = "%sun_plugin_legacy_lifecycle%"
+   var xjdkprogress        = "%jdk_showprogress%"
+   var xjdkprogimage       = "%jdk_progressimage%"
+   var xjdkbmessage        = "%jdk_boxmessage%"
+   var xjdkbbgcolor        = "%jdk_boxbgcolor%"
+   var xjdkbfgcolor        = "%jdk_boxfgcolor%"
+   var xjdkprogcolor       = "%jdk_progresscolor%"
+
+// Generic Plugin Parameters
+// -------------------------
+   var xplugin         = "%plugin%"
+   var xpluginmimetype = ""
+   var xpluginclsid    = ""
+   var xpluginurl      = ""
+
+// UI Parameters
+// -------------
+   var xuiss     = "%splashScreen%"
+   var xuics     = "%colorScheme%"
+   var xuilaf    = "%lookAndFeel%"
+   var xdigsub   = "%digitSubstitution%"
+   var xuidl     = "%darkLook%"
+   var xuirob    = "%readOnlyBackground%"
+   var xuib      = "%background%"
+   var xuidtt    = "%dontTruncateTabs%"
+   var xuiib     = "%imageBase%"
+   var xmacdpi   = "%macDPI%"
+   var xsundpi   = "%sunDPI%"
+   var xlinuxdpi = "%linuxDPI%"
+   var xuisf     = "%separateFrame%"
+   var xuiw      = "%width%"
+   var xuih      = "%height%"
+   var xwindowsdpi = "%windowsDPI%"
+
+// Special Function Parameters
+// ---------------------------
+   var xrecord       = "%record%"
+   var xtracegroup   = "%tracegroup%"
+   var xlog          = "%log%"
+   var xexpose_object_names  = "%expose_object_names%"
+   var xnetStats     = "%netStats%"
+   var xhtmldebug    = "%htmlDebug%"
+   var xORBdL        = "%ORBdisableLocator%"
+   var xheartBeat    = "%heartBeat%"
+   var xnlsLang      = "%nlsLang%"
+   var xBlinkRate    = "%cursorBlinkRate%"
+   var xEndUserMonitoringEnabled = "%EndUserMonitoringEnabled%"
+   var xEndUserMonitoringURL = "%EndUserMonitoringURL%"
+// Currently Not Used:
+   var xHTMLpreApplet	= ' '
+   var xHTMLpostApplet	= ' '
+
+// Additional Forms Parameter Names and Values
+   var xtabstop      = "%tabstop%"
+   var xnp1          = "%nparam1%"
+   var xnp2          = "%nparam2%"
+   var xnp3          = "%nparam3%"
+   var xnp4          = "%nparam4%"
+   var xvp1          = "%vparam1%"
+   var xvp2          = "%vparam2%"
+   var xvp3          = "%vparam3%"
+   var xvp4          = "%vparam4%"
+
+// Non-Forms Parameters
+// --------------------
+   var xappletMode   = "%appletMode%"
+   var xappletName   = "%appletName%"
+   var xservletAgent = "%servletAgent%"
+   var xgp1          = "%gp1%"
+   var xgv1          = "%gv1%"
+   var xgp2          = "%gp2%"
+   var xgv2          = "%gv2%"
+   var xgp3          = "%gp3%"
+   var xgv3          = "%gv3%"
+   var xgp4          = "%gp4%"
+   var xgv4          = "%gv4%"
+   var xgp5          = "%gp5%"
+   var xgv5          = "%gv5%"
+   var xgp6          = "%gp6%"
+   var xgv6          = "%gv6%"
+   var xgp7          = "%gp7%"
+   var xgv7          = "%gv7%"
+   var xgp8          = "%gp8%"
+   var xgv8          = "%gv8%"
+   var xgp9          = "%gp9%"
+   var xgv9          = "%gv9%"
+   var xgp10         = "%gp10%"
+   var xgv10         = "%gv10%"
+   var xgv101        = "%gv101%"
+   var xgv102        = "%gv102%"
+   var xgv103        = "%gv103%"
+   var xgp11         = "%gp11%"
+   var xgv11         = "%gv11%"
+   var xgv111        = "%gv111%"
+   var xgv112        = "%gv112%"
+   var xgv113        = "%gv113%"
+   var xgp12         = "%gp12%"
+   var xgv12         = "%gv12%"
+   var xgv121        = "%gv121%"
+   var xgv122        = "%gv122%"
+   var xgv123        = "%gv123%"
+   var xgp13         = "%gp13%"
+   var xgv13         = "%gv13%"
+   var xgv131        = "%gv131%"
+   var xgv132        = "%gv132%"
+   var xgv133        = "%gv133%"
+   var xgp14         = "%gp14%"
+   var xgv14         = "%gv14%"
+   var xgv141        = "%gv141%"
+   var xgv142        = "%gv142%"
+   var xgv143        = "%gv143%"
+   var xgp15         = "%gp15%"
+   var xgv15         = "%gv15%"
+   var xgv151        = "%gv151%"
+   var xgv152        = "%gv152%"
+   var xgv153        = "%gv153%"
+   var xgp16         = "%gp16%"
+   var xgv16         = "%gv16%"
+   var xgv161        = "%gv161%"
+   var xgv162        = "%gv162%"
+   var xgv163        = "%gv163%"
+
+
+// ---------------------- Code Begining --------------------
+
+// Generic Plugin Support
+if (xplugin == "jdk"){
+    xpluginmimetype = xsunplugintype;
+    xpluginurl      = xsunpluginurl;
+    xpluginclsid    = xsunpluginclsid;
+}
+if (xplugin == "jinit"){
+  xpluginmimetype = xjitype;
+  xpluginurl      = xjiurl;
+  xpluginclsid    = xjiclsid;
+}
+
+if (is_mac == true) {
+var MAChtml = xHTMLpreApplet;
+MAChtml += '<' + 'APPLET codebase="' + xcodebase + '"';
+MAChtml += '         code="' + xcode     + '"';
+if (xappletMode == "nonforms")
+       { MAChtml += '         name="' + xappletName  + '"';
+         MAChtml += '         archive="' + xnonformsarchive   + '"';
+         MAChtml += '         width=' + xuiw +  ' height=' + xuih + '>';}
+else if (xmacodl == "true")
+       { MAChtml += '         archive="' + xarchive + '"';
+         MAChtml += '         cache_option="'  + xcacheoption + '"';
+         MAChtml += '         cache_archive="' + xarchive + '"';
+         MAChtml += '         width=558 height=120' + '>';}
+else   { MAChtml += '         archive="' + xmacarchive + '"';
+         MAChtml += '         width=558 height=120' + '>';}
+MAChtml += '<' + 'PARAM name="clientDPI" value="' + xmacdpi  + '">';
+//
+//Mac does not call the iexplore executable the same way as Windows
+//MAChtml += '<' + 'PARAM name=clientBrowser value=iexplore>';
+//
+MAChtml += '<' + 'PARAM name="separateFrame" value="' + xuisf  + '">';
+if (xappletMode == "nonforms")
+{
+// Non Forms Applet Parameters
+  MAChtml += '<' + 'PARAM name="servlet_agent" value="' + xservletAgent  + '">';
+  if (xgp1 != "") { MAChtml += '<' + 'PARAM name="' + xgp1 + '" value="' + xgv1 + '">'; }
+  if (xgp2 != "") { MAChtml += '<' + 'PARAM name="' + xgp2 + '" value="' + xgv2 + '">'; }
+  if (xgp3 != "") { MAChtml += '<' + 'PARAM name="' + xgp3 + '" value="' + xgv3 + '">'; }
+  if (xgp4 != "") { MAChtml += '<' + 'PARAM name="' + xgp4 + '" value="' + xgv4 + '">'; }
+  if (xgp5 != "") { MAChtml += '<' + 'PARAM name="' + xgp5 + '" value="' + xgv5 + '">'; }
+  if (xgp6 != "") { MAChtml += '<' + 'PARAM name="' + xgp6 + '" value="' + xgv6 + '">'; }
+  if (xgp7 != "") { MAChtml += '<' + 'PARAM name="' + xgp7 + '" value="' + xgv7 + '">'; }
+  if (xgp8 != "") { MAChtml += '<' + 'PARAM name="' + xgp8 + '" value="' + xgv8 + '">'; }
+  if (xgp9 != "") { MAChtml += '<' + 'PARAM name="' + xgp9 + '" value="' + xgv9 + '">'; }
+  if (xgp10 != "") { MAChtml += '<' + 'PARAM name="' + xgp10 + '" value="' + xgv10 + xgv101 + xgv102 + xgv103 + '">'; }
+  if (xgp11 != "") { MAChtml += '<' + 'PARAM name="' + xgp11 + '" value="' + xgv11 + xgv111 + xgv112 + xgv113 + '">'; }
+  if (xgp12 != "") { MAChtml += '<' + 'PARAM name="' + xgp12 + '" value="' + xgv12 + xgv121 + xgv122 + xgv123 + '">'; }
+  if (xgp13 != "") { MAChtml += '<' + 'PARAM name="' + xgp13 + '" value="' + xgv13 + xgv131 + xgv132 + xgv133 + '">'; }
+  if (xgp14 != "") { MAChtml += '<' + 'PARAM name="' + xgp14 + '" value="' + xgv14 + xgv141 + xgv142 + xgv143 + '">'; }
+  if (xgp15 != "") { MAChtml += '<' + 'PARAM name="' + xgp15 + '" value="' + xgv15 + xgv151 + xgv152 + xgv153 + '">'; }
+  if (xgp16 != "") { MAChtml += '<' + 'PARAM name="' + xgp16 + '" value="' + xgv16 + xgv161 + xgv162 + xgv163 + '">'; }
+}
+else {
+// Forms Applet Parameters
+  MAChtml += '<' + 'PARAM name="serverPort"    value="' + xsport    + '">';
+  if (result==true) {
+     MAChtml += '<' + 'PARAM name="serverHost"    value="' + xsname + '">';
+  }
+ else {
+     MAChtml += '<' + 'PARAM name="serverHost"    value="' + xsname + xdname + '">';
+  }
+  MAChtml += '<' + 'PARAM name="serverURL"     value="' + xsurl + '">';
+  MAChtml += '<' + 'PARAM name="connectMode"   value="' + xconnectMode + '">';
+  MAChtml += '<' + 'PARAM name="networkRetries" value="' + xnetworkRetries + '">';
+  MAChtml += '<' + 'PARAM name="disableValidateClipboard" value="' + xdisableValidateClipboard + '">';
+  MAChtml += '<' + 'PARAM name="serverApp"     value="' + xserverApp + '">';
+  MAChtml += '<' + 'PARAM name="registryPath"  value="' + xregistryPath + '">';
+  MAChtml += '<' + 'PARAM name="serverArgs"    value="module=' + xmodule + ' fndnam=' + xfndnam ;
+  if (xrecord != "") {
+     MAChtml += ' record=' + xrecord ;
+  }
+  if (xtracegroup != "") {
+     MAChtml += ' tracegroup=' + xtracegroup ;
+  }
+  if (xlog != "") {
+     MAChtml += ' log=' + xlog;
+  }
+  if (xexpose_object_names != "") {
+     MAChtml += ' expose_object_names=' + xexpose_object_names;
+  }
+  MAChtml += ' ' + xform_params + ' ' + xmore_form_params + '">';
+  MAChtml += '<' + 'PARAM name="serverUserParams"   value="' + xenv + '">';
+  MAChtml += '<' + 'PARAM name="colorScheme"   value="' + xuics  + '">';
+  MAChtml += '<' + 'PARAM name="lookAndFeel"   value="' + xuilaf + '">';
+  MAChtml += '<' + 'PARAM name="digitSubstitution"   value="' + xdigsub + '">';
+  MAChtml += '<' + 'PARAM name="splashScreen"  value="' + xuiss  + '">';
+  MAChtml += '<' + 'PARAM name="darkLook"      value="' + xuidl  + '">';
+  MAChtml += '<' + 'PARAM name="readOnlyBackground" value="' + xuirob + '">';
+  MAChtml += '<' + 'PARAM name="background"   value="' + xuib   + '">';
+  MAChtml += '<' + 'PARAM name="dontTruncateTabs"   value="' + xuidtt + '">';
+  MAChtml += '<' + 'PARAM name="imageBase"     value="' + xuiib  + '">';
+  if (xnetStats == "true") {
+     MAChtml += '<' + 'PARAM name=networkStats  value="' + xnetStats + '">';
+  }
+  MAChtml += '<' + 'PARAM name="heartBeat"     value="' + xheartBeat + '">';
+  MAChtml += '<' + 'PARAM name="nlsLang"       value="' + xnlsLang + '">';
+  MAChtml += '<' + 'PARAM name="cursorBlinkRate"   value="' + xBlinkRate + '">';
+  if (xEndUserMonitoringEnabled == "true") {
+     MAChtml += '<' + 'PARAM name="EndUserMonitoringEnabled"   value="' + xEndUserMonitoringEnabled + '">';
+     MAChtml += '<' + 'PARAM name="EndUserMonitoringURL"   value="' + xEndUserMonitoringURL + '">';
+  }
+  MAChtml += '<' + 'PARAM name="ORBdisableLocator" value="' + xORBdL + '">';
+  MAChtml += '<' + 'PARAM name="tabstop" value="' + xtabstop + '">';
+  MAChtml += '<' + 'PARAM name="' + xnp1 + '" value="' + xvp1 + '">';
+  MAChtml += '<' + 'PARAM name="' + xnp2 + '" value="' + xvp2 + '">';
+  MAChtml += '<' + 'PARAM name="' + xnp3 + '" value="' + xvp3 + '">';
+  MAChtml += '<' + 'PARAM name="' + xnp4 + '" value="' + xvp4 + '">';
+}
+MAChtml += '</' + 'APPLET' + '>';
+MAChtml += xHTMLpostApplet;
+if (xhtmldebug == "true") {alert('Writing out MAChtml:\n'+MAChtml);}
+document.writeln(MAChtml);
+}
+//
+//  ---------------------- IE Section --------------------------
+//
+else if (isIE == true) {
+var IEhtml = xHTMLpreApplet;
+//IEhtml +=  '<OBJECT classid="' + xpluginclsid + '"';
+if (xappletMode == "nonforms")
+     { IEhtml += '    name="' + xappletName +  '"';
+       IEhtml += '    width=' + xuiw +  ' height=' + xuih ;}
+else { IEhtml += '    width=558 height=120';}
+if(xplugin == "jdk"){
+  IEhtml += '    codebase="' + xpluginurl + '">';
+  IEhtml += '<' + 'PARAM name=legacy_lifecycle value="' + xsunpluginlifecycle + '">';
+}
+if(xplugin == "jinit"){
+  IEhtml += '    codebase="' + xpluginurl + xjiname + '#' + xjivername + '">';
+  IEhtml += '<' + 'PARAM name=jinit_appletcache value="' + xjiappcache + '">';
+}
+// Separate the less-than character from PARAM to prevent Appletviewer
+// from seeing these as param tags outside of an applet tag.
+IEhtml += '<' + 'PARAM name=type          value="' + xpluginmimetype + '">';
+IEhtml += '<' + 'PARAM name=codebase      value="' + xcodebase + '">';
+IEhtml += '<' + 'PARAM name=code          value="' + xcode     + '">';
+if (xjarloading == "all") {
+   IEhtml += '<' + 'PARAM name=archive       value="' + xmacarchive  + '">';
+} else if (xjarloading == "core") {
+   IEhtml += '<' + 'PARAM name=archive       value="' + xcorejarfile  + '">';
+} else if (xappletMode == "nonforms") {
+   IEhtml += '<' + 'PARAM name=archive       value="' + xnonformsarchive  + '">';
+} else {
+   IEhtml += '<' + 'PARAM name=archive       value="' + xarchive  + '">';
+}
+IEhtml += '<' + 'PARAM name=separateFrame value="' + xuisf  + '">';
+
+if (xappletMode == "nonforms")
+{
+  // Non Forms Applet Parameters
+  IEhtml += '<' + 'PARAM name=clientBrowser value=iexplore>';
+  IEhtml += '<' + 'PARAM name="servlet_agent" value="' + xservletAgent  + '">';
+  // Removed above line from main section per bug1349731 and placed only in NonForms section per bug1368188
+  if (xgp1 != "") { IEhtml += '<' + 'PARAM name="' + xgp1 + '" value="' + xgv1 + '">'; }
+  if (xgp2 != "") { IEhtml += '<' + 'PARAM name="' + xgp2 + '" value="' + xgv2 + '">'; }
+  if (xgp3 != "") { IEhtml += '<' + 'PARAM name="' + xgp3 + '" value="' + xgv3 + '">'; }
+  if (xgp4 != "") { IEhtml += '<' + 'PARAM name="' + xgp4 + '" value="' + xgv4 + '">'; }
+  if (xgp5 != "") { IEhtml += '<' + 'PARAM name="' + xgp5 + '" value="' + xgv5 + '">'; }
+  if (xgp6 != "") { IEhtml += '<' + 'PARAM name="' + xgp6 + '" value="' + xgv6 + '">'; }
+  if (xgp7 != "") { IEhtml += '<' + 'PARAM name="' + xgp7 + '" value="' + xgv7 + '">'; }
+  if (xgp8 != "") { IEhtml += '<' + 'PARAM name="' + xgp8 + '" value="' + xgv8 + '">'; }
+  if (xgp9 != "") { IEhtml += '<' + 'PARAM name="' + xgp9 + '" value="' + xgv9 + '">'; }
+  if (xgp10 != "") { IEhtml += '<' + 'PARAM name="' + xgp10 + '" value="' + xgv10 + xgv101 + xgv102 + xgv103 + '">'; }
+  if (xgp11 != "") { IEhtml += '<' + 'PARAM name="' + xgp11 + '" value="' + xgv11 + xgv111 + xgv112 + xgv113 + '">'; }
+  if (xgp12 != "") { IEhtml += '<' + 'PARAM name="' + xgp12 + '" value="' + xgv12 + xgv121 + xgv122 + xgv123 + '">'; }
+  if (xgp13 != "") { IEhtml += '<' + 'PARAM name="' + xgp13 + '" value="' + xgv13 + xgv131 + xgv132 + xgv133 + '">'; }
+  if (xgp14 != "") { IEhtml += '<' + 'PARAM name="' + xgp14 + '" value="' + xgv14 + xgv141 + xgv142 + xgv143 + '">'; }
+  if (xgp15 != "") { IEhtml += '<' + 'PARAM name="' + xgp15 + '" value="' + xgv15 + xgv151 + xgv152 + xgv153 + '">'; }
+  if (xgp16 != "") { IEhtml += '<' + 'PARAM name="' + xgp16 + '" value="' + xgv16 + xgv161 + xgv162 + xgv163 + '">'; }
+}
+
+else {
+  // Forms Applet Parameters
+  IEhtml += '<' + 'PARAM name=serverPort    value="' + xsport    + '">';
+  if (result==true) {
+      IEhtml += '<' + 'PARAM name=serverHost    value="' + xsname +  '">';
+  }
+  else {
+  IEhtml += '<' + 'PARAM name=serverHost    value="' + xsname + xdname + '">';
+  }
+  IEhtml += '<' + 'PARAM name=serverURL     value="' + xsurl + '">';
+  IEhtml += '<' + 'PARAM name=connectMode   value="' + xconnectMode + '">';
+  IEhtml += '<' + 'PARAM name=networkRetries value="' + xnetworkRetries + '">';
+  IEhtml += '<' + 'PARAM name=disableValidateClipboard value="' + xdisableValidateClipboard + '">';
+  IEhtml += '<' + 'PARAM name=serverApp     value="' + xserverApp + '">';
+  IEhtml += '<' + 'PARAM name=registryPath  value="' + xregistryPath + '">';
+  IEhtml += '<' + 'PARAM name=serverArgs    value="module=' + xmodule + ' fndnam=' + xfndnam ;
+  if (xrecord != "") {
+     IEhtml += ' record=' + xrecord ;
+  }
+  if (xtracegroup != "") {
+     IEhtml += ' tracegroup=' + xtracegroup ;
+  }
+  if (xlog != "") {
+     IEhtml += ' log=' + xlog;
+  }
+  if (xexpose_object_names != "") {
+     IEhtml += ' expose_object_names=' + xexpose_object_names;
+  }
+  IEhtml += ' ' + xform_params + ' ' + xmore_form_params + '">';
+  IEhtml += '<' + 'PARAM name=serverUserParams   value="' + xenv + '">';
+  IEhtml += '<' + 'PARAM name=colorScheme   value="' + xuics  + '">';
+  IEhtml += '<' + 'PARAM name=lookAndFeel   value="' + xuilaf + '">';
+  IEhtml += '<' + 'PARAM name=digitSubstitution   value="' + xdigsub + '">';
+  IEhtml += '<' + 'PARAM name=splashScreen  value="' + xuiss  + '">';
+  IEhtml += '<' + 'PARAM name=darkLook      value="' + xuidl  + '">';
+  IEhtml += '<' + 'PARAM name=readOnlyBackground value="' + xuirob + '">';
+  IEhtml += '<' + 'PARAM name=background    value="' + xuib   + '">';
+  IEhtml += '<' + 'PARAM name=dontTruncateTabs   value="' + xuidtt + '">';
+  IEhtml += '<' + 'PARAM name=imageBase     value="' + xuiib  + '">';
+  if (xnetStats == "true") {
+     IEhtml += '<' + 'PARAM name=networkStats  value="' + xnetStats + '">';
+  }
+  IEhtml += '<' + 'PARAM name=heartBeat      value="' + xheartBeat + '">';
+  IEhtml += '<' + 'PARAM name=nlsLang        value="' + xnlsLang + '">';
+  IEhtml += '<' + 'PARAM name=cursorBlinkRate    value="' + xBlinkRate + '">';
+  if (xEndUserMonitoringEnabled == "true") {
+     IEhtml += '<' + 'PARAM name=EndUserMonitoringEnabled    value="' + xEndUserMonitoringEnabled + '">';
+     IEhtml += '<' + 'PARAM name=EndUserMonitoringURL    value="' + xEndUserMonitoringURL + '">';
+  }
+  IEhtml += '<' + 'PARAM name=ORBdisableLocator  value="' + xORBdL + '">';
+  IEhtml += '<' + 'PARAM name=tabstop  value="' + xtabstop + '">';
+  IEhtml += '<' + 'PARAM name="' + xnp1 + '" value="' + xvp1 + '">';
+  IEhtml += '<' + 'PARAM name="' + xnp2 + '" value="' + xvp2 + '">';
+  IEhtml += '<' + 'PARAM name="' + xnp3 + '" value="' + xvp3 + '">';
+  IEhtml += '<' + 'PARAM name="' + xnp4 + '" value="' + xvp4 + '">';
+  if ((xjiprogress == "true") && (xpluginurl != xsunpluginurl)) {
+     IEhtml += '<'+'PARAM name=java_showprogress   value="'+ xjiprogress +'">';
+     IEhtml += '<'+'PARAM name=java_appletname   value="'+ xjiappletname +'">';
+     IEhtml += '<'+'PARAM name=java_progressimage value="'+ xjiprogimage +'">';
+     IEhtml += '<'+'PARAM name=java_progressjars  value="'+ xjiprogjars +'">';
+     IEhtml += '<'+'PARAM name=java_preloadjars  value="'+ xajarfile +'">';
+  }
+  if ((xjdkprogress == "true") && (xpluginurl == xsunpluginurl)) {
+     IEhtml += '<'+'PARAM name=image             value="'+ xjdkprogimage +'">';
+     IEhtml += '<'+'PARAM name=progressbar       value="'+ xjdkprogress +'">';
+     IEhtml += '<'+'PARAM name=boxmessage        value="'+ xjdkbmessage +'">';
+     IEhtml += '<'+'PARAM name=boxbgcolor        value="'+ xjdkbbgcolor +'">';
+     IEhtml += '<'+'PARAM name=boxfgcolor        value="'+ xjdkbfgcolor +'">';
+     IEhtml += '<'+'PARAM name=boxprogresscolor  value="'+ xjdkprogcolor +'">';
+  }
+
+  // Support for client on Windows based platform
+  if (( is_mac != true ) && ( is_sun != true ) && ( is_linux != true ) && ( xwindowsdpi != "")) {
+     IEhtml += '<'+'PARAM name=clientDPI  value="'+ xwindowsdpi +'">';
+  }
+
+  // End of Forms Applet Parameters
+}
+if (xhtmldebug == "true") {alert('Writing out IEhtml:\n'+IEhtml);}
+writeJInitBeginTag(xpluginclsid,IEhtml);
+writeJInitEndTag();
+//document.writeln(IEhtml);
+}
+//
+//  ---------------------- Netscape Section --------------------------
+//
+else if (isG == true)
+{
+var NShtml = xHTMLpreApplet;
+NShtml += '<OBJECT';
+xsunpluginversion = xsunpluginversion.toLowerCase().replace(',','.','g').replace('=',' ');
+xjiverdots = xjivername.toLowerCase().replace(',','.','g').replace('version=','');
+if((is_sun == true) || (is_linux == true)) { xplugin = "jdk"; }
+var jdk_plugin_version='';
+var jinit_plugin_version='';
+for (var i=0; i<navigator.mimeTypes.length; i++)
+{
+  mime=navigator.mimeTypes[i].type;
+  if ((mime.indexOf("application/x-java")>-1) && (mime.indexOf("=1.")>-1)) {
+     var this_plugin_version=mime.substring(mime.indexOf("=1.")+1);
+    if (this_plugin_version>=xsunpluginversion) jdk_plugin_version=this_plugin_version;
+  }
+  if ((mime.indexOf("application/x-jinit")>-1) && (mime.indexOf("=1.")>-1)) {
+     var this_plugin_version=mime.substring(mime.indexOf("=1.")+1);
+    if (this_plugin_version==xjiverdots) jinit_plugin_version=this_plugin_version;
+  }
+}
+jdk_plugin_version=xsunpluginversion;
+if(jdk_plugin_version >= xsunpluginversion){
+if(xplugin == "jdk"){
+  NShtml += '    type="%sun_plugin_mimetype%" ';
+  NShtml += '    java_codebase="' + xcodebase + '"' ;
+  NShtml += '    java_version="%sun_plugin_version%" ';
+  NShtml += '    legacy_lifecycle="' + xsunpluginlifecycle + '"';
+  xpluginurl = xsunpluginurl;
+}
+}
+jinit_plugin_version=xjiverdots;
+if(jinit_plugin_version == xjiverdots){
+if(xplugin == "jinit"){
+  NShtml += '    type="'              + xpluginmimetype + '"';
+  NShtml += '    jinit_appletcache="' + xjiappcache + '"';
+}
+}
+if (xappletMode == "nonforms")
+     { NShtml += '    name="' + xappletName +  '"';
+       NShtml += '    width=' + xuiw +  ' height=' + xuih ; }
+else { NShtml += '    width=558 height=120'; }
+//NShtml += '    PLUGINSPAGE="'      + xjipage + '"';
+if(xplugin == "jdk"){
+  NShtml += '    pluginurl="'         + xpluginurl + '"\n';
+}
+else {
+  NShtml += '    pluginurl="'        + xpluginurl + xjiname + '"\n';
+}
+NShtml += '    codebase="'         + xcodebase + '"';
+NShtml += '    code="'             + xcode     + '"\n';
+if (xjarloading == "all" || (((is_sun == true ) || (is_linux == true)) && xsunodl != "true")) {
+   NShtml += '    archive="'          + xmacarchive  + '"';
+} else if (xjarloading == "core") {
+   NShtml += '    archive="'          + xcorejarfile  + '"';
+} else if (xappletMode == "nonforms") {
+   NShtml += '    archive="'          + xnonformsarchive  + '"';
+} else {
+   NShtml += '    archive="'          + xarchive  + '"';
+}
+NShtml += '\n    separateFrame="'    + xuisf  + '"\n';
+
+if (xappletMode == "nonforms")
+{
+  // Non Forms Applet Parameters
+  NShtml += '    clientBrowser=netscape';
+  NShtml += '    servlet_agent="'          + xservletAgent  + '"';
+  // Removed above line from main section per bug1349731 and placed only in NonForms section per bug1368188
+  if (xgp1 != "") { NShtml += ' ' + xgp1 + '="' + xgv1 + '"'; }
+  if (xgp2 != "") { NShtml += ' ' + xgp2 + '="' + xgv2 + '"'; }
+  if (xgp3 != "") { NShtml += ' ' + xgp3 + '="' + xgv3 + '"'; }
+  if (xgp4 != "") { NShtml += ' ' + xgp4 + '="' + xgv4 + '"'; }
+  if (xgp5 != "") { NShtml += ' ' + xgp5 + '="' + xgv5 + '"'; }
+  if (xgp6 != "") { NShtml += ' ' + xgp6 + '="' + xgv6 + '"'; }
+  if (xgp7 != "") { NShtml += ' ' + xgp7 + '="' + xgv7 + '"'; }
+  if (xgp8 != "") { NShtml += ' ' + xgp8 + '="' + xgv8 + '"'; }
+  if (xgp9 != "") { NShtml += ' ' + xgp9 + '="' + xgv9 + '"'; }
+  if (xgp10 != "") { NShtml += ' ' + xgp10 + '="' + xgv10 + xgv101 + xgv102 + xgv103 + '"'; }
+  if (xgp11 != "") { NShtml += ' ' + xgp11 + '="' + xgv11 + xgv111 + xgv112 + xgv113 + '"'; }
+  if (xgp12 != "") { NShtml += ' ' + xgp12 + '="' + xgv12 + xgv121 + xgv122 + xgv123 + '"'; }
+  if (xgp13 != "") { NShtml += ' ' + xgp13 + '="' + xgv13 + xgv131 + xgv132 + xgv133 + '"'; }
+  if (xgp14 != "") { NShtml += ' ' + xgp14 + '="' + xgv14 + xgv141 + xgv142 + xgv143 + '"'; }
+  if (xgp15 != "") { NShtml += ' ' + xgp15 + '="' + xgv15 + xgv151 + xgv152 + xgv153 + '"'; }
+  if (xgp16 != "") { NShtml += ' ' + xgp16 + '="' + xgv16 + xgv161 + xgv162 + xgv163 + '"'; }
+  NShtml += '>';
+}
+else {
+  // Forms Applet Parameters
+  NShtml += '    serverURL="'        + xsurl + '"';
+  if (result==true) {
+     NShtml += '    serverHost="'       + xsname +  '"';
+  }
+  else {
+     NShtml += '    serverHost="'       + xsname + xdname + '"';
+  }
+  NShtml += '    serverPort="'       + xsport + '"\n';
+  NShtml += '    connectMode="'      + xconnectMode + '"';
+  NShtml += '    networkRetries="'   + xnetworkRetries + '"';
+  NShtml += '    disableValidateClipboard="'   + xdisableValidateClipboard + '"';
+  NShtml += '    serverApp="'        + xserverApp + '"';
+  NShtml += '    registryPath="'     + xregistryPath + '"\n';
+  NShtml += '    serverArgs="module='+ xmodule + ' fndnam=' + xfndnam ;
+  if (xrecord != "") {
+     NShtml += ' record=' + xrecord ;
+  }
+  if (xtracegroup != "") {
+     NShtml += ' tracegroup=' + xtracegroup ;
+  }
+  if (xlog != "") {
+     NShtml += ' log=' + xlog;
+  }
+  if (xexpose_object_names != "") {
+     NShtml += ' expose_object_names=' + xexpose_object_names;
+  }
+  NShtml += ' ' + xform_params + ' ' + xmore_form_params + '"\n';
+  NShtml += '    serverUserParams="' + xenv + '"';
+  NShtml += '    colorScheme="'      + xuics  + '"';
+  NShtml += '    lookAndFeel="'      + xuilaf + '"';
+  NShtml += '    digitSubstitution="' + xdigsub + '"';
+  NShtml += '    splashScreen="'     + xuiss  + '"';
+  NShtml += '    darkLook="'         + xuidl  + '"';
+  NShtml += '    readOnlyBackground="' + xuirob + '"';
+  NShtml += '    background="'       + xuib   + '"';
+  NShtml += '    dontTruncateTabs="' + xuidtt + '"';
+  NShtml += '    imageBase="'        + xuiib  + '"\n';
+  if (xnetStats == "true") {
+    NShtml += '    networkStats="' + xnetStats  + '"';
+  }
+  NShtml += '    heartBeat="'        + xheartBeat  + '"';
+  NShtml += '    nlsLang="'          + xnlsLang    + '"';
+  NShtml += '    cursorBlinkRate="'  + xBlinkRate  + '"';
+  if (xEndUserMonitoringEnabled == "true") {
+    NShtml += '    EndUserMonitoringEnabled="'  + xEndUserMonitoringEnabled  + '"';
+    NShtml += '    EndUserMonitoringURL="'  + xEndUserMonitoringURL  + '"';
+  }
+  // Sun client support
+  if (is_sun == true && xsundpi != "") {
+    NShtml += '   clientDPI="' + xsundpi + '"';
+  }
+  // Linux client support
+  if (is_linux == true && xlinuxdpi != "") {
+    NShtml += '   clientDPI="' + xlinuxdpi + '"';
+  }
+  // Support for client on Windows based platform
+  if (( is_mac != true ) && ( is_sun != true ) && ( is_linux != true ) && ( xwindowsdpi != "")) {
+    NShtml += '   clientDPI="' + xwindowsdpi + '"';
+  }
+
+  if ((xjiprogress == "true") && (xplugin == "jinit")) {
+     NShtml += ' java_showprogress="'   + xjiprogress   + '"';
+     NShtml += ' java_appletname="'    + xjiappletname + '"';
+     NShtml += ' java_progressimage="' + xjiprogimage  + '"';
+     NShtml += ' java_progressjars="'  + xjiprogjars   + '"';
+     NShtml += ' java_preloadjars="'   + xajarfile + '"';
+  }
+  if ((xjdkprogress == "true") && (xplugin == "jdk")) {
+     NShtml += ' image="'       + xjdkprogimage + '"';
+     NShtml += ' progressbar="' + xjdkprogress  + '"';
+     NShtml += ' boxmessage="'  + xjdkbmessage  + '"';
+     NShtml += ' boxbgcolor="'  + xjdkbbgcolor  + '"';
+     NShtml += ' boxfgcolor="'  + xjdkbfgcolor  + '"';
+     NShtml += ' boxprogresscolor="' + xjdkprogcolor + '"';
+  }
+
+  NShtml += '    ORBdisableLocator="' + xORBdL + '"';
+  NShtml += '    tabstop="' + xtabstop + '"';
+  NShtml += ' ' +     xnp1 + '="' + xvp1 + '"';
+  NShtml += ' ' +     xnp2 + '="' + xvp2 + '"';
+  NShtml += ' ' +     xnp3 + '="' + xvp3 + '"';
+  NShtml += ' ' +     xnp4 + '="' + xvp4 + '"';
+  NShtml += '>';
+  NShtml += '</OBJECT>';
+
+  // Wrap this message to users with a table.
+  // if(xplugin == "jinit") {
+  //  NShtml += '\n<br clear=all><table width=558 border=2><tr><td>';
+  //  NShtml += 'If this is the first time JInitiator is being run, please ';
+  //  NShtml += 'click the puzzle icon above (or ';
+  //  NShtml += '<a href="'+ xpluginurl + xjiname +'">manually</a> ';
+  //  NShtml += 'download oajinit.exe), save the oajinit.exe file to ';
+  //  NShtml += 'disk and then run oajinit.exe to install JInitiator.';
+  //  NShtml += '&nbsp;&nbsp;After the installation of JInitiator, ';
+  //  NShtml += 'the browser should be restarted.';
+  //  NShtml += '</td></tr></table>';
+  // }
+  // End of Forms Only Parameters
+}
+if (xhtmldebug == "true") {alert('Writing out NShtml:\n'+NShtml);}
+document.writeln(NShtml);
+}
+// Common html code
+xsunpluginversion = xsunpluginversion.toLowerCase().replace(',','.','g').replace('=',' ');
+findhtml = xsunpluginurl.indexOf('OA_HTML');
+xsunpluginfile = xsunpluginurl.substring(findhtml+8,xsunpluginurl.length);
+var CMNhtml = '';
+if(is_mac != true) {
+if(xplugin == "jdk") {
+  if(isIE != true) {
+  CMNhtml += '\n<br clear=all><table width=558 border=2><tr><td>';
+  CMNhtml += 'In order to access this application, you must install the J2SE Plugin version ' + xsunpluginversion + '';
+  if((is_sun == true) || (is_linux == true)) {
+    CMNhtml += ' on your client and NPX_PLUGIN_PATH environment variable is set';
+    CMNhtml += ' before starting Netscape.  ';
+  }
+  else { CMNhtml += '.  '; }
+  CMNhtml += 'To install this plugin, ';
+  CMNhtml += '<a href="' + xsunpluginurl +'">click here</a> ';
+  CMNhtml += 'to download the '+ xsunpluginfile + ' executable. ';
+  CMNhtml += 'Once the download is complete, double-click the '+ xsunpluginfile
++' file ';
+  CMNhtml += 'to install the plugin. ';
+  CMNhtml += ' You will be prompted to restart your browser when the installation is complete.';
+  CMNhtml += '</td></tr></table>';
+}
+}
+if(xplugin == "jinit") {
+  if(isIE != true) {
+  CMNhtml += '\n<br clear=all><table width=558 border=2><tr><td>';
+  CMNhtml += 'In order to access this application, you must install the Oracle JInitiator Plugin version ' + xjiverdots + '';
+  if((is_sun == true) || (is_linux == true)) {
+    CMNhtml += ' on your client and NPX_PLUGIN_PATH environment variable is set';
+    CMNhtml += ' before starting Netscape.  ';
+  }
+  else { CMNhtml += '. '; }
+  CMNhtml += 'To install this plugin, ';
+  CMNhtml += '<a href="' + xpluginurl + xjiname +'">click here</a> ';
+  CMNhtml += 'to download the '+ xjiname + ' executable. ';
+  CMNhtml += 'Once the download is complete, double-click the '+ xjiname +' file ';
+  CMNhtml += 'to install the plugin. ';
+  CMNhtml += ' You will be prompted to restart your browser when the installation is complete.';
+  CMNhtml += '</td></tr></table>';
+}
+}
+}
+//
+// CMNhtml += '<NOEMBED><XMP>';
+CMNhtml += xHTMLpostApplet;
+document.writeln(CMNhtml);
+
+// ediH -->
+</SCRIPT>
+
+<NOSCRIPT>
+<APPLET codebase="%codebase%"
+        alt="Oracle Applications Applet"
+        code="%code%"
+        archive="%archive%%archive1%"
+        width=995 height=700>
+<PARAM name=registryPath  value="%registryPath%">
+<PARAM name=serverApp     value="%serverApp%">
+<PARAM name=clientBrowser value="%browser%">
+<PARAM name=serverHost    value="%serverName%%domainName%">
+<PARAM name=serverPort    value="%serverPort%">
+<PARAM name=serverURL     value="%serverURL%">
+<PARAM name=connectMode   value="%connectMode%">
+<PARAM name=networkRetries value="%networkRetries%">
+<PARAM name=disableValidateClipboard value="%disableValidateClipboard%">
+<PARAM name=serverArgs value="module=%prependEnv%%prodTop%%appendEnv%/forms/%lang%/%formName% fndnam=%fndnam% %form_params%">
+<PARAM name=serverUserParams   value="%env%">
+<PARAM name=colorScheme   value="%colorScheme%">
+<PARAM name=lookAndFeel   value="%lookAndFeel%">
+<PARAM name=digitSubstitution value="%digitSubstitution%">
+<PARAM name=separateFrame value="%separateFrame%">
+<PARAM name=splashScreen  value="%splashScreen%">
+<PARAM name=darkLook      value="%darkLook%">
+<PARAM name=readOnlyBackground value="%readOnlyBackground%">
+<PARAM name=background    value="%background%">
+<PARAM name=dontTruncateTabs   value="%dontTruncateTabs%">
+<PARAM name=imageBase     value="%imageBase%">
+<PARAM name=networkStats  value="%netStats%">
+<PARAM name=heartBeat     value="%heartBeat%">
+<PARAM name=nlsLang       value="%nlsLang%">
+<PARAM name=cursorBlinkRate    value="%cursorBlinkRate%">
+<PARAM name=ORBdisableLocator  value="%ORBdisableLocator%">
+<PARAM name="%nparam1%"   value="%vparam1%">
+<PARAM name="%nparam2%"   value="%vparam2%">
+<PARAM name="%nparam3%"   value="%vparam3%">
+<PARAM name="%nparam4%"   value="%vparam4%">
+
+<font color="red">Note: You are about to enter debug (appletviewer) mode </font>
+<P> Accessing Oracle Applications via this method is not recommended and not supported in a production environment. You should only be using this method if instructed to do so by Oracle. JDK version should be later than 1.1.7.30o.
+<P> If you did not intend to enter this mode, please be sure you are using a supported web browser (not appletviewer), and that JavaScript support is enabled.
+In Netscape Communicator, use the Edit, Preferences, Advanced menu item to enable JavaScript. In Microsoft Internet Explorer, use Tools, Internet Options, Security tab then insure that "Active Scripting" is enabled for the Forms Server.
+<!--
+  Since appletviewer use is not supported you will have to manually customize
+  the file $OA_HTML/US/appsbase.html after every patch that modifies it.
+
+  If you are using appletviewers that do not support On-Demand Loading of JAR
+  files (likely on Sun clients) change the above archive line in appsbase.html
+  to:
+        archive="%macarchive%%macarchive2%%macarchive3%"
+-->
+</APPLET>
+</NOSCRIPT>
+
+<!-- </XMP>
+</NOEMBED>
+</EMBED> -->
+<!-- </OBJECT> -->
+<!-- <script language="JavaScript">
+  writeJInitEndTag();
+</script> -->
+
+%HTMLpostApplet%
+%HTMLpostApplet1%
+%HTMLpostApplet2%
+%HTMLpostApplet3%
+</body>
+</html>

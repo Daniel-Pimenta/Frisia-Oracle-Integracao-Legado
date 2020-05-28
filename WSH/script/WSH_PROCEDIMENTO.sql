@@ -9,12 +9,14 @@ declare
   
   l_retorno       clob;
   l_msg_retorno   varchar2(3000);
-
-  op              number := 1;     
-  l_delivery_id   number := 249025;
-  l_trip_id       number := 25009;
-  p_id_integracao number := 1172;
-
+     
+  l_delivery_id   number := 40071;
+  l_trip_id       number := NULL;
+  
+  op              number := 2;
+  p_id_integracao number := 12648;    
+  --op              number := 1;
+  --p_id_integracao number := 4936; --2282;
   isCommit        boolean := false;
   
 begin
@@ -109,6 +111,70 @@ end;
 
 
 /*
+--
+
+SELECT * FROM WSH_TRIPS WHERE NAME = 'SOL.814154.6';
+
+select * from xxfr_integracao_detalhe x where x.id_transacao = 377737
+
+set SERVEROUTPUT ON;
+declare
+  l_retorno       varchar2(3000);
+  l_rec_retorno   xxfr_pck_interface_integracao.rec_retorno_integracao;
+begin
+
+  processar_percurso_firme(
+    p_trip_id     => '',
+    p_action_code => 'UNPLAN',
+    x_retorno     => l_retorno
+  );
+  dbms_output.put_line(l_retorno);
+  xxfr_wsh_pck_transacoes.confirma_percurso(
+    p_trip_id        => '',
+    p_action_param   => 'DELETE',
+    x_rec_retorno    => l_rec_retorno,
+    x_retorno        => l_retorno
+  );
+  dbms_output.put_line(l_retorno);
+exception when others then
+  dbms_output.put_line('Erro da Chamada não previsto:'||sqlerrm);
+end;
+
+
+select * from xxfr_logger_log x where x.ds_escopo = 'CANCELAR_ENTREGA_8316' order by dt_criacao ;
+select * from MTL_MATERIAL_TRANSACTIONS_TEMP;
+
+SELECT distinct
+  oh.transactional_curr_code,
+  wdd.freight_terms_code,
+  wdd.fob_code,
+  wdd.customer_id,
+  wdd.organization_id,
+  wdd.ship_from_location_id,
+  wdd.ship_to_location_id,
+  wdd.ship_method_code,
+  wdd.carrier_id,
+  wdd.service_level,
+  wdd.mode_of_transport,
+  wdd.gross_weight,
+  wdd.weight_uom_code,
+  wdd.volume_uom_code
+from
+  oe_order_headers_all           oh,
+  wsh_delivery_details           wdd,
+  XXFR_WSH_VW_INF_DA_ORDEM_VENDA ov
+where 1=1
+  and oh.header_id              = ov.oe_header
+  and oh.header_id              = wdd.source_header_id
+  and wdd.delivery_detail_id    = ov.delivery_detail_id
+  and ov.flow_status_code not in ('CANCELLED','CLOSED','INVOICE_INCOMPLETE','SHIPPED')
+  and ov.line_released_status_name not in ('Entregue')
+  --
+  and ov.numero_ordem           = '46' 
+  and ov.linha                  = '2' 
+  and ov.envio                  = '1'
+  and ov.tipo_ordem             = '22L_VENDA_ORDEM_INDUSTRIAL' 
+
 
 -- ***************************************************************************************************
 --  INTEGRACAO
@@ -116,36 +182,34 @@ end;
 
 select * from xxfr_integracao_detalhe 
 where 1=1
-  and id_integracao_detalhe = -113
+  and id_integracao_detalhe = 6908
   --and id_transacao = 159508
-  --and cd_interface_detalhe = 'PROCESSAR_ENTREGA'
+  and cd_interface_detalhe = 'PROCESSAR_ENTREGA'
   --and cd_interface_detalhe = 'CONFIRMAR_ENTREGA'
   --and DS_DADOS_RETORNO like '%117%'
+  --and ID_TRANSACAO = 316613
 order by dt_atualizacao desc
 ;
 
 select * 
 from xxfr_integracao_detalhe 
 where 1=1
-  and CD_INTERFACE_DETALHE = 'PROCESSAR_ENTREGA' 
-  --and id_integracao_detalhe = 11393
+  --and CD_INTERFACE_DETALHE = 'PROCESSAR_ENTREGA' 
+  and id_integracao_detalhe = 6585
 order by 1 desc
 ;
 
-select 
-  id_integracao_cabecalho, dt_criacao, nm_usuario_criacao, cd_programa_criacao 
-from  xxfr_integracao_cabecalho 
-where id_integracao_cabecalho = 7225;
-
-
-select * --id_integracao_detalhe, ie_status_processamento, tp_operacao, dt_criacao, dt_atualizacao, nm_percurso, cd_tipo_ordem_venda, nu_ordem_venda, nu_linha_ordem_venda, nu_envio_linha_ordem_venda 
+select id_integracao_detalhe, ie_status_processamento, tp_operacao, dt_criacao, dt_atualizacao, nm_percurso, cd_tipo_ordem_venda, nu_ordem_venda, nu_linha_ordem_venda, nu_envio_linha_ordem_venda 
 from xxfr_wsh_vw_int_proc_entrega 
 where 1=1
-  --and nu_ordem_venda = '7'
-  --and nm_percurso = '011_25697'
-  --and id_integracao_detalhe=10819
-  and id_integraco_detalhe= 11154
-order by nu_ordem_venda, nu_linha_ordem_venda, nu_envio_linha_ordem_venda, ID_INTEGRACAO_DETALHE
+  --and nu_ordem_venda = '42'
+  --and cd_tipo_ordem_venda = '358_VENDA'
+  --and nu_linha_ordem_venda = '1'
+  --and nu_envio_linha_ordem_venda = '1'
+  and nm_percurso = '49033'
+  --and id_integracao_detalhe=29522
+  --and id_integraco_detalhe= 11154
+order by DT_CRIACAO desc --nu_ordem_venda, nu_linha_ordem_venda, nu_envio_linha_ordem_venda, ID_INTEGRACAO_DETALHE
 ;
 -- ***************************************************************************************************
 --  LOGS
@@ -153,32 +217,24 @@ order by nu_ordem_venda, nu_linha_ordem_venda, nu_envio_linha_ordem_venda, ID_IN
 select ds_escopo, nvl(ds_log,' ') log
 from xxfr_logger_log
 where 1=1
-  and upper(ds_escopo) = 'PROCESSAR_ENTREGA_1172'
-  --and upper(ds_escopo) = 'XXFR_RI_PCK_INTEGRACAO_AR_261053' 
-  --and DT_CRIACAO >= sysdate -1
+  and upper(ds_escopo) = 'CONFIRMAR_ENTREGA_11251'
+  --and DT_CRIACAO >= sysdate -0.5
 order by 
   --DT_CRIACAO desc,
   id
 ;
 
-"  1) Erro inesperado: Erro na Rotina WSH_TRIPS_PVT.CREATE_TRIP,  Erro Oracle - -1
-ORA-00001: restrição exclusiva (WSH.WSH_TRIPS_U2) violada"
-
-"  1) Erro inesperado: Erro na Rotina WSH_TRIPS_PVT.CREATE_TRIP,  Erro Oracle - -1
-ORA-00001: restrição exclusiva (WSH.WSH_TRIPS_U2) violada"
-
-"  1) Erro inesperado: Erro na Rotina WSH_TRIPS_PVT.CREATE_TRIP,  Erro Oracle - -1
-ORA-00001: restrição exclusiva (WSH.WSH_TRIPS_U2) violada"
-
-select DS_LOG 
+select ds_escopo, DS_LOG 
 from xxfr_logger_log x 
-where x.ds_escopo = 'PROCESSAR_ENTREGA_572' order by ID ;
+where x.ds_escopo like 'CANCELAR_ENTREGA_12648' 
+and DT_CRIACAO >= sysdate -1
+order by ID ;
 
 select ds_escopo, nvl(ds_log,' ') log
-from xxfr_logger_logs_60_min x
+from xxfr_logger_log --s_60_min x
 where 1=1 
-  and x.dt_criacao >= sysdate -1
-  and upper(ds_escopo) like upper('processar_entrega_%')
+  and upper(ds_escopo) = upper('processar_entrega_8378')
+  and DT_CRIACAO >= sysdate -0.5
 order by id;
 
 -- ***************************************************************************************************

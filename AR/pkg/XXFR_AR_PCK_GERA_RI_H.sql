@@ -9,6 +9,12 @@ create or replace PACKAGE XXFR_AR_PCK_GERA_RI AS
   );
   
   procedure main(
+    errbuf              out varchar2,
+    retcode             out number,
+    p_customer_trx_id   in  varchar2
+  );
+  
+  procedure main2(
     p_customer_trx_id   in number,
     p_processar         in boolean,
     p_sequencial        in varchar2 default null,
@@ -30,10 +36,12 @@ create or replace PACKAGE XXFR_AR_PCK_GERA_RI AS
     p_cust_trx_type_id in number,
     x_retorno          out varchar
   );
+
   procedure limpa_interface(
+    p_customer_trx_id   in  number,
     x_retorno           out varchar2
-  );
-  
+  );  
+
   function retorna_cc_rem_fixar(
     p_item_id         in number,
     p_organization_id in number

@@ -8,7 +8,7 @@ create or replace package XXFR_PCK_SINCRONIZAR_NOTA is
   g_cd_servico     constant varchar2(100) := 'SINCRONIZAR_NOTA_FISCAL';
 
   type rec_ordem_separacao_semente is record(
-    "areaAtendida"                  varchar2(50)
+    "areaAtendida"                  number
   );
 
   type rec_ordem_venda is record(
@@ -89,6 +89,6 @@ create or replace package XXFR_PCK_SINCRONIZAR_NOTA is
   function mount(
     p_sistema_origem varchar2,
     p_publica    rec_publica
-  ) return pljson;
+  ) return xxfr_pljson;
   
 end XXFR_PCK_SINCRONIZAR_NOTA;

@@ -1,6 +1,7 @@
 --DROP VIEW XXFR_RI_VW_INF_DA_NFENTRADA;
 CREATE OR REPLACE VIEW XXFR_RI_VW_INF_DA_NFENTRADA as
   select 
+    rct.org_id,
     rct.customer_trx_id, 
     rct.trx_number, 
     rbs.name serie,
@@ -19,7 +20,6 @@ CREATE OR REPLACE VIEW XXFR_RI_VW_INF_DA_NFENTRADA as
     rct.trx_date,
     rct.batch_source_id, 
     rctl.warehouse_id,
-    --rct.PURCHASE_ORDER,
     ass.vendor_id, 
     ass.vendor_site_id, 
     ass.vendor_site_code, 
@@ -194,17 +194,19 @@ CREATE OR REPLACE VIEW XXFR_RI_VW_INF_DA_NFENTRADA as
 
 /*
 
-select * from CLL_F189_ENTRY_OPERATIONS where operation_id = 235;
 
-select entity_id from ra_customer_trx_all;
+select * from ra_customer_trx_all where CUSTOMER_TRX_ID = 10988;
 
 select * from XXFR_RI_VW_INF_DA_NFENTRADA
 where 1=1
-  --and Customer_trx_id = 245031
-  and trx_number = '49'
+  --and CUSTOMER_TRX_ID = 10988
+  --and CUST_ACCOUNT_ID = 1041
+  and trx_number = '596'
   --and document_number = '54043875053'
   --and VENDOR_SITE_CODE = '2243.234525'
 ;
+
+
 
 select * from ra_customer_trx_all where CUSTOMER_TRX_ID = 251031;
 select entity_id from ra_customer_trx_lines_all where CUSTOMER_TRX_ID = 144019;

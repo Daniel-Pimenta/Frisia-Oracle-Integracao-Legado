@@ -1,7 +1,6 @@
 create or replace PACKAGE BODY XXFR_RI_PCK_INT_NFDEVOLUCAO AS
 
   g_org_id                        number;
-  g_escopo                        varchar2(50);
   g_usuario                       varchar2(50);
   g_cd_unidade_operacional        varchar2(50);
   g_customer_trx_id               number;
@@ -10,7 +9,9 @@ create or replace PACKAGE BODY XXFR_RI_PCK_INT_NFDEVOLUCAO AS
   g_serie_number                  varchar2(10);
   g_sequencial                    varchar2(20) := '';
   g_interface_line_context        varchar2(50);
-  g_source                        varchar2(50) := 'XXFR_NFE_DEV_FORNECEDOR';
+  g_escopo                        varchar2(50);
+  g_source                        varchar2(50)  := 'XXFR_NFE_DEV_FORNECEDOR';
+  g_comments                      varchar2(100) := 'NF (Entrada) Customer_trx_id:';
   --
   isCommit                        boolean      := true;
   --Apenas processa o Auto-Invoice para a NF. 
@@ -331,13 +332,8 @@ create or replace PACKAGE BODY XXFR_RI_PCK_INT_NFDEVOLUCAO AS
   end;
 
   procedure initialize is
-    l_org_id              number := fnd_profile.value('ORG_ID');
-    l_user_id             number;
-    l_resp_id             number;
-    l_resp_app_id         number;
   begin
-    xxfr_pck_variaveis_ambiente.inicializar('CLL',g_cd_unidade_operacional,g_usuario); 
-    g_org_id := fnd_profile.value('ORG_ID');
+    xxfr_pck_variaveis_ambiente.inicializar('CLL', g_cd_unidade_operacional, g_usuario); 
   end;
 
   procedure retornar_clob( 
@@ -430,9 +426,10 @@ create or replace PACKAGE BODY XXFR_RI_PCK_INT_NFDEVOLUCAO AS
         l := 0;
         for r2 in c2(r1.cd_fornecedor, r1.nu_propriedade_fornecedor) loop
           print_log(' {');
-          print_log('    nu_nota_fiscal    :'||r2.nu_nota_fiscal);
-          print_log('    nu_linha_devolucao:'||r2.nu_linha_devolucao);
-          print_log('    qt_quantidade     :'||r2.qt_quantidade);
+          print_log('    Num Nota Fiscal   :'||r2.nu_nota_fiscal);
+          print_log('    Num Linha Devol   :'||r2.nu_linha_devolucao);
+          print_log('    Quantidade Devol  :'||r2.qt_quantidade);
+          print_log('    CNPJ Emissor      :'||r2.nu_cnpj_emissor);
           l := l +1;
           l_linha.extend;
           l_linha(l).cd_referencia_origem_linha := r2.cd_referencia_origem_linha;
@@ -451,6 +448,23 @@ create or replace PACKAGE BODY XXFR_RI_PCK_INT_NFDEVOLUCAO AS
         l_nf_devolucao(i).linha := l_linha;
       end loop;
       g_proc_devolucao.nf_devolucao := l_nf_devolucao;
+      --
+      select a.customer_trx_id, a.serie, a.serie_number, a.cust_trx_type_id, c.name,               a.warehouse_id
+      --into g_customer_trx_id,   g_serie, g_serie_number, w_cust_trx_type_id, w_cust_trx_type_name, w_warehouse_id
+      from
+        xxfr_ri_vw_inf_da_nfentrada a
+        ,cll_f255_establishment_v   e
+        ,ra_cust_trx_types_all      c
+      where 1=1
+        and e.inventory_organization_id = a.warehouse_id
+        and c.end_date                  is null
+        and c.cust_trx_type_id          = a.cust_trx_type_id
+        and c.org_id                    = a.org_id
+        --and e.registration_number       = '76107770000108' --l_nf_devolucao(1).linha(1).nu_cnpj_emissor
+        --and a.trx_number                = '590' --l_nf_devolucao(1).linha(1).nu_nota_fiscal
+        --and a.ACCOUNT_NUMBER            = '2532' --l_nf_devolucao(1).cd_fornecedor
+      ;       
+      --
       x_retorno := 'S';
     exception
       when others then
@@ -458,6 +472,28 @@ create or replace PACKAGE BODY XXFR_RI_PCK_INT_NFDEVOLUCAO AS
         x_retorno := 'ERRO AO CARREGAR O JSON:'||sqlerrm;
         print_log(x_retorno);
     end;
+  end carrega_dados;
+
+  procedure init_retorno is
+  begin
+    g_rec_retorno."contexto"                                              := 'DEVOLUCAO_NF_FORNECEDOR';
+    g_rec_retorno."retornoProcessamento"                                  := null;
+    g_rec_retorno."mensagemRetornoProcessamento"                          := null;
+    --
+    g_rec_retorno."registros"(1)."tipoCabecalho"                          := null;
+    g_rec_retorno."registros"(1)."codigoCabecalho"                        := null;
+    g_rec_retorno."registros"(1)."tipoReferenciaOrigem"                   := null;
+    g_rec_retorno."registros"(1)."codigoReferenciaOrigem"                 := null;
+    g_rec_retorno."registros"(1)."retornoProcessamento"                   := null;
+    --
+    g_rec_retorno."registros"(1)."linhas"(1)."tipoLinha"                  := null;
+    g_rec_retorno."registros"(1)."linhas"(1)."codigoLinha"                := null;
+    g_rec_retorno."registros"(1)."linhas"(1)."tipoReferenciaLinhaOrigem"  := null;
+    g_rec_retorno."registros"(1)."linhas"(1)."codigoReferenciaLinhaOrigem":= null;
+    --
+    g_rec_retorno."registros"(1)."linhas"(1)."mensagens"(1)."tipoMensagem":= null;
+    g_rec_retorno."registros"(1)."linhas"(1)."mensagens"(1)."mensagem"    := null;
+
   end;
 
   procedure processar_devolucao(
@@ -484,17 +520,34 @@ create or replace PACKAGE BODY XXFR_RI_PCK_INT_NFDEVOLUCAO AS
     print_log('XXFR_RI_PCK_INT_NFDEVOLUCAO.PROCESSAR_DEVOLUCAO:'||p_id_integracao_detalhe);
     g_rec_retorno := null;
     g_rec_retorno."contexto"    := 'DEVOLUCAO_NF_FORNECEDOR';
-
+    --
     ok := true;
+    
     -- Carrega dados do JSON
-    carrega_dados(
-      p_id_integracao_detalhe => p_id_integracao_detalhe,
-      x_retorno               => l_retorno
-    );    
-    -- Inicializa ambiente e limpa tabelas temporarias
     if (ok) then
-      limpa_interface(x_retorno => l_retorno);
+      carrega_dados(
+        p_id_integracao_detalhe => p_id_integracao_detalhe,
+        x_retorno               => l_retorno
+      );    
+    end if;
+    
+    init_retorno;
+    
+    begin
       initialize;
+      g_org_id := fnd_profile.value('ORG_ID');
+    exception when others then
+      l_retorno := 'Erro ao Inicializar Ambiente Oracle[XXFR_PCK_VARIAVEIS_AMBIENTE.INICIALIZAR]:'||sqlerrm;
+      print_log('Erro ao Inicializar Ambiente Oracle[XXFR_PCK_VARIAVEIS_AMBIENTE.INICIALIZAR]:'||sqlerrm);
+      ok:=false;
+    end;
+    
+    -- Limpa tabelas temporarias
+    if (ok) then
+      limpa_interface(
+        p_customer_trx_id => g_customer_trx_id,
+        x_retorno         => l_retorno
+      );
       if (g_proc_devolucao.nf_devolucao.count > 1) then
         l_retorno := 'Este Integração so processa 1 (uma) NF por vez !';
         ok:=false;
@@ -605,24 +658,39 @@ create or replace PACKAGE BODY XXFR_RI_PCK_INT_NFDEVOLUCAO AS
     --
     print_log(' ');
     if (ok) then
-      print_log('  SUCESSO !!!');
+      print_log('** SUCESSO !!!');
       g_rec_retorno."retornoProcessamento"         := 'SUCESSO';
       g_rec_retorno."mensagemRetornoProcessamento" := null;
-      xxfr_pck_interface_integracao.sucesso (
-        p_id_integracao_detalhe   => p_id_integracao_detalhe,
-        p_ds_dados_retorno        => g_rec_retorno
-      );
+      begin
+        print_log('Chamando XXFR_PCK_INTERFACE_INTEGRACAO.SUCESSO('||p_id_integracao_detalhe||')');
+        xxfr_pck_interface_integracao.sucesso (
+          p_id_integracao_detalhe   => p_id_integracao_detalhe,
+          p_ds_dados_retorno        => g_rec_retorno
+        );
+      exception when others then
+        print_log('Erro em [XXFR_PCK_INTERFACE_INTEGRACAO.SUCESSO]:'||sqlerrm);
+        ok:=false;
+      end;
       COMMIT;
-    else
-      print_log('  ERRO !!!');
+    end if;
+    --
+    if (ok = false) then
+      print_log('** ERRO !!!');
       if (isCommit) then ROLLBACK; end if;
       g_rec_retorno."retornoProcessamento"         := 'ERRO';
       g_rec_retorno."mensagemRetornoProcessamento" := l_retorno;
-      xxfr_pck_interface_integracao.erro (
-        p_id_integracao_detalhe   => p_id_integracao_detalhe,
-        p_ds_dados_retorno        => g_rec_retorno
-      );
+      begin
+        print_log('Chamando XXFR_PCK_INTERFACE_INTEGRACAO.ERRO('||p_id_integracao_detalhe||')');
+        xxfr_pck_interface_integracao.erro (
+          p_id_integracao_detalhe   => p_id_integracao_detalhe,
+          p_ds_dados_retorno        => g_rec_retorno
+        );
+      exception when others then
+        print_log('Erro em [XXFR_PCK_INTERFACE_INTEGRACAO.ERRO]:'||sqlerrm);
+        ok:=false;
+      end;
     end if;
+    --
     retornar_clob( 
       p_id_integracao_detalhe => p_id_integracao_detalhe, 
       p_retorno               => p_retorno
@@ -836,11 +904,14 @@ create or replace PACKAGE BODY XXFR_RI_PCK_INT_NFDEVOLUCAO AS
         --COMMIT;
         */
         ok := getInvoiceInfo(w_interface_invoice_id);
-        if (ok) then 
-          l_qtd_interface_ar := 1;
-          l_retorno := 'S';
+        if (ok) then
+          if (w_ar_interface_flag = 'Y') then
+            l_retorno := 'S';
+          else
+            l_retorno := 'Interface do AR não populada !';
+            ok:=false;
+          end if;
         else
-          l_retorno:='Interface do AR não populada !';
           ok:=false;
         end if;
       end if;
@@ -976,7 +1047,7 @@ create or replace PACKAGE BODY XXFR_RI_PCK_INT_NFDEVOLUCAO AS
       end;
 
       r_cf_invo.source                      := g_source;
-      r_cf_invo.comments                    := 'NF (Entrada) Customer_trx_id:'||p_customer_trx_id;
+      r_cf_invo.comments                    := g_comments || p_customer_trx_id;
       r_cf_invo.document_number             := w_document_number;
       r_cf_invo.document_type               := w_document_type;
       r_cf_invo.interface_operation_id      := w_interface_operation_id;
@@ -1647,7 +1718,7 @@ create or replace PACKAGE BODY XXFR_RI_PCK_INT_NFDEVOLUCAO AS
   ) is
   begin
     print_log(' ');
-    print_log('XXFR_RI_PCK_INT_NFDEVOLUCAO.LIMPA_INTERFACE');
+    print_log('LIMPA_INTERFACE');
 
     print_log('  LIMPA INTERFACE LINES PARENT...');
     delete cll_f189_invoice_line_par_int where INTERFACE_PARENT_ID in (
@@ -1690,7 +1761,49 @@ create or replace PACKAGE BODY XXFR_RI_PCK_INT_NFDEVOLUCAO AS
       and PROCESS_FLAG IN ('3','1');
     --
     COMMIT;
-    print_log('FIM XXFR_RI_PCK_INT_NFDEVOLUCAO.LIMPA_INTERFACE');
+    print_log('FIM LIMPA_INTERFACE');
+  exception when others then
+    ok:=false;
+    rollback;
+    x_retorno := 'Erro não previsto em: LIMPA_INTERFACE ->'||sqlerrm;
+    print_log(x_retorno);
+  end;
+
+  procedure limpa_interface(
+    p_customer_trx_id   in  number,
+    x_retorno           out varchar2
+  ) is
+    
+    cursor c1 is 
+      select interface_invoice_id
+      from cll_f189_invoices_interface 
+      where 1=1
+        and source       = g_source
+        and PROCESS_FLAG IN ('3','1')
+        and comments     like '%'||g_comments || p_customer_trx_id ||'%'
+      ;
+    
+  begin
+    print_log(' ');
+    print_log('LIMPA_INTERFACE');
+    for r1 in c1 loop
+      print_log('  LIMPA INTERFACE LINES PARENT...');
+      delete cll_f189_invoice_line_par_int where INTERFACE_PARENT_ID in (
+        select INTERFACE_PARENT_ID from cll_f189_invoice_parents_int where 1=1 and interface_invoice_id = r1.interface_invoice_id
+      );
+      print_log('  LIMPA INTERFACE PARENT...');
+      delete cll_f189_invoice_parents_int   where 1=1 and interface_invoice_id = r1.interface_invoice_id;
+      print_log('  LIMPA INTERFACE LINES...');
+      delete cll_f189_invoice_lines_iface where interface_invoice_id = r1.interface_invoice_id;
+      print_log('  LIMPA INTERFACE TMP...');
+      delete cll_f189_invoice_iface_tmp where interface_invoice_id = r1.interface_invoice_id;
+      print_log('  LIMPA INTERFACE ERRO...');
+      delete cll_f189_interface_errors where interface_invoice_id = r1.interface_invoice_id;
+      print_log('  LIMPA INTERFACE...');
+      delete cll_f189_invoices_interface where interface_invoice_id = r1.interface_invoice_id;
+    end loop;
+    COMMIT;
+    print_log('LIMPA_INTERFACE');
   exception when others then
     ok:=false;
     rollback;

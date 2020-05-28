@@ -14,11 +14,11 @@ DECLARE
    v_serial_control_code   BOOLEAN;
 BEGIN
   -- Set the variable values
-  v_item_id := '27974';
-  v_org_id := 162;
-  v_qoh := NULL;
-  v_rqoh := NULL;
-  v_atr := NULL;
+  v_item_id := 52015;
+  v_org_id  := 105;
+  v_qoh     := NULL;
+  v_rqoh    := NULL;
+  v_atr     := NULL;
   v_lot_control_code := true;
   v_serial_control_code := FALSE;
   
@@ -36,21 +36,21 @@ BEGIN
     p_inventory_item_id        => v_item_id,
     p_tree_mode                => apps.inv_quantity_tree_pub.g_transaction_mode, -- or 3
     p_is_revision_control      => FALSE,
-    p_is_lot_control           => v_lot_control_code, -- is_lot_control,
+    p_is_lot_control           => v_lot_control_code,     -- is_lot_control,
     p_is_serial_control        => v_serial_control_code,
-    p_revision                 => NULL,      -- p_revision,
-    p_lot_number               => null,      --p_lot_number,
+    p_revision                 => NULL,                   --p_revision,
+    p_lot_number               => null,                   --p_lot_number,
     p_lot_expiration_date      => SYSDATE,
-    p_subinventory_code        => null, --'EXP',      -- p_subinventory_code,
-    p_locator_id               => NULL,      -- p_locator_id,
-    --p_cost_group_id            => NULL,      -- cg_id,
+    p_subinventory_code        => null,                   --'EXP',      -- p_subinventory_code,
+    p_locator_id               => NULL,                   --p_locator_id,
+    --p_cost_group_id            => NULL,                 --cg_id,
     p_onhand_source            => 3,
-    x_qoh                      => v_qoh,     -- Quantity on-hand
-    x_rqoh                     => v_rqoh,    --reservable quantity on-hand
+    x_qoh                      => v_qoh,                  --Quantity on-hand
+    x_rqoh                     => v_rqoh,                 --reservable quantity on-hand
     x_qr                       => v_qr,
     x_qs                       => v_qs,
-    x_att                      => v_att,     -- available to transact
-    x_atr                      => v_atr      -- available to reserve
+    x_att                      => v_att,                  -- available to transact
+    x_atr                      => v_atr                   -- available to reserve
   );
   --
   DBMS_OUTPUT.put_line ('On-Hand Quantity       : ' || v_qoh);
@@ -107,7 +107,7 @@ where 1=1
   )
   and gbh.batch_id           = mmt.transaction_source_id
   and gbh.organization_id    = mmt.organization_id
-  and mtln.inventory_item_id = 13630
+  and mtln.inventory_item_id = 52015
 order by 1,2,3,4,5;
 
 SELECT 
@@ -132,7 +132,7 @@ WHERE 1=1
   AND msib.lot_control_code  = ml.lookup_code
   AND ml.lookup_type         = 'MTL_LOT_CONTROL'
   --AND msib.segment1          = '90170'
-  and msib.inventory_item_id = 13630
+  and msib.inventory_item_id = 52015
   
 ;
 
@@ -166,7 +166,7 @@ where 1=1
   --and msib.lot_control_code        = '2'
   --
   --and mil.organization_id          = 105
-  and mil.inventory_item_id        = 13630
+  and mil.inventory_item_id        = 52015
   --and (mil.segment1||'.'||mil.segment2||'.'||mil.segment3||'.'||mil.segment4) = p_linhas.cd_endereco_estoque
   --and rownum = 1
 order by trunc(moqd.date_received)
@@ -190,7 +190,7 @@ from
   mtl_onhand_quantities_detail a,
   mtl_system_items_b           msib    
 where 1=1
-  and a.INVENTORY_ITEM_ID = 13630
+  and a.INVENTORY_ITEM_ID = 52015
   --and msib.segment1 = '90170'
   and msib.INVENTORY_ITEM_ID = a.INVENTORY_ITEM_ID
 --order by trunc(a.date_received)
@@ -198,7 +198,7 @@ where 1=1
 --locator..
 xxfr_inv_pck_obter_endereco.id_endereco_estoque('358', 'PAG.00.419.00')	id_endereco_estoque,
 
-select lot.lot_number,  est.transaction_quantity 
+select lot.organization_id, est.subinventory_code, lot.lot_number, est.locator_id, est.transaction_quantity, est.orig_date_received, lot.creation_date
 from 
   mtl_onhand_quantities est, 
   mtl_lot_numbers lot
@@ -208,6 +208,6 @@ and est.organization_id 	  = lot.organization_id
 and est.lot_number		  	  = lot.lot_number
 --and est.locator_id  		  	= pp_locator_id
 --and est.subinventory_code 	= pp_subinventory_code
-and lot.inventory_item_id		= 13630
+and lot.inventory_item_id		= 52015
 --and lot.organization_id		  = pp_organization_id
-order by lot.creation_date desc;
+order by est.orig_date_received;

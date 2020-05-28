@@ -3,7 +3,7 @@ declare
   p_retorno  clob;
   x_retorno  varchar2(3000);
 begin
-  XXFR_RI_PCK_INT_NFDEVOLUCAO.processar_devolucao(-13, p_retorno);
+  XXFR_RI_PCK_INT_NFDEVOLUCAO.processar_devolucao(12682, p_retorno);
   dbms_output.put_line(x_retorno);
 end;
 /
@@ -79,12 +79,12 @@ where customer_trx_id = 134014;
 DEVOLUCAO_NF_FORNECEDOR_10637
 select * from ra_interface_salescredits_all where creation_date >= sysdate - 0.5;
 
-select id, DS_ESCOPO, DS_LOG  
+select id, dt_criacao, DS_ESCOPO, DS_LOG  
 from xxfr_logger_log
 where 1=1 
-  and dt_criacao >= sysdate -1 
-  and upper(DS_ESCOPO) = 'DEVOLUCAO_NF_FORNECEDOR_379'
-order by dt_criacao, id
+  and dt_criacao >= sysdate -1
+  and upper(DS_ESCOPO) like 'DEVOLUCAO_NF_FORNECEDOR_%'
+order by id
 ;
 
 

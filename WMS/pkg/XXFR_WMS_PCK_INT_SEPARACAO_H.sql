@@ -55,6 +55,12 @@ create or replace PACKAGE XXFR_WMS_PCK_INT_SEPARACAO IS
   --  x_retorno               OUT varchar2
   --);
 
+  procedure main(
+    p_id_integracao_detalhe IN  NUMBER,
+    p_commit                in boolean,
+    p_retorno               out clob
+  );
+
   procedure processar_separacao(
     p_id_integracao_detalhe IN  NUMBER,
     p_retorno               out clob

@@ -120,6 +120,9 @@ create or replace package xxfr_wsh_pck_int_entrega is
     nm_percurso              varchar2(20)
   );
   
+  g_rec_retorno      	        xxfr_pck_interface_integracao.rec_retorno_integracao;
+  g_tab_mensagens             xxfr_pck_interface_integracao.tab_retorno_mensagens;  
+  
   procedure print_out(msg varchar2);
 
   procedure carrega_dados(
@@ -255,9 +258,10 @@ create or replace package xxfr_wsh_pck_int_entrega is
   );
 
   function check_hold(
-    p_delivery_id in number
-    --
+    p_delivery_id        in number default null,
+    p_delivery_detail_id in number default null
   ) return number;  
+  
   function informacoes_lote(
     p_organization_id     in number,
     p_inventory_item_id   in number,

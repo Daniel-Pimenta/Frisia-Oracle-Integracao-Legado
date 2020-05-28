@@ -134,7 +134,7 @@ create or replace package body XXFR_AR_PCK_INT_SINCRO_NF AS
         nota_fiscal."numeroCnpjFilial"            :=r1."numeroCnpjFilial";
         nota_fiscal."dataCriacao"                 :=r1."dataCriacao";
         nota_fiscal."numeroNotaFiscal"            :=r1."numeroNotaFiscal";
-        nota_fiscal."codigoSerie"                 :=r1."codigoSerie";
+        nota_fiscal."codigoSerie"                 :=r1."numeroSerie";
         nota_fiscal."dataEmissao"                 :=r1."dataEmissao";
         nota_fiscal."codigoCliente"               :=r1."codigoCliente";
         nota_fiscal."numeroPropriedadeEntrega"    :=r1."numeroPropriedadeEntrega";

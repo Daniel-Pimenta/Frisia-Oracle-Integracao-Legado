@@ -58,3 +58,49 @@ where 1=1
 /
 --select * from XXFR_WMS_VW_INT_PROC_SEPARACAO where ID_INTEGRACAO_detalhe=5317;
 --select * from xxfr_integracao_detalhe where ID_INTEGRACAO_detalhe=5317;
+/*
+TRATAMENTO
+
+SELECT nvl(SUM(ort.qt_area), 0)
+--INTO l_area_separado
+FROM xxfr_wms_ordem_separacao_tran ort
+WHERE 1=1
+  AND ort.id_ordem_separacao_lin = p_line_id
+;
+
+
+EXPEDIÇÃO
+
+SELECT nvl(SUM(ort.qt_area), 0)
+--INTO l_area_separado
+FROM 
+  xxfr_wms_ordem_separacao_tran  ort,
+  mtl_material_transactions_temp mmtt
+WHERE 1=1
+  AND ort.material_transaction_temp_id = mmtt.transaction_temp_id
+  AND ort.id_ordem_separacao_lin = p_line_id   
+;
+            
+SELECT * FROM xxfr_wms_ordem_separacao_tran;
+            
+SELECT TABLE_NAME FROM ALL_TABLES WHERE TABLE_NAME LIKE '%ORDEM%';
+            
+SELECT * FROM XXFR_WMS_ORDEM_SEPARACAO_HDR;
+SELECT * FROM XXFR_WMS_ORDEM_SEPARACAO_LIN;
+SELECT * FROM XXFR_WMS_ORDEM_SEPARACAO_TRAN;
+           
+ID_ORDEM_SEPARACAO_HDR
+INVENTORY_ITEM_ID
+QT_AREA
+QT_AREA_DISP_PROG           
+   
+SELECT QT_AREA,
+FROM 
+  XXFR_WMS_ORDEM_SEPARACAO_HDR H,
+  XXFR_WMS_ORDEM_SEPARACAO_LIN L
+WHERE 1=1
+  AND H.ID_ORDEM_SEPARACAO_HDR = L.ID_ORDEM_SEPARACAO_HDR
+  AND L.SOURCE_ORDER_LINE_ID   = 12  
+  AND L.INVENTORY_ITEM_ID      = 13
+            
+*/

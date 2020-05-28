@@ -177,12 +177,16 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_TRANSACOES as
     l_trip_id        number;
     l_trip_name      varchar2(20);
     
+    i                number;
+    
   begin
     initialize(null);
     print_out('  XXFR_WSH_PCK_TRANSACOES.ASSOCIAR_PERCURSO_ENTREGA');
     print_out('  Chamando... WSH_DELIVERIES_PUB.DELIVERY_ACTION');
     print_out('    Delivery_Id:'||p_delivery_id);
     print_out('    Trip_Id    :'||p_trip_id);
+    limpa_msg;
+    l_msg_count :=0;
     wsh_deliveries_pub.delivery_action ( 
       p_api_version_number       => 1.0,
       p_init_msg_list            => fnd_api.g_false,
@@ -203,6 +207,7 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_TRANSACOES as
     if (l_return_status = 'S') then
       null;
     else
+      i:=0;
       for i in 1 .. l_msg_count loop
         l_msg_data := fnd_msg_pub.get( 
           p_msg_index => i, 
@@ -212,6 +217,7 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_TRANSACOES as
       end loop;
       x_retorno := l_msg_data;
     end if;
+    print_out('  FIM XXFR_WSH_PCK_TRANSACOES.ASSOCIAR_PERCURSO_ENTREGA');
   end;
 
   procedure associar_linha_entrega(
@@ -233,9 +239,9 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_TRANSACOES as
     print_out('    Action          :'||p_action);
     print_out('    Qtd de linhas   :'||p_delivery_detail_tab.count);
     
-    --for i in 1 .. p_delivery_detail_tab.count loop
-    --  print_out('    '||i||') - Delivery_detail :'||p_delivery_detail_tab(i));
-    --end loop;
+    for i in 1 .. p_delivery_detail_tab.count loop
+      print_out('    Delivery_detail :'||p_delivery_detail_tab(i));
+    end loop;
     --
     limpa_msg;
     --EXECUTE IMMEDIATE 'ALTER SESSION SET NLS_LANGUAGE= ''AMERICAN''';
@@ -371,6 +377,7 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_TRANSACOES as
     print_out('    Delivery_id  :'||l_delivery_rec_typ.delivery_id);
     print_out('    Delivery_name:'||l_delivery_rec_typ.name);
     --EXECUTE IMMEDIATE 'ALTER SESSION SET NLS_LANGUAGE= ''AMERICAN''';
+    limpa_msg;
     WSH_DELIVERIES_PUB.CREATE_UPDATE_DELIVERY(
       p_api_version_number  => 1.0, 
       p_init_msg_list       => fnd_api.g_false, 
@@ -394,7 +401,7 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_TRANSACOES as
           p_msg_index => i, 
           p_encoded   => 'F'
         );
-        print_out( i|| ') '|| l_msg_data);
+        print_out( '  '||i|| ') '|| l_msg_data);
       end loop;
       --
       x_retorno       := l_msg_data;
@@ -405,7 +412,7 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_TRANSACOES as
       x_delivery_id   := l_delivery_id;
       x_delivery_name := l_delivery_name;
     end if;
-    EXECUTE IMMEDIATE 'ALTER SESSION SET NLS_LANGUAGE= ''BRAZILIAN PORTUGUESE''';
+    --EXECUTE IMMEDIATE 'ALTER SESSION SET NLS_LANGUAGE= ''BRAZILIAN PORTUGUESE''';
     print_out('  FIM XXFR_WSH_PCK_TRANSACOES.CRIAR_ATUALIZAR_ENTREGA');
   end;
 
@@ -606,29 +613,20 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_TRANSACOES as
       );
       x_retorno := v_return_status;
       print_out('    Retorno:' ||v_return_status);
+      for i in 1 .. v_msg_count loop
+        v_msg_data := fnd_msg_pub.get( 
+          p_msg_index => i, 
+          p_encoded   => 'F'
+        );
+        print_out('    '||i||')-'|| v_msg_data);
+      end loop;
       print_out(' ');
       --
       if (v_return_status = 'S') then
         print_out('    Pick Selection List Generation :' ||vx_request_id);
-        print_out('    Mensagens:');
-        for i in 1 .. v_msg_count loop
-          v_msg_data := fnd_msg_pub.get( 
-            p_msg_index => i, 
-            p_encoded   => 'F'
-          );
-          print_out('    '||i||')-'|| v_msg_data);
-        end loop;
       end if;
       if (v_return_status = 'E') then
         ok:=false;
-        print_out('    Mensagens:');
-        for i in 1 .. v_msg_count loop
-          v_msg_data := fnd_msg_pub.get( 
-            p_msg_index => i, 
-            p_encoded   => 'F'
-          );
-          print_out('    '||i||')-'|| v_msg_data);
-        end loop;
       end if;
       --
       if (ok) then
@@ -781,18 +779,18 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_TRANSACOES as
       x_msg_count               => l_msg_count,
       x_msg_data                => l_msg_data
     );
-    print_out('  Retorno:'||l_return_status);
+    print_out('    Retorno:'||l_return_status);
     print_out('    Trip_id  :'||l_trip_id);
     print_out('    Trip_name:'||l_trip_name);
-    if (l_return_status <> 'S') then
-      for i in 1 .. l_msg_count loop
-        l_msg_data := fnd_msg_pub.get( 
-          p_msg_index => i, 
-          p_encoded   => 'F'
-        );
-        print_out('    '||i|| ') '|| l_msg_data);
-      end loop; 
-    end if;
+    for i in 1 .. l_msg_count loop
+      l_msg_data := fnd_msg_pub.get( 
+        p_msg_index => i, 
+        p_encoded   => 'F'
+      );
+      print_out('    '||i|| ') '|| l_msg_data);
+      XXFR_WSH_PCK_INT_ENTREGA.g_rec_retorno."registros"(1)."linhas"(1)."mensagens"(i)."tipoMensagem":= 'ERRO';
+      XXFR_WSH_PCK_INT_ENTREGA.g_rec_retorno."registros"(1)."linhas"(1)."mensagens"(i)."mensagem"    := l_msg_data;
+    end loop; 
     x_retorno := l_return_status;
     print_out('  FIM XXFR_WSH_PCK_TRANSACOES.CONFIRMA_ENTREGA('||p_action_code||')');
   END;
@@ -1197,12 +1195,11 @@ nulo', 'Weight NULL');
       print_out('    Lot_Number         :'||p_lot_number);
       
       print_out('    From_locator       :'||p_from_locator);
-      print_out('    To_locator         :'||p_to_locator);
-      
       print_out('    From_sub_invetory  :'||p_from_subinventory_code);
-      print_out('    To_sub_inventory   :'||p_to_subinventory_code);
       
-      print_out('    from_lpn_number    :'||p_from_lpn_number);
+      print_out('    To_locator         :'||p_to_locator);
+      print_out('    To_sub_inventory   :'||p_to_subinventory_code);      
+      print_out('    From_lpn_number    :'||p_from_lpn_number);
       print_out('    -------------------------------------------');
       --Passo 1
       if (l_return = 0) then
@@ -1267,7 +1264,7 @@ nulo', 'Weight NULL');
         );
         --
         print_out('    Retorno   :'||l_return);
-        print_out('    Trx_Tmp_id:'||l_trx_tmp_id);
+        print_out('    Trx_Tmp_id:'||l_trx_tmp_id); -- MTL_MATERIAL_TRANSACTIONS_TEMP.TRANSACTION_TEMP_ID
         print_out('    Msg       :'||l_proc_msg);
         x_retorno := nvl(l_proc_msg,'S');
         print_out('    -------------------------------------------');
@@ -1293,7 +1290,11 @@ nulo', 'Weight NULL');
       end if;
       --Passo 3
       if (l_return = 0) then
-        l_mold_tbl := apps.inv_mo_line_detail_util.query_rows(p_line_detail_id => l_trx_tmp_id); -- MTL_MATERIAL_TRANSACTIONS_TEMP.TRANSACTION_TEMP_ID
+        
+        l_mold_tbl := apps.inv_mo_line_detail_util.query_rows(
+          p_line_detail_id => l_trx_tmp_id -- MTL_MATERIAL_TRANSACTIONS_TEMP.TRANSACTION_TEMP_ID
+        ); 
+        
         print_out('    transaction_temp_id :'||l_mold_tbl(1).transaction_temp_id);
         print_out('    Chamando INV_PICK_WAVE_PICK_CONFIRM_PUB.PICK_CONFIRM...');
         limpa_msg;
@@ -1307,24 +1308,24 @@ nulo', 'Weight NULL');
           p_trolin_tbl         => l_trolin_tbl,
           p_mold_tbl           => l_mold_tbl,
           p_transaction_date   => sysdate,
+          --
           x_return_status      => l_return_status,
           x_msg_count          => l_msg_count,
           x_msg_data           => l_msg_data,
           x_mmtt_tbl           => l_mmtt_tbl,
           x_trolin_tbl         => lx_trolin_tbl
         );
-        --print_out('    Retorno      :'||l_return);
         print_out('    Ret Status   :'||l_return_status);
-        print_out('    Msg          :'||l_msg_data);
+        print_out('    Ret Msg      :'||l_msg_data);
         print_out('    -------------------------------------------');
+        x_retorno := NVL(l_return_status,'S');
         --
-        x_retorno := nvl(l_msg_data,'S');
-        IF fnd_msg_pub.count_msg > 0 THEN
+        IF (fnd_msg_pub.count_msg > 0 and l_return_status <> 'S') THEN
+          x_retorno := '';
           FOR h IN 1 .. fnd_msg_pub.count_msg LOOP
-            print_out('    Msg '||h ||')-'|| fnd_msg_pub.get(
-              p_msg_index => h, 
-              p_encoded   => fnd_api.g_false)
-            );
+            l_msg_data := fnd_msg_pub.get(p_msg_index => h, p_encoded   => fnd_api.g_false);
+            print_out('    Msg '||h ||')-'|| l_msg_data);
+            x_retorno := x_retorno|| h ||')-'|| l_msg_data || CHR(13);
           END LOOP;
         END IF;
         --

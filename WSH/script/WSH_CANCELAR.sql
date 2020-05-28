@@ -1,11 +1,11 @@
 SET SERVEROUTPUT ON
 DECLARE
 
-  p_seq_cab NUMBER := -91;
-  p_seq_det NUMBER := -113;
+  p_seq_cab NUMBER := -292;
+  p_seq_det NUMBER := -314;
   
   OK        BOOLEAN;
-  isNew     boolean := FALSE;
+  isNew     boolean := false;
 
   STR_JSON VARCHAR2(32000) := ('
 {
@@ -16,7 +16,7 @@ DECLARE
   "usuario" : null,
   "cancelarEntrega" : {
     "codigoUnidadeOperacional" : "UO_FRISIA",
-    "nomePercurso" : "SOL.813868",  
+    "nomePercurso" : "SOL.813939",  
     "manterPercurso" : "NAO"
   }
 }

@@ -37,6 +37,10 @@ create or replace PACKAGE XXFR_RI_PCK_INT_NFDEVOLUCAO AS
   procedure limpa_interface(
     x_retorno           out varchar2
   );
+  procedure limpa_interface(
+    p_customer_trx_id   in  number,
+    x_retorno           out varchar2
+  );
 
   procedure gera_interface(
     p_nf_devolucao      in tp_nf_devolucao,

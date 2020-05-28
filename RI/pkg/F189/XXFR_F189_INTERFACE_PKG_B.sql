@@ -1348,6 +1348,7 @@ create or replace PACKAGE BODY xxfr_f189_interface_pkg AS
         BEGIN
           -- Bug 8637717 - Start
           --v_gl_int_reference11 := REPLACE(fnd_message.get_string('CLL', 'CLL_F189_GL_REFERENCE'), '&REFERENCE', r1.reference);
+          /*
           v_gl_int_reference11 := REPLACE(fnd_message.get_string('CLL', 'CLL_F189_GL_REFERENCE'), '&REFERENCE',
           CASE
             WHEN SUBSTR(r1.reference_code, -15) LIKE ' - UPDATED(NEW)' THEN
@@ -1358,6 +1359,7 @@ create or replace PACKAGE BODY xxfr_f189_interface_pkg AS
               r1.reference
           END
           );
+          */
           print_log('v_gl_int_reference11 :'||v_gl_int_reference11 );
           -- Bug 8637717 - End
 
@@ -2005,11 +2007,11 @@ create or replace PACKAGE BODY xxfr_f189_interface_pkg AS
         cll_f189_item_utilizations             riu,
         mtl_units_of_measure                   muom
       WHERE  1=1
-        and ri.organization_id                   = 123 --p_organization_id
-        and ri.operation_id                      = 126 --p_operation_id
+        and ri.organization_id                   = p_organization_id
+        and ri.operation_id                      = p_operation_id
         and rit.invoice_type_id                  = ri.invoice_type_id
         and NVL(rit.generate_return_invoice,'N') = 'Y'
-        and ood.organization_id                  = 123 --p_organization_id
+        and ood.organization_id                  = p_organization_id
         and rbsa.org_id                          = ood.operating_unit
         and rbsa.batch_source_id                 = rit.ar_source_id
         and rctt.org_id                          = ood.operating_unit -- SSimoes - 01/04/2009
@@ -2073,12 +2075,13 @@ create or replace PACKAGE BODY xxfr_f189_interface_pkg AS
   BEGIN
     print_log('');
     print_log('  CLL_F189_INTERFACE_PKG.AR');
-    print_log('  Operation_id   :'||p_operation_id);
-    print_log('  Organization_id:'||p_organization_id);
+    print_log('  Operation_id    :'||p_operation_id);
+    print_log('  Organization_id :'||p_organization_id);
     i:=0;
     FOR r1 IN c1 LOOP
       i:=i+1;
-      print_log('i = '||i);
+      print_log('  i ->  '||i);
+      print_log('  Utilization_code:'||r1.utilization_code);
       IF r1.invoice_id <> x_invoice_id_ant THEN
         -- Bug 8335230 (Item 5) - SSimoes - 13/03/2009 - Inicio
         -- IF NVL(r1.ri_ipi_amount,0) = 0 THEN -- Bug 8335230 (Item 5) - SSimoes - 30/03/2009 (new validation)
@@ -2228,6 +2231,8 @@ create or replace PACKAGE BODY xxfr_f189_interface_pkg AS
         WHEN others THEN
           raise_application_error(-20549, x_module_name||' - ERROR:  '||SQLERRM||' Selecting item data.');
       END;
+      print_log('  x_global_attribute2:'||x_global_attribute2);  
+    
       /* BUG 10355568: Start
         -- Bug 6778641 AIrmer 29/01/2008
          BEGIN

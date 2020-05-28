@@ -46,6 +46,7 @@ create or replace package body xxfr_f189_wms_pkg as
       pc_operation_id      in varchar2,
       pc_organization_id   in number
     ) is
+    
     select
       sum(cfil.quantity) quantity,
       cfil.line_location_id   po_line_location_id,
@@ -384,6 +385,7 @@ create or replace package body xxfr_f189_wms_pkg as
                   l_quantity := x.quantity_ordered / l_pll_quantity * r_rcv_transactions.quantity;
                 end if;
                 l_sum_quantity   := l_sum_quantity + l_quantity; -- sum of the quantities of distribution lines
+                
                 select rcv_transactions_interface_s.nextval
                 into l_interface_transaction_id
                 from dual;
