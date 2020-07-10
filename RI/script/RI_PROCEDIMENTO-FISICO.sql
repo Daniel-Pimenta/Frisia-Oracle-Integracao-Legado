@@ -77,8 +77,13 @@ select
   LOCATION_ID, DELIVER_TO_LOCATION_ID, SUBINVENTORY, LOCATOR_ID
 from rcv_transactions_interface
 where 1=1
-  and AUTO_TRANSACT_CODE = 'DELIVER'
-  --and Header_interface_id=3017
+  --and AUTO_TRANSACT_CODE = 'DELIVER'
+  and INTERFACE_TRANSACTION_ID in (
+    select INTERFACE_TRANSACTION_ID 
+    from rcv_transactions 
+    where 1=1
+      and TRANSACTION_ID in (104045,104046,101045,101046)
+  )
 order by creation_date desc
 ;
 
@@ -124,8 +129,9 @@ where 1=1
   and interface_type = 'RCV-856'
   and interface_header_id = 4002
 ;
-select * from rcv_transactions 
+select INTERFACE_TRANSACTION_ID from rcv_transactions 
 where 1=1
+  and TRANSACTION_ID in (104045,104046,101045,101046)
   --and INTERFACE_TRANSACTION_ID
 ;
 

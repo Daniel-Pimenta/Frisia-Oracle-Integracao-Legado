@@ -4,17 +4,17 @@ create or replace PACKAGE BODY XXFR_AR_PCK_GERA_RI AS
   isCommit                        boolean      := true;
   isConcurrent                    boolean      := false;
   g_escopo                        varchar2(50) := 'XXFR_RI_PCK_INTEGRACAO_AR';
-  g_comments                      varchar2(100):= 'NF (Entrada) Customer_trx_id:';
+  g_comments                      varchar2(100):= '';
   g_sequencial                    varchar2(10) := '';
 
   g_org_id                        number       := fnd_profile.value('ORG_ID');
   g_user_name                     varchar2(50);
   g_user_id                       number;
-  g_request_id                    number;
+  g_request_id                    number       := null;
   
   g_customer_trx_id               number;
   g_trx_number                    varchar2(20);
-  g_serie                         varchar2(300);
+  g_serie_code                    varchar2(300);
   g_serie_number                  varchar2(10);
   
   g_interface_line_context        varchar2(50);
@@ -27,6 +27,7 @@ create or replace PACKAGE BODY XXFR_AR_PCK_GERA_RI AS
   --AR
   w_cust_trx_type_id              number;
   w_cust_trx_type_name            varchar2(50);
+  w_trx_date                      date;
 
   w_cfop_entrada                  varchar2(20);
   w_cfop_saida                    varchar2(20);
@@ -162,10 +163,8 @@ create or replace PACKAGE BODY XXFR_AR_PCK_GERA_RI AS
     l_retorno    varchar2(300);
   begin
     isConcurrent := true;
-    print_log('Iniciando pela Trigger...');
-    print_log('Customer_trx_id:'||p_customer_trx_id);
-    g_request_id := fnd_global.conc_request_id;
-    
+    g_customer_trx_id := p_customer_trx_id;
+    g_request_id      := nvl(fnd_global.conc_request_id,-1);
     main2(
       p_customer_trx_id   => p_customer_trx_id,
       p_processar         => true,
@@ -205,18 +204,22 @@ create or replace PACKAGE BODY XXFR_AR_PCK_GERA_RI AS
     g_customer_trx_id := p_customer_trx_id;
     g_sequencial      := p_sequencial;
     isCommit          := p_processar;
+    
     print_log('============================================================================');
     print_log('INICIO DO PROCESSO - NFE AR -> RI '|| to_char(sysdate,'DD/MM/YYYY - HH24:MI:SS') );
     print_log('============================================================================');
-        
+    if (g_request_id is not null) then
+      print_log('Iniciando pela Trigger...');
+      print_log('Customer_trx_id:'||g_customer_trx_id);
+      print_log('Request Id     :'||g_request_id);
+    end if;
+    
     if (isCommit) then
       print_log('** Processar Interface:SIM');
     else 
       print_log('** Processar Interface:NAO');
     end if;
-    
     ok := true;
-    
     if (nvl(p_customer_trx_id,0) = 0) then
       print_log('Informe o ID da NFE !!!');
       return;
@@ -244,30 +247,32 @@ create or replace PACKAGE BODY XXFR_AR_PCK_GERA_RI AS
     end if;
         
     --g_invoice_type_code := p_invoice_type_code;
-    -- RECUPERA INF DA NF de Entrada
+    -- RECUPERA INF DA NF de Entrada (AR)
     begin
       print_log('');
-      print_log('Informações da NF de Entrada');
-      select distinct a.customer_trx_id, a.trx_number, a.serie, a.serie_number, a.cust_trx_type_id, a.warehouse_id, e.location_id, e.location_code
-      into            g_customer_trx_id, g_trx_number, g_serie, g_serie_number, w_cust_trx_type_id, w_warehouse_id, w_location_id, w_location_code
+      print_log('Informações da NF de Entrada (AR)');
+      select distinct a.customer_trx_id, a.trx_number, a.trx_date, a.serie, a.serie_number, a.cust_trx_type_id, a.warehouse_id, h.location_id, h.name
+      into            g_customer_trx_id, g_trx_number, w_trx_date, g_serie_code, g_serie_number, w_cust_trx_type_id, w_warehouse_id, w_location_id, w_location_code
       from
         xxfr_ri_vw_inf_da_nfentrada a
-        ,cll_f255_establishment_v   e
+        ,hr_all_organization_units  h 
       where 1=1
-        and e.inventory_organization_id = a.warehouse_id
-        --and e.registration_number       = p_nf_devolucao.linha(l).nu_cnpj_emissor
-        and a.customer_trx_id           = g_customer_trx_id
+        and h.organization_id = a.warehouse_id
+        and a.customer_trx_id = g_customer_trx_id
       ; 
-      w_batch_source_name := g_serie;
-      print_log('  Org Id                 :'||g_org_id);
-      print_log('  Customer_trx_id        :'||g_customer_trx_id);
-      print_log('  Num NF                 :'||g_trx_number);
-      print_log('  Serie                  :'||g_serie);
-      print_log('  Numero da Serie        :'||g_serie_number);
-      print_log('  Orgnzatn Id/Warehouse  :'||w_warehouse_id);
-      print_log('  Location Id            :'||w_location_id);
-      print_log('  Location Code          :'||w_location_code);
-      print_log('  ID Transacao AR        :'||w_cust_trx_type_id);      
+      w_batch_source_name := g_serie_code;
+      print_log('  Org Id                :'||g_org_id);
+      print_log('  Customer_trx_id       :'||g_customer_trx_id);
+      print_log('  Num NF                :'||g_trx_number);
+      print_log('  Serie                 :'||g_serie_code);
+      print_log('  Numero da Serie       :'||g_serie_number);
+      --
+      print_log('  Trx_date              :'||w_trx_date);
+      --
+      print_log('  Orgnzatn Id/Warehouse :'||w_warehouse_id);
+      print_log('  Location Id           :'||w_location_id);
+      print_log('  Location Code         :'||w_location_code);
+      print_log('  ID Transacao AR       :'||w_cust_trx_type_id);      
 
       select count(*) into l_qtd
       from cll_f189_invoices 
@@ -342,7 +347,7 @@ create or replace PACKAGE BODY XXFR_AR_PCK_GERA_RI AS
             and interface_invoice_id = w_interface_invoice_id
           ;
           --
-          print_log('Sinaliza o RI para a NF de Entrada('||g_customer_trx_id||')...');
+          print_log('Sinaliza (1) o RI para a NF de Entrada('||g_customer_trx_id||')...');
           print_log('Referencia:'||substr(w_location_code,1,3)||'.'||w_operation_id);
           update ra_customer_trx_all
           set 
@@ -366,7 +371,7 @@ create or replace PACKAGE BODY XXFR_AR_PCK_GERA_RI AS
       -- Chama o Processo do Recebimento Fisico...
       if (ok and isCommit and w_purchase_order_num is not null) then
         print_log('Chamando processo de Recebimento Fisico...');
-        xxfr_ri_pck_int_rcvfisico.insert_rcv_tables(
+        XXFR_RI_PCK_INT_REC_FISICO.INSERT_RCV_TABLES(
           p_operation_id    => w_operation_id,
           p_organization_id => w_organization_id,
           x_retorno         => x_retorno
@@ -407,7 +412,7 @@ create or replace PACKAGE BODY XXFR_AR_PCK_GERA_RI AS
         end;
         -- Sinaliza o RI para a NF de Entrada
         if (ok and w_status = 'COMPLETE') then
-          print_log('Sinaliza o RI para a NF de Entrada('||g_customer_trx_id||')...');
+          print_log('Sinaliza (2) o RI para a NF de Entrada('||g_customer_trx_id||')...');
           print_log('Referencia:'||substr(w_location_code,1,3)||'.'||w_operation_id);
           update ra_customer_trx_all
           set 
@@ -457,7 +462,6 @@ create or replace PACKAGE BODY XXFR_AR_PCK_GERA_RI AS
   begin
     print_log(' '); 
     print_log('INSERE_INTERFACE_HEADER...');
-    --w_invoice_type_code := g_invoice_type_code;
     qtd_invoice   := 0;
     qtd_nfe       := 0;
     -- Inicio do Loop
@@ -467,6 +471,30 @@ create or replace PACKAGE BODY XXFR_AR_PCK_GERA_RI AS
       w_vendor_id                    := r1.vendor_id;
       w_vendor_site_id               := r1.vendor_site_id;
       w_terms_id                     := r1.terms_id;
+      
+      begin
+        select TERM_ID --, END_DATE_ACTIVE, NAME, DESCRIPTION
+        into w_terms_id
+        from ap_terms
+        where 1=1
+          and name  = (
+          select profile_option_value
+          from 
+            fnd_profile_options_vl    fpo,
+            fnd_profile_option_values fpov
+          where 1=1
+            and fpo.profile_option_id   = fpov.profile_option_id
+            and fpo.profile_option_name = 'XXFR_AP_COND_PGTO_REM_FIXAR'
+          )
+          and nvl(END_DATE_ACTIVE,sysdate) >= sysdate
+        ;
+      exception when others then
+        print_log('** Erro ao buscar a codição de pagamento padrão [NAO SE APLICA]');
+        x_retorno := 'E';
+        ok:=false;
+        return;
+      end;
+      
       w_cust_trx_type_id             := r1.cust_trx_type_id;
       w_organization_id              := r1.warehouse_id;
       w_freight_terms_lookup_code    := null;
@@ -529,26 +557,31 @@ create or replace PACKAGE BODY XXFR_AR_PCK_GERA_RI AS
       end;
 
       print_log('  Interface_Invoice_id  :'||w_interface_invoice_id);
-      print_log('  Trx_number            :'||r1.trx_number||g_sequencial);
-      print_log('  Trx_date              :'||r1.trx_date);
-      print_log('  Customer_trx_id       :'||r1.customer_trx_id);
       print_log('  Organization_id       :'||w_organization_id);
       print_log('  Location_id           :'||w_location_id);
       print_log('  Tipo de Invoice       :'||w_description);
 
-      r_cf_invo.source                      := g_source;
-      r_cf_invo.comments                    := g_comments || p_customer_trx_id;
+      r_cf_invo.source    := g_source;
+      r_cf_invo.comments  := '[XXFR_INT_AR_RI]'||'CUSTOMER_TRX_ID:'||p_customer_trx_id||';TRX_NUMBER:'||r1.trx_number;
       --
       begin
-        select distinct segment1 into w_purchase_order_num
-        from XXFR_RI_VW_INF_DA_LINHA_NFE
-        where customer_trx_id = r1.customer_trx_id;
-        if (w_purchase_order_num is not null) then
-          r_cf_invo.comments                    := r_cf_invo.comments || ' [PO Num: '||w_purchase_order_num||']';
-        end if;
+        select distinct 
+              segment1,             nvl(terms_id, w_terms_id)
+        into  w_purchase_order_num, w_terms_id
+        from xxfr_ri_vw_inf_da_linha_nfe
+        where customer_trx_id = r1.customer_trx_id
+        ;
       exception when others then 
         null;
       end;
+      print_log('  Terms Id              :'||w_terms_id);
+      
+      if (w_purchase_order_num is not null) then
+        r_cf_invo.comments := r_cf_invo.comments || ';PO_NUMBER:'||w_purchase_order_num;
+      end if;
+      if (g_request_id is not null) then
+        r_cf_invo.comments := r_cf_invo.comments || ';REQUEST_ID:'||g_request_id;
+      end if;
       --
       r_cf_invo.document_number             := w_document_number;
       r_cf_invo.document_type               := w_document_type;
@@ -569,8 +602,23 @@ create or replace PACKAGE BODY XXFR_AR_PCK_GERA_RI AS
       else
         r_cf_invo.invoice_num                        := r1.trx_number||g_sequencial;
       end if;
-
-      r_cf_invo.series                               := g_serie_number;
+      begin
+        select 
+          rbs.global_attribute3 into r_cf_invo.series
+        from 
+          apps.cll_f189_invoice_types rit, 
+          apps.ra_batch_sources_all   rbs
+        where 1=1
+          and rit.invoice_type_code = w_invoice_type_code
+          and rit.ar_source_id      = rbs.batch_source_id
+          and rit.organization_id   = w_organization_id
+        ;
+      exception when others then
+        r_cf_invo.series := g_serie_number;
+      end;
+      --r_cf_invo.series                               := g_serie_number;
+      print_log('  Serie                 :'||r_cf_invo.series);
+      
       r_cf_invo.organization_id                      := w_organization_id;
       r_cf_invo.location_id                          := w_location_id;
       r_cf_invo.invoice_amount                       := round(r1.extended_amount,2);
@@ -840,13 +888,13 @@ create or replace PACKAGE BODY XXFR_AR_PCK_GERA_RI AS
       r_cf_inli.attribute_category             := 'Informações Adicionais';
       --
       if (ok and w_po_line_location_id is not null) then
-        print_log('    PO Line Location ID     :'||w_po_line_location_id);
+        print_log('    PO Line Location ID       :'||w_po_line_location_id);
         begin
           select segment1 
           into w_purchase_order_num
           from po_headers_all 
           where po_header_id = r2.po_header_id;
-          print_log('    Numero da PO            :'||w_purchase_order_num);
+          print_log('    Numero da PO              :'||w_purchase_order_num);
           --r_cf_inli.attribute_category             := 'Informações Adicionais - Numero PO:'||w_purchase_order_num;
         exception 
           when others then
@@ -1093,12 +1141,12 @@ create or replace PACKAGE BODY XXFR_AR_PCK_GERA_RI AS
       where 1=1
         and PROCESS_FLAG IN ('3','1')
         and source       = g_source
-        and comments     like '%'||g_comments || p_customer_trx_id ||'%'
-      ;
+        and comments     like '[XXFR_INT_AR_RI]CUSTOMER_TRX_ID:'||p_customer_trx_id ||'%'
+    ;
     
   begin
     print_log(' ');
-    print_log('LIMPA_INTERFACE (%'||g_comments || p_customer_trx_id ||'%)');
+    print_log('LIMPA_INTERFACE (%'|| '[XXFR_INT_AR_RI]CUSTOMER_TRX_ID:'||p_customer_trx_id ||')');
     for r1 in c1 loop
       print_log('  Interface Invoice Id:'||r1.interface_invoice_id);
       print_log('  LIMPA INTERFACE LINES PARENT...');

@@ -1,18 +1,18 @@
 <OutboundPaymentInstruction>
     <PaymentInstructionInfo>
-        <InstructionReferenceNumber>10882</InstructionReferenceNumber>
-        <FormatProgramRequestID>1590422</FormatProgramRequestID>
-        <InstructionCreationDate>2020-04-28T19:18:11</InstructionCreationDate>
+        <InstructionReferenceNumber>11081</InstructionReferenceNumber>
+        <FormatProgramRequestID>1745254</FormatProgramRequestID>
+        <InstructionCreationDate>2020-05-28T08:30:48</InstructionCreationDate>
         <MultiOrgAccessControl>
             <HasBlockedData>N</HasBlockedData>
         </MultiOrgAccessControl>
         <InstructionStatus>
-            <Code>FORMATTED_ELECTRONIC</Code>
-            <Meaning>Formatada</Meaning>
+            <Code>CREATED</Code>
+            <Meaning>Criada</Meaning>
         </InstructionStatus>
         <ProcessingType>ELECTRONIC</ProcessingType>
-        <ProcessType>IMMEDIATE</ProcessType>
-        <UserAssignedRefCode>Pagamento Rapido: ID=50001</UserAssignedRefCode>
+        <ProcessType>STANDARD</ProcessType>
+        <UserAssignedRefCode>76</UserAssignedRefCode>
         <BankAssignedRefCode></BankAssignedRefCode>
         <PaymentSequence>
             <SequenceName></SequenceName>
@@ -47,17 +47,24 @@
         <Notes></Notes>
     </PaymentInstructionInfo>
     <PaymentProcessProfile>
-        <PaymentProcessProfileInternalID>182</PaymentProcessProfileInternalID>
-        <PaymentProcessProfileName>BBRASIL</PaymentProcessProfileName>
+        <PaymentProcessProfileInternalID>204</PaymentProcessProfileInternalID>
+        <PaymentProcessProfileName>BRADESCO</PaymentProcessProfileName>
         <LogicalGroupingMode></LogicalGroupingMode>
         <BatchBookingFlag>N</BatchBookingFlag>
     </PaymentProcessProfile>
     <PaymentFormat>
-        <PaymentFormatInternalID>ELETRONICO_BBRASIL</PaymentFormatInternalID>
-        <PaymentFormatName>ELETRONICO_BBRASIL</PaymentFormatName>
+        <PaymentFormatInternalID>ELETRONICO_BRADESCO</PaymentFormatInternalID>
+        <PaymentFormatName>ELETRONICO_BRADESCO</PaymentFormatName>
     </PaymentFormat>
+    <CheckFormatInfo>
+        <PaymentDocumentName>ELETRONICO</PaymentDocumentName>
+        <PaperStockType>
+            <Code>BLANK</Code>
+            <Meaning>Ação em Branco</Meaning>
+        </PaperStockType>
+    </CheckFormatInfo>
     <InstructionTotals>
-        <PaymentCount>1</PaymentCount>
+        <PaymentCount>3</PaymentCount>
         <TotalPaymentAmount>
             <Value></Value>
             <Currency>
@@ -105,24 +112,24 @@
             </ContactInfo>
         </Payer>
         <BankAccount>
-            <BankAccountInternalID>12000</BankAccountInternalID>
-            <BankName>BANCO DO BRASIL S/A</BankName>
-            <AlternateBankName>BANCO DO BRASIL S/A</AlternateBankName>
-            <BankNumber>001</BankNumber>
-            <BranchInternalID>6046</BranchInternalID>
-            <BranchName>3306-5 - CORPORATE</BranchName>
-            <AlternateBranchName>3306-5 - CORPORATE</AlternateBranchName>
-            <BranchNumber>3306-5</BranchNumber>
-            <BankAccountName>3051-1 - BB CORPORATE</BankAccountName>
-            <AlternateBankAccountName>3051-1 - BB CORPORATE</AlternateBankAccountName>
-            <BankAccountNumber>3051</BankAccountNumber>
-            <MaskedBankAccountNumber>3051</MaskedBankAccountNumber>
-            <UserEnteredBankAccountNumber>3051</UserEnteredBankAccountNumber>
+            <BankAccountInternalID>13002</BankAccountInternalID>
+            <BankName>BANCO BRADESCO</BankName>
+            <AlternateBankName>BANCO BRADESCO</AlternateBankName>
+            <BankNumber>237</BankNumber>
+            <BranchInternalID>34056</BranchInternalID>
+            <BranchName>3099 - BRADESCO CURITIBA</BranchName>
+            <AlternateBranchName>3099 - BRADESCO CURITIBA</AlternateBranchName>
+            <BranchNumber>3099</BranchNumber>
+            <BankAccountName>1816-3 BRADESCO CURITIBA</BankAccountName>
+            <AlternateBankAccountName>1816-3 BRADESCO CURITIBA</AlternateBankAccountName>
+            <BankAccountNumber>1816</BankAccountNumber>
+            <MaskedBankAccountNumber>1816</MaskedBankAccountNumber>
+            <UserEnteredBankAccountNumber>1816</UserEnteredBankAccountNumber>
             <BankAccountSuffix></BankAccountSuffix>
             <SwiftCode></SwiftCode>
             <IBANNumber></IBANNumber>
             <MaskedIBANNumber></MaskedIBANNumber>
-            <CheckDigits>1</CheckDigits>
+            <CheckDigits>3</CheckDigits>
             <BankAccountType>
                 <Code>OTHER</Code>
                 <Meaning>Outro</Meaning>
@@ -142,7 +149,7 @@
                 <FederalEmployerIdentificationNumber></FederalEmployerIdentificationNumber>
             </FederalBankAccountInfo>
             <EFTUserNumber>
-                <AccountLevelEFTNumber>0007047120126</AccountLevelEFTNumber>
+                <AccountLevelEFTNumber>374770</AccountLevelEFTNumber>
                 <BranchLevelEFTNumber></BranchLevelEFTNumber>
             </EFTUserNumber>
         </BankAccount>
@@ -162,7 +169,7 @@
         <PaymentSourceInfo>
             <ApplicationInternalID>200</ApplicationInternalID>
             <ApplicationName>SQLAP</ApplicationName>
-            <PaymentServiceRequestID>862</PaymentServiceRequestID>
+            <PaymentServiceRequestID>1061</PaymentServiceRequestID>
             <FunctionalCategory>
                 <Code>PAYABLES_DISB</Code>
                 <Meaning>Desembolsos a Pagar</Meaning>
@@ -181,17 +188,1451 @@
             <DocCategory></DocCategory>
             <SequenceName></SequenceName>
             <SequenceValue></SequenceValue>
-            <PaymentReferenceNumber>206</PaymentReferenceNumber>
+            <PaymentReferenceNumber>228</PaymentReferenceNumber>
             <LogicalGroupReference></LogicalGroupReference>
-            <CheckNumber></CheckNumber>
+            <CheckNumber>43</CheckNumber>
         </PaymentNumber>
-        <PaymentDate>2020-04-28</PaymentDate>
+        <PaymentDate>2020-05-28</PaymentDate>
         <PaymentDueDate></PaymentDueDate>
         <MaturityDate></MaturityDate>
-        <AnticipatedValueDate>2020-04-28</AnticipatedValueDate>
+        <AnticipatedValueDate>2020-05-28</AnticipatedValueDate>
         <PaymentStatus>
-            <Code>FORMATTED</Code>
-            <Meaning>Formatado</Meaning>
+            <Code>INSTRUCTION_CREATED</Code>
+            <Meaning>Instrução Criada</Meaning>
+        </PaymentStatus>
+        <Payee>
+            <PartyInternalID>44976</PartyInternalID>
+            <PartyNumber>5872</PartyNumber>
+            <Name>AGREX DO BRASIL S.A.</Name>
+            <TaxRegistrationNumber></TaxRegistrationNumber>
+            <LegalEntityRegistrationNumber></LegalEntityRegistrationNumber>
+            <AlternateName>AGREX</AlternateName>
+            <SupplierNumber>10515785</SupplierNumber>
+            <SupplierDescriptiveFlexField>
+                <AttributeCategory></AttributeCategory>
+                <Attribute1></Attribute1>
+                <Attribute2></Attribute2>
+                <Attribute3></Attribute3>
+                <Attribute4></Attribute4>
+                <Attribute5></Attribute5>
+                <Attribute6></Attribute6>
+                <Attribute7></Attribute7>
+                <Attribute8></Attribute8>
+                <Attribute9></Attribute9>
+                <Attribute10></Attribute10>
+                <Attribute11></Attribute11>
+                <Attribute12></Attribute12>
+                <Attribute13></Attribute13>
+                <Attribute14></Attribute14>
+                <Attribute15></Attribute15>
+            </SupplierDescriptiveFlexField>
+            <SupplierSiteDescriptiveFlexField>
+                <AttributeCategory></AttributeCategory>
+                <Attribute1>61524</Attribute1>
+                <Attribute2>232626</Attribute2>
+                <Attribute3></Attribute3>
+                <Attribute4></Attribute4>
+                <Attribute5></Attribute5>
+                <Attribute6></Attribute6>
+                <Attribute7></Attribute7>
+                <Attribute8></Attribute8>
+                <Attribute9></Attribute9>
+                <Attribute10></Attribute10>
+                <Attribute11></Attribute11>
+                <Attribute12></Attribute12>
+                <Attribute13></Attribute13>
+                <Attribute14></Attribute14>
+                <Attribute15></Attribute15>
+            </SupplierSiteDescriptiveFlexField>
+            <Address>
+                <AddressInternalID>23161</AddressInternalID>
+                <AddressLine1>AV T 63</AddressLine1>
+                <AddressLine2>1296</AddressLine2>
+                <AddressLine3>AV T 63</AddressLine3>
+                <AddressLine4>SETOR BUENO</AddressLine4>
+                <City>GOIANIA</City>
+                <County></County>
+                <State>GO</State>
+                <Country>BR</Country>
+                <ISO3DigitCountry>BRA</ISO3DigitCountry>
+                <CountryName>Brasil</CountryName>
+                <PostalCode>74230100</PostalCode>
+                <AddressName>0001-99</AddressName>
+                <Addressee></Addressee>
+                <AlternateAddressName></AlternateAddressName>
+                <PreFormattedConcatenatedAddress>AV T 63, 1296, AV T 63, GOIANIA, GO, BR, 74230100</PreFormattedConcatenatedAddress>
+                <PreFormattedMailingAddress>AV T 63, 1296, AV T 63, GOIANIA, GO, BR, 74230100</PreFormattedMailingAddress>
+            </Address>
+            <ContactInfo>
+                <ContactLocators>
+                    <PhoneNumber></PhoneNumber>
+                    <FaxNumber></FaxNumber>
+                    <EmailAddress></EmailAddress>
+                    <Website></Website>
+                </ContactLocators>
+            </ContactInfo>
+            <SupplierSiteCode>0001-99</SupplierSiteCode>
+        </Payee>
+        <TradingPartner>
+            <PartyInternalID>44976</PartyInternalID>
+            <PartyNumber>5872</PartyNumber>
+            <Name>AGREX DO BRASIL S.A.</Name>
+            <TaxRegistrationNumber></TaxRegistrationNumber>
+            <LegalEntityRegistrationNumber></LegalEntityRegistrationNumber>
+            <AlternateName>AGREX</AlternateName>
+            <SupplierNumber>10515785</SupplierNumber>
+            <SupplierDescriptiveFlexField>
+                <AttributeCategory></AttributeCategory>
+                <Attribute1></Attribute1>
+                <Attribute2></Attribute2>
+                <Attribute3></Attribute3>
+                <Attribute4></Attribute4>
+                <Attribute5></Attribute5>
+                <Attribute6></Attribute6>
+                <Attribute7></Attribute7>
+                <Attribute8></Attribute8>
+                <Attribute9></Attribute9>
+                <Attribute10></Attribute10>
+                <Attribute11></Attribute11>
+                <Attribute12></Attribute12>
+                <Attribute13></Attribute13>
+                <Attribute14></Attribute14>
+                <Attribute15></Attribute15>
+            </SupplierDescriptiveFlexField>
+            <SupplierSiteDescriptiveFlexField>
+                <AttributeCategory></AttributeCategory>
+                <Attribute1>61524</Attribute1>
+                <Attribute2>232626</Attribute2>
+                <Attribute3></Attribute3>
+                <Attribute4></Attribute4>
+                <Attribute5></Attribute5>
+                <Attribute6></Attribute6>
+                <Attribute7></Attribute7>
+                <Attribute8></Attribute8>
+                <Attribute9></Attribute9>
+                <Attribute10></Attribute10>
+                <Attribute11></Attribute11>
+                <Attribute12></Attribute12>
+                <Attribute13></Attribute13>
+                <Attribute14></Attribute14>
+                <Attribute15></Attribute15>
+            </SupplierSiteDescriptiveFlexField>
+            <ContactInfo>
+                <ContactLocators>
+                    <PhoneNumber></PhoneNumber>
+                    <FaxNumber></FaxNumber>
+                    <EmailAddress></EmailAddress>
+                    <Website></Website>
+                </ContactLocators>
+            </ContactInfo>
+            <AdditionalInformation></AdditionalInformation>
+        </TradingPartner>
+        <PayeeBankAccount>
+            <BankAccountInternalID>3297</BankAccountInternalID>
+            <BankName>BANCO DO BRASIL S/A</BankName>
+            <AlternateBankName>BANCO DO BRASIL S/A</AlternateBankName>
+            <BankNumber>001</BankNumber>
+            <BranchInternalID>152055</BranchInternalID>
+            <BranchName>3307-3 BB</BranchName>
+            <AlternateBranchName></AlternateBranchName>
+            <BranchNumber>3307-3</BranchNumber>
+            <BankCode></BankCode>
+            <BankAccountName>1002-2</BankAccountName>
+            <AlternateBankAccountName></AlternateBankAccountName>
+            <BankAccountNumber>XX02</BankAccountNumber>
+            <MaskedBankAccountNumber>XX02</MaskedBankAccountNumber>
+            <UserEnteredBankAccountNumber>XX02</UserEnteredBankAccountNumber>
+            <BankAccountSuffix></BankAccountSuffix>
+            <SwiftCode></SwiftCode>
+            <IBANNumber></IBANNumber>
+            <MaskedIBANNumber></MaskedIBANNumber>
+            <CheckDigits>2</CheckDigits>
+            <BankAccountType>
+                <Code></Code>
+                <Meaning></Meaning>
+            </BankAccountType>
+            <BankAccountCurrency>
+                <Code></Code>
+            </BankAccountCurrency>
+            <BankAddress>
+                <Country>BR</Country>
+                <ISO3DigitCountry>BRA</ISO3DigitCountry>
+                <CountryName>Brasil</CountryName>
+            </BankAddress>
+            <PrimaryOwner>
+                <Name>AGREX DO BRASIL S.A.</Name>
+            </PrimaryOwner>
+            <FactorAccount>
+                <Code></Code>
+                <Meaning></Meaning>
+            </FactorAccount>
+            <IntermediaryBankAccount1>
+                <IntermediaryAccountID>403</IntermediaryAccountID>
+                <BankAccountNumber></BankAccountNumber>
+                <IBANNumber></IBANNumber>
+                <BankName></BankName>
+                <BankCode></BankCode>
+                <BranchNumber></BranchNumber>
+                <SwiftCode></SwiftCode>
+                <CheckDigits></CheckDigits>
+                <City></City>
+                <Country></Country>
+                <Comments></Comments>
+            </IntermediaryBankAccount1>
+            <IntermediaryBankAccount2>
+                <IntermediaryAccountID>404</IntermediaryAccountID>
+                <BankAccountNumber></BankAccountNumber>
+                <IBANNumber></IBANNumber>
+                <BankName></BankName>
+                <BankCode></BankCode>
+                <BranchNumber></BranchNumber>
+                <SwiftCode></SwiftCode>
+                <CheckDigits></CheckDigits>
+                <City></City>
+                <Country></Country>
+                <Comments></Comments>
+            </IntermediaryBankAccount2>
+            <DescriptiveFlexField>
+                <AttributeCategory></AttributeCategory>
+                <Attribute1></Attribute1>
+                <Attribute2></Attribute2>
+                <Attribute3></Attribute3>
+                <Attribute4></Attribute4>
+                <Attribute5></Attribute5>
+                <Attribute6></Attribute6>
+                <Attribute7></Attribute7>
+                <Attribute8></Attribute8>
+                <Attribute9></Attribute9>
+                <Attribute10></Attribute10>
+                <Attribute11></Attribute11>
+                <Attribute12></Attribute12>
+                <Attribute13></Attribute13>
+                <Attribute14></Attribute14>
+                <Attribute15></Attribute15>
+            </DescriptiveFlexField>
+        </PayeeBankAccount>
+        <Payer>
+            <PartyInternalID>4041</PartyInternalID>
+            <PartyNumber>1100</PartyNumber>
+            <Name>FRISIA COOPERATIVA AGROINDUSTRIAL</Name>
+            <PartyType>
+                <Code></Code>
+                <Meaning></Meaning>
+            </PartyType>
+            <TaxRegistrationNumber></TaxRegistrationNumber>
+            <LegalEntityRegistrationNumber>76107770000108</LegalEntityRegistrationNumber>
+            <LegalEntityInternalID>23274</LegalEntityInternalID>
+            <LegalEntityName>FRISIA COOPERATIVA AGROINDUSTRIAL</LegalEntityName>
+            <Address>
+                <AddressInternalID>222</AddressInternalID>
+                <AddressLine1>AVENIDA DOS PIONEIROS</AddressLine1>
+                <AddressLine2>2324</AddressLine2>
+                <AddressLine3>ARMAZENS E SECADORES</AddressLine3>
+                <City>CARAMBEI</City>
+                <County>CENTRO</County>
+                <State>PR</State>
+                <Province></Province>
+                <Country>BR</Country>
+                <ISO3DigitCountry>BRA</ISO3DigitCountry>
+                <CountryName>Brasil</CountryName>
+                <PostalCode>84145000</PostalCode>
+                <PreFormattedConcatenatedAddress>AVENIDA DOS PIONEIROS, 2324, ARMAZENS E SECADORES, CARAMBEI CENTRO PR 84145000, BRASIL</PreFormattedConcatenatedAddress>
+                <PreFormattedMailingAddress>AVENIDA DOS PIONEIROS, 2324, ARMAZENS E SECADORES, CARAMBEI CENTRO PR 84145000, BRASIL</PreFormattedMailingAddress>
+                <AddressName>011-ARMAZENS CARAMBEI</AddressName>
+            </Address>
+            <ContactInfo>
+                <ContactLocators>
+                    <PhoneNumber>(42)3231-9000</PhoneNumber>
+                    <FaxNumber></FaxNumber>
+                    <EmailAddress></EmailAddress>
+                    <Website></Website>
+                </ContactLocators>
+            </ContactInfo>
+        </Payer>
+        <BankAccount>
+            <BankAccountInternalID>13002</BankAccountInternalID>
+            <BankName>BANCO BRADESCO</BankName>
+            <AlternateBankName>BANCO BRADESCO</AlternateBankName>
+            <BankNumber>237</BankNumber>
+            <BranchInternalID>34056</BranchInternalID>
+            <BranchName>3099 - BRADESCO CURITIBA</BranchName>
+            <AlternateBranchName>3099 - BRADESCO CURITIBA</AlternateBranchName>
+            <BranchNumber>3099</BranchNumber>
+            <BankAccountName>1816-3 BRADESCO CURITIBA</BankAccountName>
+            <AlternateBankAccountName>1816-3 BRADESCO CURITIBA</AlternateBankAccountName>
+            <BankAccountNumber>1816</BankAccountNumber>
+            <MaskedBankAccountNumber>1816</MaskedBankAccountNumber>
+            <UserEnteredBankAccountNumber>1816</UserEnteredBankAccountNumber>
+            <BankAccountSuffix></BankAccountSuffix>
+            <SwiftCode></SwiftCode>
+            <IBANNumber></IBANNumber>
+            <MaskedIBANNumber></MaskedIBANNumber>
+            <CheckDigits>3</CheckDigits>
+            <BankAccountType>
+                <Code>OTHER</Code>
+                <Meaning>Outro</Meaning>
+            </BankAccountType>
+            <BankAccountCurrency>
+                <Code>BRL</Code>
+            </BankAccountCurrency>
+            <BankAddress>
+                <Country>BR</Country>
+                <ISO3DigitCountry>BRA</ISO3DigitCountry>
+                <CountryName>Brasil</CountryName>
+            </BankAddress>
+            <FederalBankAccountInfo>
+                <FederalRFCIdentifier></FederalRFCIdentifier>
+                <FederalAgencyLocationCode></FederalAgencyLocationCode>
+                <FederalAbbreviatedAgencyCode></FederalAbbreviatedAgencyCode>
+                <FederalEmployerIdentificationNumber></FederalEmployerIdentificationNumber>
+            </FederalBankAccountInfo>
+            <EFTUserNumber>
+                <AccountLevelEFTNumber>374770</AccountLevelEFTNumber>
+                <BranchLevelEFTNumber></BranchLevelEFTNumber>
+            </EFTUserNumber>
+        </BankAccount>
+        <Beneficiary>
+            <Name>AGREX DO BRASIL S.A.</Name>
+        </Beneficiary>
+        <PaymentAmount>
+            <Value>10000</Value>
+            <Currency>
+                <Code>USD</Code>
+                <Name>Dólar Americano</Name>
+            </Currency>
+        </PaymentAmount>
+        <PaymentAmountText>Dez Mil Dólar E Zero Cents*****</PaymentAmountText>
+        <PaymentMethod>
+            <PaymentMethodInternalID>ELETRONICO</PaymentMethodInternalID>
+            <PaymentMethodName>ELETRONICO</PaymentMethodName>
+            <PaymentMethodFormatValue>ELETRONICO</PaymentMethodFormatValue>
+        </PaymentMethod>
+        <PayAlongFlag>N</PayAlongFlag>
+        <SettlementPriority>
+            <Code></Code>
+            <Meaning></Meaning>
+        </SettlementPriority>
+        <AmountWithheld>
+            <Value></Value>
+            <Currency>
+                <Code>USD</Code>
+            </Currency>
+        </AmountWithheld>
+        <DiscountTaken>
+            <Amount>
+                <Value>0</Value>
+                <Currency>
+                    <Code>USD</Code>
+                </Currency>
+            </Amount>
+        </DiscountTaken>
+        <BankCharges>
+            <BankChargeBearer>
+                <Code></Code>
+                <Meaning></Meaning>
+            </BankChargeBearer>
+            <Amount>
+                <Value>0</Value>
+                <Currency>
+                    <Code>USD</Code>
+                </Currency>
+            </Amount>
+        </BankCharges>
+        <DeliveryChannel>
+            <Code></Code>
+            <Meaning></Meaning>
+            <FormatValue></FormatValue>
+        </DeliveryChannel>
+        <ServiceLevel>
+            <Code></Code>
+            <Meaning></Meaning>
+            <FormatValue></FormatValue>
+        </ServiceLevel>
+        <PaymentReason>
+            <Code></Code>
+            <Meaning></Meaning>
+            <FormatValue></FormatValue>
+        </PaymentReason>
+        <PaymentReasonComments></PaymentReasonComments>
+        <RemittanceMessage></RemittanceMessage>
+        <RemittanceMessage></RemittanceMessage>
+        <RemittanceMessage></RemittanceMessage>
+        <InvoicingLegalEntityId></InvoicingLegalEntityId>
+        <BankInstruction>
+            <BankInstructionCode></BankInstructionCode>
+            <Meaning></Meaning>
+            <FormatValue></FormatValue>
+        </BankInstruction>
+        <BankInstruction>
+            <BankInstructionCode></BankInstructionCode>
+            <Meaning></Meaning>
+            <FormatValue></FormatValue>
+        </BankInstruction>
+        <BankInstructionDetails></BankInstructionDetails>
+        <PaymentTextMessage></PaymentTextMessage>
+        <PaymentTextMessage></PaymentTextMessage>
+        <PaymentTextMessage></PaymentTextMessage>
+        <PaymentDetails></PaymentDetails>
+        <RegulatoryReporting>
+            <DeclarationFlag>N</DeclarationFlag>
+            <Amount>
+                <Value>0</Value>
+                <Currency>
+                    <Code></Code>
+                </Currency>
+            </Amount>
+        </RegulatoryReporting>
+        <FederalPaymentInfo>
+            <FederalAllotmentCode></FederalAllotmentCode>
+            <FederalOffsetEligibilityFlag></FederalOffsetEligibilityFlag>
+            <FederalAccountingSymbol></FederalAccountingSymbol>
+        </FederalPaymentInfo>
+        <DocumentPayableCount>1</DocumentPayableCount>
+        <SrcDescriptiveFlexField></SrcDescriptiveFlexField>
+        <DocumentPayable>
+            <DocumentNumber>
+                <DocumentInternalIDSegment1>10581</DocumentInternalIDSegment1>
+                <DocumentInternalIDSegment2>70016</DocumentInternalIDSegment2>
+                <DocumentInternalIDSegment3>1</DocumentInternalIDSegment3>
+                <DocumentInternalIDSegment4></DocumentInternalIDSegment4>
+                <DocumentInternalIDSegment5></DocumentInternalIDSegment5>
+                <ApplicationInternalID>200</ApplicationInternalID>
+                <ApplicationDocumentSubType>PAYABLES_DOC</ApplicationDocumentSubType>
+                <ApplicationUniqueInternalID>10581</ApplicationUniqueInternalID>
+                <ReferenceNumber>11051653</ReferenceNumber>
+                <UniqueRemittanceIdentifier>
+                    <Number></Number>
+                    <CheckDigit></CheckDigit>
+                </UniqueRemittanceIdentifier>
+                <DocCategory></DocCategory>
+                <SequenceName></SequenceName>
+                <SequenceValue></SequenceValue>
+            </DocumentNumber>
+            <PONumber>UNMATCHED</PONumber>
+            <DocumentStatus>
+                <Code>PAYMENT_CREATED</Code>
+                <Meaning>Pagamento Criado</Meaning>
+            </DocumentStatus>
+            <DocumentDate>2020-05-11</DocumentDate>
+            <DocumentCreationDate>2020-05-28</DocumentCreationDate>
+            <PaymentDueDate>2020-05-28</PaymentDueDate>
+            <DocumentType>
+                <Code>STANDARD</Code>
+                <Meaning>Padrão</Meaning>
+            </DocumentType>
+            <DocumentDescription></DocumentDescription>
+            <ExpenseReportCreditCardNumber></ExpenseReportCreditCardNumber>
+            <EmployeePaymentFlag>N</EmployeePaymentFlag>
+            <TotalDocumentAmount>
+                <Value>10000</Value>
+                <Currency>
+                    <Code>USD</Code>
+                </Currency>
+            </TotalDocumentAmount>
+            <PaymentAmount>
+                <Value>10000</Value>
+                <Currency>
+                    <Code>USD</Code>
+                </Currency>
+            </PaymentAmount>
+            <PayAloneFlag>N</PayAloneFlag>
+            <SettlementPriority>
+                <Code></Code>
+                <Meaning></Meaning>
+            </SettlementPriority>
+            <AmountWithheld>
+                <Value></Value>
+                <Currency>
+                    <Code>USD</Code>
+                </Currency>
+            </AmountWithheld>
+            <DiscountTaken>
+                <Amount>
+                    <Value>0</Value>
+                    <Currency>
+                        <Code>USD</Code>
+                    </Currency>
+                </Amount>
+                <DiscountDate>2020-05-28</DiscountDate>
+            </DiscountTaken>
+            <BankCharges>
+                <BankChargeBearer>
+                    <Code></Code>
+                    <Meaning></Meaning>
+                </BankChargeBearer>
+            </BankCharges>
+            <DeliveryChannel>
+                <Code></Code>
+                <Meaning></Meaning>
+                <FormatValue></FormatValue>
+            </DeliveryChannel>
+            <PaymentReason>
+                <Code></Code>
+                <Meaning></Meaning>
+                <FormatValue></FormatValue>
+            </PaymentReason>
+            <PaymentReasonComments></PaymentReasonComments>
+            <RemittanceMessage></RemittanceMessage>
+            <RemittanceMessage></RemittanceMessage>
+            <RemittanceMessage></RemittanceMessage>
+            <Charge>
+                <TotalDocumentChargeAmount>
+                    <Value></Value>
+                    <Currency>
+                        <Code>USD</Code>
+                    </Currency>
+                </TotalDocumentChargeAmount>
+            </Charge>
+            <TotalDocumentTaxAmount>
+                <Value></Value>
+                <Currency>
+                    <Code>USD</Code>
+                </Currency>
+            </TotalDocumentTaxAmount>
+            <CreditAmountApplied>
+                <Value>0</Value>
+                <Currency>
+                    <Code>USD</Code>
+                </Currency>
+            </CreditAmountApplied>
+            <InterestAmountApplied>
+                <Value></Value>
+                <Currency>
+                    <Code>USD</Code>
+                </Currency>
+            </InterestAmountApplied>
+            <InterestRate>100</InterestRate>
+            <DocumentPayableLine>
+                <LineNumber>1</LineNumber>
+                <PONumber></PONumber>
+                <LineType>
+                    <Code>ITEM</Code>
+                    <Meaning></Meaning>
+                </LineType>
+                <LineDescription></LineDescription>
+                <LineGrossAmount>
+                    <Value>10000</Value>
+                    <Currency>
+                        <Code>USD</Code>
+                    </Currency>
+                </LineGrossAmount>
+                <UnitPrice></UnitPrice>
+                <Quantity></Quantity>
+                <UnitOfMeasure>
+                    <Code></Code>
+                    <Meaning></Meaning>
+                </UnitOfMeasure>
+                <Tax>
+                    <TaxCode></TaxCode>
+                    <TaxRate></TaxRate>
+                </Tax>
+            </DocumentPayableLine>
+            <Extend>
+                <CLL_BAR_CODE></CLL_BAR_CODE>
+                <CLL_TIT_COBR>N</CLL_TIT_COBR>
+                <CLL_TIT_COBR_OB>N</CLL_TIT_COBR_OB>
+                <CLL_J52_ACTIVE>N</CLL_J52_ACTIVE>
+                <CLL_TIT_CONCESS>N</CLL_TIT_CONCESS>
+                <CLL_RETURN_ID></CLL_RETURN_ID>
+                <CLL_DOC_ATTRIBUTE1></CLL_DOC_ATTRIBUTE1>
+                <CLL_DOC_ATTRIBUTE2></CLL_DOC_ATTRIBUTE2>
+                <CLL_DOC_ATTRIBUTE3></CLL_DOC_ATTRIBUTE3>
+                <CLL_DOC_ATTRIBUTE4></CLL_DOC_ATTRIBUTE4>
+                <CLL_DOC_ATTRIBUTE5></CLL_DOC_ATTRIBUTE5>
+                <CLL_DOC_ATTRIBUTE6></CLL_DOC_ATTRIBUTE6>
+                <CLL_DOC_ATTRIBUTE7></CLL_DOC_ATTRIBUTE7>
+                <CLL_DOC_ATTRIBUTE8></CLL_DOC_ATTRIBUTE8>
+                <CLL_DOC_ATTRIBUTE9></CLL_DOC_ATTRIBUTE9>
+                <CLL_DOC_ATTRIBUTE10></CLL_DOC_ATTRIBUTE10>
+                <CLL_INTEREST_AMT>0</CLL_INTEREST_AMT>
+                <CLL_INV_SUP_REG_TYPE_CODE></CLL_INV_SUP_REG_TYPE_CODE>
+                <CLL_INV_SUP_REG_NUMBER></CLL_INV_SUP_REG_NUMBER>
+                <CLL_INV_SUP_NAME></CLL_INV_SUP_NAME>
+                <CLL_PAY_SUP_REG_TYPE_CODE>2</CLL_PAY_SUP_REG_TYPE_CODE>
+                <CLL_PAY_SUP_REG_NUMBER>010515785000199</CLL_PAY_SUP_REG_NUMBER>
+                <CLL_PAY_SUP_NAME>AGREX DO BRASIL S.A.</CLL_PAY_SUP_NAME>
+            </Extend>
+            <XSCN9031>
+                <XSCN_BAR_CODE></XSCN_BAR_CODE>
+                <XSCN_TIT_COBR>N</XSCN_TIT_COBR>
+                <XSCN_TIT_COBR_OB>N</XSCN_TIT_COBR_OB>
+                <XSCN_J52_ACTIVE>N</XSCN_J52_ACTIVE>
+                <XSCN_TIT_CONCESS>N</XSCN_TIT_CONCESS>
+                <XSCN_RETURN_ID></XSCN_RETURN_ID>
+                <XSCN_DOC_ATTRIBUTE1></XSCN_DOC_ATTRIBUTE1>
+                <XSCN_DOC_ATTRIBUTE2></XSCN_DOC_ATTRIBUTE2>
+                <XSCN_DOC_ATTRIBUTE3></XSCN_DOC_ATTRIBUTE3>
+                <XSCN_DOC_ATTRIBUTE4></XSCN_DOC_ATTRIBUTE4>
+                <XSCN_DOC_ATTRIBUTE5></XSCN_DOC_ATTRIBUTE5>
+                <XSCN_DOC_ATTRIBUTE6></XSCN_DOC_ATTRIBUTE6>
+                <XSCN_DOC_ATTRIBUTE7></XSCN_DOC_ATTRIBUTE7>
+                <XSCN_DOC_ATTRIBUTE8></XSCN_DOC_ATTRIBUTE8>
+                <XSCN_DOC_ATTRIBUTE9></XSCN_DOC_ATTRIBUTE9>
+                <XSCN_DOC_ATTRIBUTE10></XSCN_DOC_ATTRIBUTE10>
+                <XSCN_INTEREST_AMT>0</XSCN_INTEREST_AMT>
+                <XSCN_INV_SUP_REG_TYPE_CODE></XSCN_INV_SUP_REG_TYPE_CODE>
+                <XSCN_INV_SUP_REG_NUMBER></XSCN_INV_SUP_REG_NUMBER>
+                <XSCN_INV_SUP_NAME></XSCN_INV_SUP_NAME>
+                <XSCN_PAY_SUP_REG_TYPE_CODE>2</XSCN_PAY_SUP_REG_TYPE_CODE>
+                <XSCN_PAY_SUP_REG_NUMBER>010515785000199</XSCN_PAY_SUP_REG_NUMBER>
+                <XSCN_PAY_SUP_NAME>AGREX DO BRASIL S.A.</XSCN_PAY_SUP_NAME>
+            </XSCN9031>
+            <DescriptiveFlexField></DescriptiveFlexField>
+            <SrcDocDescriptiveFlexField></SrcDocDescriptiveFlexField>
+            <SrcDocGlobalFlexField>
+                <AttributeCategory>JL.BR.APXINWKB.AP_INVOICES</AttributeCategory>
+                <Attribute1>N</Attribute1>
+                <Attribute2></Attribute2>
+                <Attribute3></Attribute3>
+                <Attribute4></Attribute4>
+                <Attribute5></Attribute5>
+                <Attribute6></Attribute6>
+                <Attribute7></Attribute7>
+                <Attribute8></Attribute8>
+                <Attribute9></Attribute9>
+                <Attribute10></Attribute10>
+                <Attribute11></Attribute11>
+                <Attribute12></Attribute12>
+                <Attribute13></Attribute13>
+                <Attribute14></Attribute14>
+                <Attribute15></Attribute15>
+                <Attribute16></Attribute16>
+                <Attribute17></Attribute17>
+                <Attribute18></Attribute18>
+                <Attribute19></Attribute19>
+                <Attribute20></Attribute20>
+            </SrcDocGlobalFlexField>
+            <DocumentPayerLegalEntityName>FRISIA COOPERATIVA AGROINDUSTRIAL</DocumentPayerLegalEntityName>
+            <DocumentPayerLegalEntityRegNumber>76107770000108</DocumentPayerLegalEntityRegNumber>
+            <DocumentPayerTaxRegNumber></DocumentPayerTaxRegNumber>
+        </DocumentPayable>
+        <Extend>
+            <CLL_PAYEE_BRANCH_NUM>3307</CLL_PAYEE_BRANCH_NUM>
+            <CLL_PAYEE_BRANCH_DGT>3</CLL_PAYEE_BRANCH_DGT>
+            <CLL_PAYEE_ACCT_NUM>XX02</CLL_PAYEE_ACCT_NUM>
+            <CLL_PAYEE_ACCT_DGT>2</CLL_PAYEE_ACCT_DGT>
+            <CLL_MOVEMENT_CODE></CLL_MOVEMENT_CODE>
+            <CLL_CC_CP>1</CLL_CC_CP>
+            <CLL_INF_COMPL></CLL_INF_COMPL>
+            <CLL_CR_CC>N</CLL_CR_CC>
+            <CLL_CR_CC_TIT>N</CLL_CR_CC_TIT>
+            <CLL_CR_CP>N</CLL_CR_CP>
+            <CLL_CR_CP_TIT>N</CLL_CR_CP_TIT>
+            <CLL_CR_CC_RT>N</CLL_CR_CC_RT>
+            <CLL_CR_CC_TIT_RT>N</CLL_CR_CC_TIT_RT>
+            <CLL_CR_CP_RT>N</CLL_CR_CP_RT>
+            <CLL_CR_CP_TIT_RT>N</CLL_CR_CP_TIT_RT>
+            <CLL_DOC_D>N</CLL_DOC_D>
+            <CLL_DOC_C>N</CLL_DOC_C>
+            <CLL_TED_OT>Y</CLL_TED_OT>
+            <CLL_TED_MT>N</CLL_TED_MT>
+            <CLL_CHEQUE>N</CLL_CHEQUE>
+            <CLL_ORDEM>N</CLL_ORDEM>
+            <CLL_TIT_COBR>N</CLL_TIT_COBR>
+            <CLL_TIT_COBR_OB>N</CLL_TIT_COBR_OB>
+            <CLL_TIT_CONCESS>N</CLL_TIT_CONCESS>
+            <CLL_REP_REGISTRATION_NUMBER>10515785000199</CLL_REP_REGISTRATION_NUMBER>
+            <CLL_REGISTRATION_TYPE_CODE>CNPJ</CLL_REGISTRATION_TYPE_CODE>
+            <CLL_FUTURE_PAY_DUE_DATE></CLL_FUTURE_PAY_DUE_DATE>
+            <CLL_RETURN_ID>60003</CLL_RETURN_ID>
+            <CLL_TYPE_CODE>00005</CLL_TYPE_CODE>
+            <CLL_CHECK_HORIZONTAL></CLL_CHECK_HORIZONTAL>
+            <CLL_METHOD_TYPE>ELECTRONIC</CLL_METHOD_TYPE>
+            <CLL_OU_REG_NUMBER>76107770000108</CLL_OU_REG_NUMBER>
+            <CLL_OU_ESTABLISHMENT_NAME>FRISIA COOPERATIVA AGROINDUSTRIAL</CLL_OU_ESTABLISHMENT_NAME>
+            <CLL_DEBIT_LIST_NUMBER></CLL_DEBIT_LIST_NUMBER>
+            <CLL_EXT_BANK_ACCOUNT_TYPE></CLL_EXT_BANK_ACCOUNT_TYPE>
+            <CLL_CIT_VALUE></CLL_CIT_VALUE>
+            <CLL_BANK_ACCOUNT_TYPE_EXT>CC</CLL_BANK_ACCOUNT_TYPE_EXT>
+            <CLL_EMAIL_ADDRESS></CLL_EMAIL_ADDRESS>
+        </Extend>
+        <XSCN9031>
+            <XSCN_PAYEE_BRANCH_NUM>3307</XSCN_PAYEE_BRANCH_NUM>
+            <XSCN_PAYEE_BRANCH_DGT>3</XSCN_PAYEE_BRANCH_DGT>
+            <XSCN_PAYEE_ACCT_NUM>XX02</XSCN_PAYEE_ACCT_NUM>
+            <XSCN_PAYEE_ACCT_DGT>2</XSCN_PAYEE_ACCT_DGT>
+            <XSCN_MOVEMENT_CODE></XSCN_MOVEMENT_CODE>
+            <XSCN_CC_CP>1</XSCN_CC_CP>
+            <XSCN_INF_COMPL>C0000000101</XSCN_INF_COMPL>
+            <XSCN_CR_CC>N</XSCN_CR_CC>
+            <XSCN_CR_CC_TIT>N</XSCN_CR_CC_TIT>
+            <XSCN_CR_CP>N</XSCN_CR_CP>
+            <XSCN_CR_CP_TIT>N</XSCN_CR_CP_TIT>
+            <XSCN_CR_CC_RT>N</XSCN_CR_CC_RT>
+            <XSCN_CR_CC_TIT_RT>N</XSCN_CR_CC_TIT_RT>
+            <XSCN_CR_CP_RT>N</XSCN_CR_CP_RT>
+            <XSCN_CR_CP_TIT_RT>N</XSCN_CR_CP_TIT_RT>
+            <XSCN_DOC_D>N</XSCN_DOC_D>
+            <XSCN_DOC_C>N</XSCN_DOC_C>
+            <XSCN_TED_OT>Y</XSCN_TED_OT>
+            <XSCN_TED_MT>N</XSCN_TED_MT>
+            <XSCN_CHEQUE>N</XSCN_CHEQUE>
+            <XSCN_ORDEM>N</XSCN_ORDEM>
+            <XSCN_TIT_COBR>N</XSCN_TIT_COBR>
+            <XSCN_TIT_COBR_OB>N</XSCN_TIT_COBR_OB>
+            <XSCN_TIT_CONCESS>N</XSCN_TIT_CONCESS>
+            <XSCN_REP_REGISTRATION_NUMBER>10515785000199</XSCN_REP_REGISTRATION_NUMBER>
+            <XSCN_REGISTRATION_TYPE_CODE>CNPJ</XSCN_REGISTRATION_TYPE_CODE>
+            <XSCN_FUTURE_PAY_DUE_DATE></XSCN_FUTURE_PAY_DUE_DATE>
+            <XSCN_RETURN_ID>60003</XSCN_RETURN_ID>
+            <XSCN_TYPE_CODE>08</XSCN_TYPE_CODE>
+            <XSCN_CHECK_HORIZONTAL></XSCN_CHECK_HORIZONTAL>
+            <XSCN_METHOD_TYPE>ELECTRONIC</XSCN_METHOD_TYPE>
+            <XSCN_FUNCIONAL_AMOUNT>55600</XSCN_FUNCIONAL_AMOUNT>
+            <XSCN_PAY_EXCHANGE_RATE>5.56</XSCN_PAY_EXCHANGE_RATE>
+        </XSCN9031>
+    </OutboundPayment>
+    <OutboundPayment>
+        <PaymentSourceInfo>
+            <ApplicationInternalID>200</ApplicationInternalID>
+            <ApplicationName>SQLAP</ApplicationName>
+            <PaymentServiceRequestID>1061</PaymentServiceRequestID>
+            <FunctionalCategory>
+                <Code>PAYABLES_DISB</Code>
+                <Meaning>Desembolsos a Pagar</Meaning>
+            </FunctionalCategory>
+            <PayerOrganization>
+                <OrganizationInternalID>81</OrganizationInternalID>
+                <OrganizationType>
+                    <Code>OPERATING_UNIT</Code>
+                    <Meaning>Unidade Operacional</Meaning>
+                </OrganizationType>
+                <OrganizationName>UO_FRISIA</OrganizationName>
+            </PayerOrganization>
+            <EmployeePaymentFlag>N</EmployeePaymentFlag>
+        </PaymentSourceInfo>
+        <PaymentNumber>
+            <DocCategory></DocCategory>
+            <SequenceName></SequenceName>
+            <SequenceValue></SequenceValue>
+            <PaymentReferenceNumber>229</PaymentReferenceNumber>
+            <LogicalGroupReference></LogicalGroupReference>
+            <CheckNumber>44</CheckNumber>
+        </PaymentNumber>
+        <PaymentDate>2020-05-28</PaymentDate>
+        <PaymentDueDate></PaymentDueDate>
+        <MaturityDate></MaturityDate>
+        <AnticipatedValueDate>2020-05-28</AnticipatedValueDate>
+        <PaymentStatus>
+            <Code>INSTRUCTION_CREATED</Code>
+            <Meaning>Instrução Criada</Meaning>
+        </PaymentStatus>
+        <Payee>
+            <PartyInternalID>45680</PartyInternalID>
+            <PartyNumber>6576</PartyNumber>
+            <Name>SERRA MORENA CORRETORA LTDA</Name>
+            <TaxRegistrationNumber></TaxRegistrationNumber>
+            <LegalEntityRegistrationNumber></LegalEntityRegistrationNumber>
+            <AlternateName>SERRA MORENA COMMODITIES</AlternateName>
+            <SupplierNumber>94854908</SupplierNumber>
+            <SupplierDescriptiveFlexField>
+                <AttributeCategory></AttributeCategory>
+                <Attribute1></Attribute1>
+                <Attribute2></Attribute2>
+                <Attribute3></Attribute3>
+                <Attribute4></Attribute4>
+                <Attribute5></Attribute5>
+                <Attribute6></Attribute6>
+                <Attribute7></Attribute7>
+                <Attribute8></Attribute8>
+                <Attribute9></Attribute9>
+                <Attribute10></Attribute10>
+                <Attribute11></Attribute11>
+                <Attribute12></Attribute12>
+                <Attribute13></Attribute13>
+                <Attribute14></Attribute14>
+                <Attribute15></Attribute15>
+            </SupplierDescriptiveFlexField>
+            <SupplierSiteDescriptiveFlexField>
+                <AttributeCategory></AttributeCategory>
+                <Attribute1>66682</Attribute1>
+                <Attribute2>240768</Attribute2>
+                <Attribute3></Attribute3>
+                <Attribute4></Attribute4>
+                <Attribute5></Attribute5>
+                <Attribute6></Attribute6>
+                <Attribute7></Attribute7>
+                <Attribute8></Attribute8>
+                <Attribute9></Attribute9>
+                <Attribute10></Attribute10>
+                <Attribute11></Attribute11>
+                <Attribute12></Attribute12>
+                <Attribute13></Attribute13>
+                <Attribute14></Attribute14>
+                <Attribute15></Attribute15>
+            </SupplierSiteDescriptiveFlexField>
+            <Address>
+                <AddressInternalID>24075</AddressInternalID>
+                <AddressLine1>R ALCEBIADES ANTONIO SANT</AddressLine1>
+                <AddressLine2>610</AddressLine2>
+                <AddressLine3>R ALCEBIADES ANTONIO SANT</AddressLine3>
+                <AddressLine4>NONOAI</AddressLine4>
+                <City>PORTO ALEGRE</City>
+                <County></County>
+                <State>RS</State>
+                <Country>BR</Country>
+                <ISO3DigitCountry>BRA</ISO3DigitCountry>
+                <CountryName>Brasil</CountryName>
+                <PostalCode>91720580</PostalCode>
+                <AddressName>0001-06</AddressName>
+                <Addressee></Addressee>
+                <AlternateAddressName></AlternateAddressName>
+                <PreFormattedConcatenatedAddress>R ALCEBIADES ANTONIO SANT, 610, R ALCEBIADES ANTONIO SANT, PORTO ALEGRE, RS, BR, 91720580</PreFormattedConcatenatedAddress>
+                <PreFormattedMailingAddress>R ALCEBIADES ANTONIO SANT, 610, R ALCEBIADES ANTONIO SANT, PORTO ALEGRE, RS, BR, 91720580</PreFormattedMailingAddress>
+            </Address>
+            <ContactInfo>
+                <ContactLocators>
+                    <PhoneNumber></PhoneNumber>
+                    <FaxNumber></FaxNumber>
+                    <EmailAddress></EmailAddress>
+                    <Website></Website>
+                </ContactLocators>
+            </ContactInfo>
+            <SupplierSiteCode>0001-06</SupplierSiteCode>
+        </Payee>
+        <TradingPartner>
+            <PartyInternalID>45680</PartyInternalID>
+            <PartyNumber>6576</PartyNumber>
+            <Name>SERRA MORENA CORRETORA LTDA</Name>
+            <TaxRegistrationNumber></TaxRegistrationNumber>
+            <LegalEntityRegistrationNumber></LegalEntityRegistrationNumber>
+            <AlternateName>SERRA MORENA COMMODITIES</AlternateName>
+            <SupplierNumber>94854908</SupplierNumber>
+            <SupplierDescriptiveFlexField>
+                <AttributeCategory></AttributeCategory>
+                <Attribute1></Attribute1>
+                <Attribute2></Attribute2>
+                <Attribute3></Attribute3>
+                <Attribute4></Attribute4>
+                <Attribute5></Attribute5>
+                <Attribute6></Attribute6>
+                <Attribute7></Attribute7>
+                <Attribute8></Attribute8>
+                <Attribute9></Attribute9>
+                <Attribute10></Attribute10>
+                <Attribute11></Attribute11>
+                <Attribute12></Attribute12>
+                <Attribute13></Attribute13>
+                <Attribute14></Attribute14>
+                <Attribute15></Attribute15>
+            </SupplierDescriptiveFlexField>
+            <SupplierSiteDescriptiveFlexField>
+                <AttributeCategory></AttributeCategory>
+                <Attribute1>66682</Attribute1>
+                <Attribute2>240768</Attribute2>
+                <Attribute3></Attribute3>
+                <Attribute4></Attribute4>
+                <Attribute5></Attribute5>
+                <Attribute6></Attribute6>
+                <Attribute7></Attribute7>
+                <Attribute8></Attribute8>
+                <Attribute9></Attribute9>
+                <Attribute10></Attribute10>
+                <Attribute11></Attribute11>
+                <Attribute12></Attribute12>
+                <Attribute13></Attribute13>
+                <Attribute14></Attribute14>
+                <Attribute15></Attribute15>
+            </SupplierSiteDescriptiveFlexField>
+            <ContactInfo>
+                <ContactLocators>
+                    <PhoneNumber></PhoneNumber>
+                    <FaxNumber></FaxNumber>
+                    <EmailAddress></EmailAddress>
+                    <Website></Website>
+                </ContactLocators>
+            </ContactInfo>
+            <AdditionalInformation></AdditionalInformation>
+        </TradingPartner>
+        <PayeeBankAccount>
+            <BankAccountInternalID>4086</BankAccountInternalID>
+            <BankName>BANCO DO BRASIL S/A</BankName>
+            <AlternateBankName>BANCO DO BRASIL S/A</AlternateBankName>
+            <BankNumber>001</BankNumber>
+            <BranchInternalID>152057</BranchInternalID>
+            <BranchName>3418-5 BB</BranchName>
+            <AlternateBranchName></AlternateBranchName>
+            <BranchNumber>3418-5</BranchNumber>
+            <BankCode></BankCode>
+            <BankAccountName>4426-1</BankAccountName>
+            <AlternateBankAccountName></AlternateBankAccountName>
+            <BankAccountNumber>4426-1</BankAccountNumber>
+            <MaskedBankAccountNumber>XX26-1</MaskedBankAccountNumber>
+            <UserEnteredBankAccountNumber>4426-1</UserEnteredBankAccountNumber>
+            <BankAccountSuffix></BankAccountSuffix>
+            <SwiftCode></SwiftCode>
+            <IBANNumber></IBANNumber>
+            <MaskedIBANNumber></MaskedIBANNumber>
+            <CheckDigits></CheckDigits>
+            <BankAccountType>
+                <Code></Code>
+                <Meaning></Meaning>
+            </BankAccountType>
+            <BankAccountCurrency>
+                <Code></Code>
+            </BankAccountCurrency>
+            <BankAddress>
+                <Country>BR</Country>
+                <ISO3DigitCountry>BRA</ISO3DigitCountry>
+                <CountryName>Brasil</CountryName>
+            </BankAddress>
+            <PrimaryOwner>
+                <Name>SERRA MORENA CORRETORA LTDA</Name>
+            </PrimaryOwner>
+            <FactorAccount>
+                <Code></Code>
+                <Meaning></Meaning>
+            </FactorAccount>
+            <IntermediaryBankAccount1>
+                <IntermediaryAccountID>425</IntermediaryAccountID>
+                <BankAccountNumber></BankAccountNumber>
+                <IBANNumber></IBANNumber>
+                <BankName></BankName>
+                <BankCode></BankCode>
+                <BranchNumber></BranchNumber>
+                <SwiftCode></SwiftCode>
+                <CheckDigits></CheckDigits>
+                <City></City>
+                <Country></Country>
+                <Comments></Comments>
+            </IntermediaryBankAccount1>
+            <IntermediaryBankAccount2>
+                <IntermediaryAccountID>426</IntermediaryAccountID>
+                <BankAccountNumber></BankAccountNumber>
+                <IBANNumber></IBANNumber>
+                <BankName></BankName>
+                <BankCode></BankCode>
+                <BranchNumber></BranchNumber>
+                <SwiftCode></SwiftCode>
+                <CheckDigits></CheckDigits>
+                <City></City>
+                <Country></Country>
+                <Comments></Comments>
+            </IntermediaryBankAccount2>
+            <DescriptiveFlexField>
+                <AttributeCategory></AttributeCategory>
+                <Attribute1></Attribute1>
+                <Attribute2></Attribute2>
+                <Attribute3></Attribute3>
+                <Attribute4></Attribute4>
+                <Attribute5></Attribute5>
+                <Attribute6></Attribute6>
+                <Attribute7></Attribute7>
+                <Attribute8></Attribute8>
+                <Attribute9></Attribute9>
+                <Attribute10></Attribute10>
+                <Attribute11></Attribute11>
+                <Attribute12></Attribute12>
+                <Attribute13></Attribute13>
+                <Attribute14></Attribute14>
+                <Attribute15></Attribute15>
+            </DescriptiveFlexField>
+        </PayeeBankAccount>
+        <Payer>
+            <PartyInternalID>4041</PartyInternalID>
+            <PartyNumber>1100</PartyNumber>
+            <Name>FRISIA COOPERATIVA AGROINDUSTRIAL</Name>
+            <PartyType>
+                <Code></Code>
+                <Meaning></Meaning>
+            </PartyType>
+            <TaxRegistrationNumber></TaxRegistrationNumber>
+            <LegalEntityRegistrationNumber>76107770000108</LegalEntityRegistrationNumber>
+            <LegalEntityInternalID>23274</LegalEntityInternalID>
+            <LegalEntityName>FRISIA COOPERATIVA AGROINDUSTRIAL</LegalEntityName>
+            <Address>
+                <AddressInternalID>222</AddressInternalID>
+                <AddressLine1>AVENIDA DOS PIONEIROS</AddressLine1>
+                <AddressLine2>2324</AddressLine2>
+                <AddressLine3>ARMAZENS E SECADORES</AddressLine3>
+                <City>CARAMBEI</City>
+                <County>CENTRO</County>
+                <State>PR</State>
+                <Province></Province>
+                <Country>BR</Country>
+                <ISO3DigitCountry>BRA</ISO3DigitCountry>
+                <CountryName>Brasil</CountryName>
+                <PostalCode>84145000</PostalCode>
+                <PreFormattedConcatenatedAddress>AVENIDA DOS PIONEIROS, 2324, ARMAZENS E SECADORES, CARAMBEI CENTRO PR 84145000, BRASIL</PreFormattedConcatenatedAddress>
+                <PreFormattedMailingAddress>AVENIDA DOS PIONEIROS, 2324, ARMAZENS E SECADORES, CARAMBEI CENTRO PR 84145000, BRASIL</PreFormattedMailingAddress>
+                <AddressName>011-ARMAZENS CARAMBEI</AddressName>
+            </Address>
+            <ContactInfo>
+                <ContactLocators>
+                    <PhoneNumber>(42)3231-9000</PhoneNumber>
+                    <FaxNumber></FaxNumber>
+                    <EmailAddress></EmailAddress>
+                    <Website></Website>
+                </ContactLocators>
+            </ContactInfo>
+        </Payer>
+        <BankAccount>
+            <BankAccountInternalID>13002</BankAccountInternalID>
+            <BankName>BANCO BRADESCO</BankName>
+            <AlternateBankName>BANCO BRADESCO</AlternateBankName>
+            <BankNumber>237</BankNumber>
+            <BranchInternalID>34056</BranchInternalID>
+            <BranchName>3099 - BRADESCO CURITIBA</BranchName>
+            <AlternateBranchName>3099 - BRADESCO CURITIBA</AlternateBranchName>
+            <BranchNumber>3099</BranchNumber>
+            <BankAccountName>1816-3 BRADESCO CURITIBA</BankAccountName>
+            <AlternateBankAccountName>1816-3 BRADESCO CURITIBA</AlternateBankAccountName>
+            <BankAccountNumber>1816</BankAccountNumber>
+            <MaskedBankAccountNumber>1816</MaskedBankAccountNumber>
+            <UserEnteredBankAccountNumber>1816</UserEnteredBankAccountNumber>
+            <BankAccountSuffix></BankAccountSuffix>
+            <SwiftCode></SwiftCode>
+            <IBANNumber></IBANNumber>
+            <MaskedIBANNumber></MaskedIBANNumber>
+            <CheckDigits>3</CheckDigits>
+            <BankAccountType>
+                <Code>OTHER</Code>
+                <Meaning>Outro</Meaning>
+            </BankAccountType>
+            <BankAccountCurrency>
+                <Code>BRL</Code>
+            </BankAccountCurrency>
+            <BankAddress>
+                <Country>BR</Country>
+                <ISO3DigitCountry>BRA</ISO3DigitCountry>
+                <CountryName>Brasil</CountryName>
+            </BankAddress>
+            <FederalBankAccountInfo>
+                <FederalRFCIdentifier></FederalRFCIdentifier>
+                <FederalAgencyLocationCode></FederalAgencyLocationCode>
+                <FederalAbbreviatedAgencyCode></FederalAbbreviatedAgencyCode>
+                <FederalEmployerIdentificationNumber></FederalEmployerIdentificationNumber>
+            </FederalBankAccountInfo>
+            <EFTUserNumber>
+                <AccountLevelEFTNumber>374770</AccountLevelEFTNumber>
+                <BranchLevelEFTNumber></BranchLevelEFTNumber>
+            </EFTUserNumber>
+        </BankAccount>
+        <Beneficiary>
+            <Name>SERRA MORENA CORRETORA LTDA</Name>
+        </Beneficiary>
+        <PaymentAmount>
+            <Value>10000</Value>
+            <Currency>
+                <Code>USD</Code>
+                <Name>Dólar Americano</Name>
+            </Currency>
+        </PaymentAmount>
+        <PaymentAmountText>Dez Mil Dólar E Zero Cents*****</PaymentAmountText>
+        <PaymentMethod>
+            <PaymentMethodInternalID>ELETRONICO</PaymentMethodInternalID>
+            <PaymentMethodName>ELETRONICO</PaymentMethodName>
+            <PaymentMethodFormatValue>ELETRONICO</PaymentMethodFormatValue>
+        </PaymentMethod>
+        <PayAlongFlag>N</PayAlongFlag>
+        <SettlementPriority>
+            <Code></Code>
+            <Meaning></Meaning>
+        </SettlementPriority>
+        <AmountWithheld>
+            <Value></Value>
+            <Currency>
+                <Code>USD</Code>
+            </Currency>
+        </AmountWithheld>
+        <DiscountTaken>
+            <Amount>
+                <Value>0</Value>
+                <Currency>
+                    <Code>USD</Code>
+                </Currency>
+            </Amount>
+        </DiscountTaken>
+        <BankCharges>
+            <BankChargeBearer>
+                <Code></Code>
+                <Meaning></Meaning>
+            </BankChargeBearer>
+            <Amount>
+                <Value>0</Value>
+                <Currency>
+                    <Code>USD</Code>
+                </Currency>
+            </Amount>
+        </BankCharges>
+        <DeliveryChannel>
+            <Code></Code>
+            <Meaning></Meaning>
+            <FormatValue></FormatValue>
+        </DeliveryChannel>
+        <ServiceLevel>
+            <Code></Code>
+            <Meaning></Meaning>
+            <FormatValue></FormatValue>
+        </ServiceLevel>
+        <PaymentReason>
+            <Code></Code>
+            <Meaning></Meaning>
+            <FormatValue></FormatValue>
+        </PaymentReason>
+        <PaymentReasonComments></PaymentReasonComments>
+        <RemittanceMessage></RemittanceMessage>
+        <RemittanceMessage></RemittanceMessage>
+        <RemittanceMessage></RemittanceMessage>
+        <InvoicingLegalEntityId></InvoicingLegalEntityId>
+        <BankInstruction>
+            <BankInstructionCode></BankInstructionCode>
+            <Meaning></Meaning>
+            <FormatValue></FormatValue>
+        </BankInstruction>
+        <BankInstruction>
+            <BankInstructionCode></BankInstructionCode>
+            <Meaning></Meaning>
+            <FormatValue></FormatValue>
+        </BankInstruction>
+        <BankInstructionDetails></BankInstructionDetails>
+        <PaymentTextMessage></PaymentTextMessage>
+        <PaymentTextMessage></PaymentTextMessage>
+        <PaymentTextMessage></PaymentTextMessage>
+        <PaymentDetails></PaymentDetails>
+        <RegulatoryReporting>
+            <DeclarationFlag>N</DeclarationFlag>
+            <Amount>
+                <Value>0</Value>
+                <Currency>
+                    <Code></Code>
+                </Currency>
+            </Amount>
+        </RegulatoryReporting>
+        <FederalPaymentInfo>
+            <FederalAllotmentCode></FederalAllotmentCode>
+            <FederalOffsetEligibilityFlag></FederalOffsetEligibilityFlag>
+            <FederalAccountingSymbol></FederalAccountingSymbol>
+        </FederalPaymentInfo>
+        <DocumentPayableCount>1</DocumentPayableCount>
+        <SrcDescriptiveFlexField></SrcDescriptiveFlexField>
+        <DocumentPayable>
+            <DocumentNumber>
+                <DocumentInternalIDSegment1>10581</DocumentInternalIDSegment1>
+                <DocumentInternalIDSegment2>74018</DocumentInternalIDSegment2>
+                <DocumentInternalIDSegment3>1</DocumentInternalIDSegment3>
+                <DocumentInternalIDSegment4></DocumentInternalIDSegment4>
+                <DocumentInternalIDSegment5></DocumentInternalIDSegment5>
+                <ApplicationInternalID>200</ApplicationInternalID>
+                <ApplicationDocumentSubType>PAYABLES_DOC</ApplicationDocumentSubType>
+                <ApplicationUniqueInternalID>10581</ApplicationUniqueInternalID>
+                <ReferenceNumber>15051026</ReferenceNumber>
+                <UniqueRemittanceIdentifier>
+                    <Number></Number>
+                    <CheckDigit></CheckDigit>
+                </UniqueRemittanceIdentifier>
+                <DocCategory></DocCategory>
+                <SequenceName></SequenceName>
+                <SequenceValue></SequenceValue>
+            </DocumentNumber>
+            <PONumber>UNMATCHED</PONumber>
+            <DocumentStatus>
+                <Code>PAYMENT_CREATED</Code>
+                <Meaning>Pagamento Criado</Meaning>
+            </DocumentStatus>
+            <DocumentDate>2020-05-15</DocumentDate>
+            <DocumentCreationDate>2020-05-28</DocumentCreationDate>
+            <PaymentDueDate>2020-05-28</PaymentDueDate>
+            <DocumentType>
+                <Code>STANDARD</Code>
+                <Meaning>Padrão</Meaning>
+            </DocumentType>
+            <DocumentDescription></DocumentDescription>
+            <ExpenseReportCreditCardNumber></ExpenseReportCreditCardNumber>
+            <EmployeePaymentFlag>N</EmployeePaymentFlag>
+            <TotalDocumentAmount>
+                <Value>10000</Value>
+                <Currency>
+                    <Code>USD</Code>
+                </Currency>
+            </TotalDocumentAmount>
+            <PaymentAmount>
+                <Value>10000</Value>
+                <Currency>
+                    <Code>USD</Code>
+                </Currency>
+            </PaymentAmount>
+            <PayAloneFlag>N</PayAloneFlag>
+            <SettlementPriority>
+                <Code></Code>
+                <Meaning></Meaning>
+            </SettlementPriority>
+            <AmountWithheld>
+                <Value></Value>
+                <Currency>
+                    <Code>USD</Code>
+                </Currency>
+            </AmountWithheld>
+            <DiscountTaken>
+                <Amount>
+                    <Value>0</Value>
+                    <Currency>
+                        <Code>USD</Code>
+                    </Currency>
+                </Amount>
+                <DiscountDate>2020-05-28</DiscountDate>
+            </DiscountTaken>
+            <BankCharges>
+                <BankChargeBearer>
+                    <Code></Code>
+                    <Meaning></Meaning>
+                </BankChargeBearer>
+            </BankCharges>
+            <DeliveryChannel>
+                <Code></Code>
+                <Meaning></Meaning>
+                <FormatValue></FormatValue>
+            </DeliveryChannel>
+            <PaymentReason>
+                <Code></Code>
+                <Meaning></Meaning>
+                <FormatValue></FormatValue>
+            </PaymentReason>
+            <PaymentReasonComments></PaymentReasonComments>
+            <RemittanceMessage></RemittanceMessage>
+            <RemittanceMessage></RemittanceMessage>
+            <RemittanceMessage></RemittanceMessage>
+            <Charge>
+                <TotalDocumentChargeAmount>
+                    <Value></Value>
+                    <Currency>
+                        <Code>USD</Code>
+                    </Currency>
+                </TotalDocumentChargeAmount>
+            </Charge>
+            <TotalDocumentTaxAmount>
+                <Value></Value>
+                <Currency>
+                    <Code>USD</Code>
+                </Currency>
+            </TotalDocumentTaxAmount>
+            <CreditAmountApplied>
+                <Value>0</Value>
+                <Currency>
+                    <Code>USD</Code>
+                </Currency>
+            </CreditAmountApplied>
+            <InterestAmountApplied>
+                <Value></Value>
+                <Currency>
+                    <Code>USD</Code>
+                </Currency>
+            </InterestAmountApplied>
+            <InterestRate>100</InterestRate>
+            <DocumentPayableLine>
+                <LineNumber>1</LineNumber>
+                <PONumber></PONumber>
+                <LineType>
+                    <Code>ITEM</Code>
+                    <Meaning></Meaning>
+                </LineType>
+                <LineDescription></LineDescription>
+                <LineGrossAmount>
+                    <Value>10000</Value>
+                    <Currency>
+                        <Code>USD</Code>
+                    </Currency>
+                </LineGrossAmount>
+                <UnitPrice></UnitPrice>
+                <Quantity></Quantity>
+                <UnitOfMeasure>
+                    <Code></Code>
+                    <Meaning></Meaning>
+                </UnitOfMeasure>
+                <Tax>
+                    <TaxCode></TaxCode>
+                    <TaxRate></TaxRate>
+                </Tax>
+            </DocumentPayableLine>
+            <Extend>
+                <CLL_BAR_CODE></CLL_BAR_CODE>
+                <CLL_TIT_COBR>N</CLL_TIT_COBR>
+                <CLL_TIT_COBR_OB>N</CLL_TIT_COBR_OB>
+                <CLL_J52_ACTIVE>N</CLL_J52_ACTIVE>
+                <CLL_TIT_CONCESS>N</CLL_TIT_CONCESS>
+                <CLL_RETURN_ID></CLL_RETURN_ID>
+                <CLL_DOC_ATTRIBUTE1></CLL_DOC_ATTRIBUTE1>
+                <CLL_DOC_ATTRIBUTE2></CLL_DOC_ATTRIBUTE2>
+                <CLL_DOC_ATTRIBUTE3></CLL_DOC_ATTRIBUTE3>
+                <CLL_DOC_ATTRIBUTE4></CLL_DOC_ATTRIBUTE4>
+                <CLL_DOC_ATTRIBUTE5></CLL_DOC_ATTRIBUTE5>
+                <CLL_DOC_ATTRIBUTE6></CLL_DOC_ATTRIBUTE6>
+                <CLL_DOC_ATTRIBUTE7></CLL_DOC_ATTRIBUTE7>
+                <CLL_DOC_ATTRIBUTE8></CLL_DOC_ATTRIBUTE8>
+                <CLL_DOC_ATTRIBUTE9></CLL_DOC_ATTRIBUTE9>
+                <CLL_DOC_ATTRIBUTE10></CLL_DOC_ATTRIBUTE10>
+                <CLL_INTEREST_AMT>0</CLL_INTEREST_AMT>
+                <CLL_INV_SUP_REG_TYPE_CODE></CLL_INV_SUP_REG_TYPE_CODE>
+                <CLL_INV_SUP_REG_NUMBER></CLL_INV_SUP_REG_NUMBER>
+                <CLL_INV_SUP_NAME></CLL_INV_SUP_NAME>
+                <CLL_PAY_SUP_REG_TYPE_CODE>2</CLL_PAY_SUP_REG_TYPE_CODE>
+                <CLL_PAY_SUP_REG_NUMBER>094854908000106</CLL_PAY_SUP_REG_NUMBER>
+                <CLL_PAY_SUP_NAME>SERRA MORENA CORRETORA LTDA</CLL_PAY_SUP_NAME>
+            </Extend>
+            <XSCN9031>
+                <XSCN_BAR_CODE></XSCN_BAR_CODE>
+                <XSCN_TIT_COBR>N</XSCN_TIT_COBR>
+                <XSCN_TIT_COBR_OB>N</XSCN_TIT_COBR_OB>
+                <XSCN_J52_ACTIVE>N</XSCN_J52_ACTIVE>
+                <XSCN_TIT_CONCESS>N</XSCN_TIT_CONCESS>
+                <XSCN_RETURN_ID></XSCN_RETURN_ID>
+                <XSCN_DOC_ATTRIBUTE1></XSCN_DOC_ATTRIBUTE1>
+                <XSCN_DOC_ATTRIBUTE2></XSCN_DOC_ATTRIBUTE2>
+                <XSCN_DOC_ATTRIBUTE3></XSCN_DOC_ATTRIBUTE3>
+                <XSCN_DOC_ATTRIBUTE4></XSCN_DOC_ATTRIBUTE4>
+                <XSCN_DOC_ATTRIBUTE5></XSCN_DOC_ATTRIBUTE5>
+                <XSCN_DOC_ATTRIBUTE6></XSCN_DOC_ATTRIBUTE6>
+                <XSCN_DOC_ATTRIBUTE7></XSCN_DOC_ATTRIBUTE7>
+                <XSCN_DOC_ATTRIBUTE8></XSCN_DOC_ATTRIBUTE8>
+                <XSCN_DOC_ATTRIBUTE9></XSCN_DOC_ATTRIBUTE9>
+                <XSCN_DOC_ATTRIBUTE10></XSCN_DOC_ATTRIBUTE10>
+                <XSCN_INTEREST_AMT>0</XSCN_INTEREST_AMT>
+                <XSCN_INV_SUP_REG_TYPE_CODE></XSCN_INV_SUP_REG_TYPE_CODE>
+                <XSCN_INV_SUP_REG_NUMBER></XSCN_INV_SUP_REG_NUMBER>
+                <XSCN_INV_SUP_NAME></XSCN_INV_SUP_NAME>
+                <XSCN_PAY_SUP_REG_TYPE_CODE>2</XSCN_PAY_SUP_REG_TYPE_CODE>
+                <XSCN_PAY_SUP_REG_NUMBER>094854908000106</XSCN_PAY_SUP_REG_NUMBER>
+                <XSCN_PAY_SUP_NAME>SERRA MORENA CORRETORA LTDA</XSCN_PAY_SUP_NAME>
+            </XSCN9031>
+            <DescriptiveFlexField></DescriptiveFlexField>
+            <SrcDocDescriptiveFlexField></SrcDocDescriptiveFlexField>
+            <SrcDocGlobalFlexField>
+                <AttributeCategory>JL.BR.APXINWKB.AP_INVOICES</AttributeCategory>
+                <Attribute1>N</Attribute1>
+                <Attribute2></Attribute2>
+                <Attribute3></Attribute3>
+                <Attribute4></Attribute4>
+                <Attribute5></Attribute5>
+                <Attribute6></Attribute6>
+                <Attribute7></Attribute7>
+                <Attribute8></Attribute8>
+                <Attribute9></Attribute9>
+                <Attribute10></Attribute10>
+                <Attribute11></Attribute11>
+                <Attribute12></Attribute12>
+                <Attribute13></Attribute13>
+                <Attribute14></Attribute14>
+                <Attribute15></Attribute15>
+                <Attribute16></Attribute16>
+                <Attribute17></Attribute17>
+                <Attribute18></Attribute18>
+                <Attribute19></Attribute19>
+                <Attribute20></Attribute20>
+            </SrcDocGlobalFlexField>
+            <DocumentPayerLegalEntityName>FRISIA COOPERATIVA AGROINDUSTRIAL</DocumentPayerLegalEntityName>
+            <DocumentPayerLegalEntityRegNumber>76107770000108</DocumentPayerLegalEntityRegNumber>
+            <DocumentPayerTaxRegNumber></DocumentPayerTaxRegNumber>
+        </DocumentPayable>
+        <Extend>
+            <CLL_PAYEE_BRANCH_NUM>3418</CLL_PAYEE_BRANCH_NUM>
+            <CLL_PAYEE_BRANCH_DGT>5</CLL_PAYEE_BRANCH_DGT>
+            <CLL_PAYEE_ACCT_NUM>4426</CLL_PAYEE_ACCT_NUM>
+            <CLL_PAYEE_ACCT_DGT>1</CLL_PAYEE_ACCT_DGT>
+            <CLL_MOVEMENT_CODE></CLL_MOVEMENT_CODE>
+            <CLL_CC_CP>1</CLL_CC_CP>
+            <CLL_INF_COMPL></CLL_INF_COMPL>
+            <CLL_CR_CC>N</CLL_CR_CC>
+            <CLL_CR_CC_TIT>N</CLL_CR_CC_TIT>
+            <CLL_CR_CP>N</CLL_CR_CP>
+            <CLL_CR_CP_TIT>N</CLL_CR_CP_TIT>
+            <CLL_CR_CC_RT>N</CLL_CR_CC_RT>
+            <CLL_CR_CC_TIT_RT>N</CLL_CR_CC_TIT_RT>
+            <CLL_CR_CP_RT>N</CLL_CR_CP_RT>
+            <CLL_CR_CP_TIT_RT>N</CLL_CR_CP_TIT_RT>
+            <CLL_DOC_D>N</CLL_DOC_D>
+            <CLL_DOC_C>N</CLL_DOC_C>
+            <CLL_TED_OT>Y</CLL_TED_OT>
+            <CLL_TED_MT>N</CLL_TED_MT>
+            <CLL_CHEQUE>N</CLL_CHEQUE>
+            <CLL_ORDEM>N</CLL_ORDEM>
+            <CLL_TIT_COBR>N</CLL_TIT_COBR>
+            <CLL_TIT_COBR_OB>N</CLL_TIT_COBR_OB>
+            <CLL_TIT_CONCESS>N</CLL_TIT_CONCESS>
+            <CLL_REP_REGISTRATION_NUMBER>94854908000106</CLL_REP_REGISTRATION_NUMBER>
+            <CLL_REGISTRATION_TYPE_CODE>CNPJ</CLL_REGISTRATION_TYPE_CODE>
+            <CLL_FUTURE_PAY_DUE_DATE></CLL_FUTURE_PAY_DUE_DATE>
+            <CLL_RETURN_ID>60004</CLL_RETURN_ID>
+            <CLL_TYPE_CODE>00005</CLL_TYPE_CODE>
+            <CLL_CHECK_HORIZONTAL></CLL_CHECK_HORIZONTAL>
+            <CLL_METHOD_TYPE>ELECTRONIC</CLL_METHOD_TYPE>
+            <CLL_OU_REG_NUMBER>76107770000108</CLL_OU_REG_NUMBER>
+            <CLL_OU_ESTABLISHMENT_NAME>FRISIA COOPERATIVA AGROINDUSTRIAL</CLL_OU_ESTABLISHMENT_NAME>
+            <CLL_DEBIT_LIST_NUMBER></CLL_DEBIT_LIST_NUMBER>
+            <CLL_EXT_BANK_ACCOUNT_TYPE></CLL_EXT_BANK_ACCOUNT_TYPE>
+            <CLL_CIT_VALUE></CLL_CIT_VALUE>
+            <CLL_BANK_ACCOUNT_TYPE_EXT>CC</CLL_BANK_ACCOUNT_TYPE_EXT>
+            <CLL_EMAIL_ADDRESS></CLL_EMAIL_ADDRESS>
+        </Extend>
+        <XSCN9031>
+            <XSCN_PAYEE_BRANCH_NUM>3418</XSCN_PAYEE_BRANCH_NUM>
+            <XSCN_PAYEE_BRANCH_DGT>5</XSCN_PAYEE_BRANCH_DGT>
+            <XSCN_PAYEE_ACCT_NUM>4426</XSCN_PAYEE_ACCT_NUM>
+            <XSCN_PAYEE_ACCT_DGT>1</XSCN_PAYEE_ACCT_DGT>
+            <XSCN_MOVEMENT_CODE></XSCN_MOVEMENT_CODE>
+            <XSCN_CC_CP>1</XSCN_CC_CP>
+            <XSCN_INF_COMPL>C0000000101</XSCN_INF_COMPL>
+            <XSCN_CR_CC>N</XSCN_CR_CC>
+            <XSCN_CR_CC_TIT>N</XSCN_CR_CC_TIT>
+            <XSCN_CR_CP>N</XSCN_CR_CP>
+            <XSCN_CR_CP_TIT>N</XSCN_CR_CP_TIT>
+            <XSCN_CR_CC_RT>N</XSCN_CR_CC_RT>
+            <XSCN_CR_CC_TIT_RT>N</XSCN_CR_CC_TIT_RT>
+            <XSCN_CR_CP_RT>N</XSCN_CR_CP_RT>
+            <XSCN_CR_CP_TIT_RT>N</XSCN_CR_CP_TIT_RT>
+            <XSCN_DOC_D>N</XSCN_DOC_D>
+            <XSCN_DOC_C>N</XSCN_DOC_C>
+            <XSCN_TED_OT>Y</XSCN_TED_OT>
+            <XSCN_TED_MT>N</XSCN_TED_MT>
+            <XSCN_CHEQUE>N</XSCN_CHEQUE>
+            <XSCN_ORDEM>N</XSCN_ORDEM>
+            <XSCN_TIT_COBR>N</XSCN_TIT_COBR>
+            <XSCN_TIT_COBR_OB>N</XSCN_TIT_COBR_OB>
+            <XSCN_TIT_CONCESS>N</XSCN_TIT_CONCESS>
+            <XSCN_REP_REGISTRATION_NUMBER>94854908000106</XSCN_REP_REGISTRATION_NUMBER>
+            <XSCN_REGISTRATION_TYPE_CODE>CNPJ</XSCN_REGISTRATION_TYPE_CODE>
+            <XSCN_FUTURE_PAY_DUE_DATE></XSCN_FUTURE_PAY_DUE_DATE>
+            <XSCN_RETURN_ID>60004</XSCN_RETURN_ID>
+            <XSCN_TYPE_CODE>08</XSCN_TYPE_CODE>
+            <XSCN_CHECK_HORIZONTAL></XSCN_CHECK_HORIZONTAL>
+            <XSCN_METHOD_TYPE>ELECTRONIC</XSCN_METHOD_TYPE>
+            <XSCN_FUNCIONAL_AMOUNT>55600</XSCN_FUNCIONAL_AMOUNT>
+            <XSCN_PAY_EXCHANGE_RATE>5.56</XSCN_PAY_EXCHANGE_RATE>
+        </XSCN9031>
+    </OutboundPayment>
+    <OutboundPayment>
+        <PaymentSourceInfo>
+            <ApplicationInternalID>200</ApplicationInternalID>
+            <ApplicationName>SQLAP</ApplicationName>
+            <PaymentServiceRequestID>1061</PaymentServiceRequestID>
+            <FunctionalCategory>
+                <Code>PAYABLES_DISB</Code>
+                <Meaning>Desembolsos a Pagar</Meaning>
+            </FunctionalCategory>
+            <PayerOrganization>
+                <OrganizationInternalID>81</OrganizationInternalID>
+                <OrganizationType>
+                    <Code>OPERATING_UNIT</Code>
+                    <Meaning>Unidade Operacional</Meaning>
+                </OrganizationType>
+                <OrganizationName>UO_FRISIA</OrganizationName>
+            </PayerOrganization>
+            <EmployeePaymentFlag>N</EmployeePaymentFlag>
+        </PaymentSourceInfo>
+        <PaymentNumber>
+            <DocCategory></DocCategory>
+            <SequenceName></SequenceName>
+            <SequenceValue></SequenceValue>
+            <PaymentReferenceNumber>230</PaymentReferenceNumber>
+            <LogicalGroupReference></LogicalGroupReference>
+            <CheckNumber>45</CheckNumber>
+        </PaymentNumber>
+        <PaymentDate>2020-05-28</PaymentDate>
+        <PaymentDueDate></PaymentDueDate>
+        <MaturityDate></MaturityDate>
+        <AnticipatedValueDate>2020-05-28</AnticipatedValueDate>
+        <PaymentStatus>
+            <Code>INSTRUCTION_CREATED</Code>
+            <Meaning>Instrução Criada</Meaning>
         </PaymentStatus>
         <Payee>
             <PartyInternalID>48785</PartyInternalID>
@@ -443,24 +1884,24 @@
             </ContactInfo>
         </Payer>
         <BankAccount>
-            <BankAccountInternalID>12000</BankAccountInternalID>
-            <BankName>BANCO DO BRASIL S/A</BankName>
-            <AlternateBankName>BANCO DO BRASIL S/A</AlternateBankName>
-            <BankNumber>001</BankNumber>
-            <BranchInternalID>6046</BranchInternalID>
-            <BranchName>3306-5 - CORPORATE</BranchName>
-            <AlternateBranchName>3306-5 - CORPORATE</AlternateBranchName>
-            <BranchNumber>3306-5</BranchNumber>
-            <BankAccountName>3051-1 - BB CORPORATE</BankAccountName>
-            <AlternateBankAccountName>3051-1 - BB CORPORATE</AlternateBankAccountName>
-            <BankAccountNumber>3051</BankAccountNumber>
-            <MaskedBankAccountNumber>3051</MaskedBankAccountNumber>
-            <UserEnteredBankAccountNumber>3051</UserEnteredBankAccountNumber>
+            <BankAccountInternalID>13002</BankAccountInternalID>
+            <BankName>BANCO BRADESCO</BankName>
+            <AlternateBankName>BANCO BRADESCO</AlternateBankName>
+            <BankNumber>237</BankNumber>
+            <BranchInternalID>34056</BranchInternalID>
+            <BranchName>3099 - BRADESCO CURITIBA</BranchName>
+            <AlternateBranchName>3099 - BRADESCO CURITIBA</AlternateBranchName>
+            <BranchNumber>3099</BranchNumber>
+            <BankAccountName>1816-3 BRADESCO CURITIBA</BankAccountName>
+            <AlternateBankAccountName>1816-3 BRADESCO CURITIBA</AlternateBankAccountName>
+            <BankAccountNumber>1816</BankAccountNumber>
+            <MaskedBankAccountNumber>1816</MaskedBankAccountNumber>
+            <UserEnteredBankAccountNumber>1816</UserEnteredBankAccountNumber>
             <BankAccountSuffix></BankAccountSuffix>
             <SwiftCode></SwiftCode>
             <IBANNumber></IBANNumber>
             <MaskedIBANNumber></MaskedIBANNumber>
-            <CheckDigits>1</CheckDigits>
+            <CheckDigits>3</CheckDigits>
             <BankAccountType>
                 <Code>OTHER</Code>
                 <Meaning>Outro</Meaning>
@@ -480,7 +1921,7 @@
                 <FederalEmployerIdentificationNumber></FederalEmployerIdentificationNumber>
             </FederalBankAccountInfo>
             <EFTUserNumber>
-                <AccountLevelEFTNumber>0007047120126</AccountLevelEFTNumber>
+                <AccountLevelEFTNumber>374770</AccountLevelEFTNumber>
                 <BranchLevelEFTNumber></BranchLevelEFTNumber>
             </EFTUserNumber>
         </BankAccount>
@@ -488,13 +1929,13 @@
             <Name>COFCO INTERNATIONAL BRASIL S.A.</Name>
         </Beneficiary>
         <PaymentAmount>
-            <Value>7018</Value>
+            <Value>7392</Value>
             <Currency>
                 <Code>USD</Code>
                 <Name>Dólar Americano</Name>
             </Currency>
         </PaymentAmount>
-        <PaymentAmountText>Sete Mil Dezoito Dólar E Zero Cents*****</PaymentAmountText>
+        <PaymentAmountText>Sete Mil Trezentos E Noventa E Dois Dólar E Zero Cents*****</PaymentAmountText>
         <PaymentMethod>
             <PaymentMethodInternalID>ELETRONICO</PaymentMethodInternalID>
             <PaymentMethodName>ELETRONICO</PaymentMethodName>
@@ -581,35 +2022,18 @@
             <FederalAccountingSymbol></FederalAccountingSymbol>
         </FederalPaymentInfo>
         <DocumentPayableCount>1</DocumentPayableCount>
-        <SrcDescriptiveFlexField>
-            <AttributeCategory></AttributeCategory>
-            <Attribute1></Attribute1>
-            <Attribute2></Attribute2>
-            <Attribute3></Attribute3>
-            <Attribute4></Attribute4>
-            <Attribute5></Attribute5>
-            <Attribute6></Attribute6>
-            <Attribute7></Attribute7>
-            <Attribute8></Attribute8>
-            <Attribute9></Attribute9>
-            <Attribute10></Attribute10>
-            <Attribute11></Attribute11>
-            <Attribute12></Attribute12>
-            <Attribute13></Attribute13>
-            <Attribute14></Attribute14>
-            <Attribute15></Attribute15>
-        </SrcDescriptiveFlexField>
+        <SrcDescriptiveFlexField></SrcDescriptiveFlexField>
         <DocumentPayable>
             <DocumentNumber>
-                <DocumentInternalIDSegment1>50001</DocumentInternalIDSegment1>
-                <DocumentInternalIDSegment2>38013</DocumentInternalIDSegment2>
+                <DocumentInternalIDSegment1>10581</DocumentInternalIDSegment1>
+                <DocumentInternalIDSegment2>38005</DocumentInternalIDSegment2>
                 <DocumentInternalIDSegment3>1</DocumentInternalIDSegment3>
-                <DocumentInternalIDSegment4>50001</DocumentInternalIDSegment4>
+                <DocumentInternalIDSegment4></DocumentInternalIDSegment4>
                 <DocumentInternalIDSegment5></DocumentInternalIDSegment5>
                 <ApplicationInternalID>200</ApplicationInternalID>
                 <ApplicationDocumentSubType>PAYABLES_DOC</ApplicationDocumentSubType>
-                <ApplicationUniqueInternalID>50001</ApplicationUniqueInternalID>
-                <ReferenceNumber>20040812</ReferenceNumber>
+                <ApplicationUniqueInternalID>10581</ApplicationUniqueInternalID>
+                <ReferenceNumber>2004085</ReferenceNumber>
                 <UniqueRemittanceIdentifier>
                     <Number></Number>
                     <CheckDigit></CheckDigit>
@@ -623,24 +2047,24 @@
                 <Code>PAYMENT_CREATED</Code>
                 <Meaning>Pagamento Criado</Meaning>
             </DocumentStatus>
-            <DocumentDate>2020-04-09</DocumentDate>
-            <DocumentCreationDate>2020-04-28</DocumentCreationDate>
-            <PaymentDueDate>2020-05-08</PaymentDueDate>
+            <DocumentDate>2020-04-08</DocumentDate>
+            <DocumentCreationDate>2020-05-28</DocumentCreationDate>
+            <PaymentDueDate>2020-05-28</PaymentDueDate>
             <DocumentType>
                 <Code>STANDARD</Code>
                 <Meaning>Padrão</Meaning>
             </DocumentType>
-            <DocumentDescription>Tipo de NF Fiscal: CMP008 - REC: 351 (Documento da NF).</DocumentDescription>
+            <DocumentDescription>Tipo de NF Fiscal: CMP008 - REC: 344 (Documento da NF).</DocumentDescription>
             <ExpenseReportCreditCardNumber></ExpenseReportCreditCardNumber>
             <EmployeePaymentFlag>N</EmployeePaymentFlag>
             <TotalDocumentAmount>
-                <Value>7018</Value>
+                <Value>7392</Value>
                 <Currency>
                     <Code>USD</Code>
                 </Currency>
             </TotalDocumentAmount>
             <PaymentAmount>
-                <Value>7018</Value>
+                <Value>7392</Value>
                 <Currency>
                     <Code>USD</Code>
                 </Currency>
@@ -663,7 +2087,7 @@
                         <Code>USD</Code>
                     </Currency>
                 </Amount>
-                <DiscountDate>2020-05-08</DiscountDate>
+                <DiscountDate>2020-05-28</DiscountDate>
             </DiscountTaken>
             <BankCharges>
                 <BankChargeBearer>
@@ -721,13 +2145,13 @@
                 </LineType>
                 <LineDescription>TRIGO BASICO ( H )</LineDescription>
                 <LineGrossAmount>
-                    <Value>7018</Value>
+                    <Value>7392</Value>
                     <Currency>
                         <Code>USD</Code>
                     </Currency>
                 </LineGrossAmount>
-                <UnitPrice>.22</UnitPrice>
-                <Quantity>31900</Quantity>
+                <UnitPrice>.22000000000093639816</UnitPrice>
+                <Quantity>33600</Quantity>
                 <UnitOfMeasure>
                     <Code>Quilograma</Code>
                     <Meaning></Meaning>
@@ -844,8 +2268,8 @@
             <CLL_REP_REGISTRATION_NUMBER>6315338000542</CLL_REP_REGISTRATION_NUMBER>
             <CLL_REGISTRATION_TYPE_CODE>CNPJ</CLL_REGISTRATION_TYPE_CODE>
             <CLL_FUTURE_PAY_DUE_DATE></CLL_FUTURE_PAY_DUE_DATE>
-            <CLL_RETURN_ID>51001</CLL_RETURN_ID>
-            <CLL_TYPE_CODE></CLL_TYPE_CODE>
+            <CLL_RETURN_ID>60005</CLL_RETURN_ID>
+            <CLL_TYPE_CODE>00005</CLL_TYPE_CODE>
             <CLL_CHECK_HORIZONTAL></CLL_CHECK_HORIZONTAL>
             <CLL_METHOD_TYPE>ELECTRONIC</CLL_METHOD_TYPE>
             <CLL_OU_REG_NUMBER>76107770000108</CLL_OU_REG_NUMBER>
@@ -853,7 +2277,7 @@
             <CLL_DEBIT_LIST_NUMBER></CLL_DEBIT_LIST_NUMBER>
             <CLL_EXT_BANK_ACCOUNT_TYPE></CLL_EXT_BANK_ACCOUNT_TYPE>
             <CLL_CIT_VALUE></CLL_CIT_VALUE>
-            <CLL_BANK_ACCOUNT_TYPE_EXT></CLL_BANK_ACCOUNT_TYPE_EXT>
+            <CLL_BANK_ACCOUNT_TYPE_EXT>CC</CLL_BANK_ACCOUNT_TYPE_EXT>
             <CLL_EMAIL_ADDRESS></CLL_EMAIL_ADDRESS>
         </Extend>
         <XSCN9031>
@@ -863,7 +2287,7 @@
             <XSCN_PAYEE_ACCT_DGT>7</XSCN_PAYEE_ACCT_DGT>
             <XSCN_MOVEMENT_CODE></XSCN_MOVEMENT_CODE>
             <XSCN_CC_CP>1</XSCN_CC_CP>
-            <XSCN_INF_COMPL></XSCN_INF_COMPL>
+            <XSCN_INF_COMPL>C0000000101</XSCN_INF_COMPL>
             <XSCN_CR_CC>N</XSCN_CR_CC>
             <XSCN_CR_CC_TIT>N</XSCN_CR_CC_TIT>
             <XSCN_CR_CP>N</XSCN_CR_CP>
@@ -884,20 +2308,20 @@
             <XSCN_REP_REGISTRATION_NUMBER>6315338000542</XSCN_REP_REGISTRATION_NUMBER>
             <XSCN_REGISTRATION_TYPE_CODE>CNPJ</XSCN_REGISTRATION_TYPE_CODE>
             <XSCN_FUTURE_PAY_DUE_DATE></XSCN_FUTURE_PAY_DUE_DATE>
-            <XSCN_RETURN_ID>51001</XSCN_RETURN_ID>
-            <XSCN_TYPE_CODE></XSCN_TYPE_CODE>
+            <XSCN_RETURN_ID>60005</XSCN_RETURN_ID>
+            <XSCN_TYPE_CODE>08</XSCN_TYPE_CODE>
             <XSCN_CHECK_HORIZONTAL></XSCN_CHECK_HORIZONTAL>
             <XSCN_METHOD_TYPE>ELECTRONIC</XSCN_METHOD_TYPE>
-            <XSCN_FUNCIONAL_AMOUNT>35090</XSCN_FUNCIONAL_AMOUNT>
-            <XSCN_PAY_EXCHANGE_RATE>5</XSCN_PAY_EXCHANGE_RATE>
+            <XSCN_FUNCIONAL_AMOUNT>41099.52</XSCN_FUNCIONAL_AMOUNT>
+            <XSCN_PAY_EXCHANGE_RATE>5.56</XSCN_PAY_EXCHANGE_RATE>
         </XSCN9031>
     </OutboundPayment>
     <Extend>
-        <CLL_PAYER_BRANCH_NUM>3306</CLL_PAYER_BRANCH_NUM>
-        <CLL_PAYER_BRANCH_DGT>5</CLL_PAYER_BRANCH_DGT>
-        <CLL_PAYER_ACCT_NUM>3051</CLL_PAYER_ACCT_NUM>
-        <CLL_PAYER_ACCT_DGT>1</CLL_PAYER_ACCT_DGT>
-        <CLL_F033_BANK_S>89</CLL_F033_BANK_S>
+        <CLL_PAYER_BRANCH_NUM>3099</CLL_PAYER_BRANCH_NUM>
+        <CLL_PAYER_BRANCH_DGT></CLL_PAYER_BRANCH_DGT>
+        <CLL_PAYER_ACCT_NUM>1816</CLL_PAYER_ACCT_NUM>
+        <CLL_PAYER_ACCT_DGT>3</CLL_PAYER_ACCT_DGT>
+        <CLL_F033_BANK_S>26</CLL_F033_BANK_S>
         <CLL_COMPLEMENT_ACCT></CLL_COMPLEMENT_ACCT>
         <CLL_OU_REG_NUMBER>76107770000108</CLL_OU_REG_NUMBER>
         <CLL_OU_ESTABLISHMENT_NAME>FRISIA COOPERATIVA AGROINDUSTRIAL</CLL_OU_ESTABLISHMENT_NAME>
@@ -916,14 +2340,14 @@
         <CLL_COUNT_CR_CP_TIT_RT>0</CLL_COUNT_CR_CP_TIT_RT>
         <CLL_COUNT_DOC_D>0</CLL_COUNT_DOC_D>
         <CLL_COUNT_DOC_C>0</CLL_COUNT_DOC_C>
-        <CLL_COUNT_TED_OT>1</CLL_COUNT_TED_OT>
+        <CLL_COUNT_TED_OT>3</CLL_COUNT_TED_OT>
         <CLL_COUNT_TED_MT>0</CLL_COUNT_TED_MT>
         <CLL_COUNT_CHEQUE>0</CLL_COUNT_CHEQUE>
         <CLL_COUNT_ORDEM>0</CLL_COUNT_ORDEM>
         <CLL_COUNT_TIT_COBR>0</CLL_COUNT_TIT_COBR>
         <CLL_COUNT_TIT_COBR_OB>0</CLL_COUNT_TIT_COBR_OB>
         <CLL_COUNT_TIT_CONCESS>0</CLL_COUNT_TIT_CONCESS>
-        <CLL_COUNT_ALL>1</CLL_COUNT_ALL>
+        <CLL_COUNT_ALL>3</CLL_COUNT_ALL>
         <CLL_SUM_CR_CC>0</CLL_SUM_CR_CC>
         <CLL_SUM_CR_CC_TIT>0</CLL_SUM_CR_CC_TIT>
         <CLL_SUM_CR_CP>0</CLL_SUM_CR_CP>
@@ -934,24 +2358,24 @@
         <CLL_SUM_CR_CP_TIT_RT>0</CLL_SUM_CR_CP_TIT_RT>
         <CLL_SUM_DOC_D>0</CLL_SUM_DOC_D>
         <CLL_SUM_DOC_C>0</CLL_SUM_DOC_C>
-        <CLL_SUM_TED_OT>7018</CLL_SUM_TED_OT>
+        <CLL_SUM_TED_OT>27392</CLL_SUM_TED_OT>
         <CLL_SUM_TED_MT>0</CLL_SUM_TED_MT>
         <CLL_SUM_CHEQUE>0</CLL_SUM_CHEQUE>
         <CLL_SUM_ORDEM>0</CLL_SUM_ORDEM>
         <CLL_SUM_TIT_COBR>0</CLL_SUM_TIT_COBR>
         <CLL_SUM_TIT_COBR_OB>0</CLL_SUM_TIT_COBR_OB>
         <CLL_SUM_TIT_CONCESS>0</CLL_SUM_TIT_CONCESS>
-        <CLL_SUM_DOC_TED>7018</CLL_SUM_DOC_TED>
-        <CLL_SUM_ALL>7018</CLL_SUM_ALL>
+        <CLL_SUM_DOC_TED>27392</CLL_SUM_DOC_TED>
+        <CLL_SUM_ALL>27392</CLL_SUM_ALL>
         <CLL_VERSION>24/07/2012</CLL_VERSION>
         <CLL_BANK_ACCOUNT_TYPE_EXT>CC</CLL_BANK_ACCOUNT_TYPE_EXT>
     </Extend>
     <XSCN9031>
-        <XSCN_PAYER_BRANCH_NUM>3306</XSCN_PAYER_BRANCH_NUM>
-        <XSCN_PAYER_BRANCH_DGT>5</XSCN_PAYER_BRANCH_DGT>
-        <XSCN_PAYER_ACCT_NUM>3051</XSCN_PAYER_ACCT_NUM>
-        <XSCN_PAYER_ACCT_DGT>1</XSCN_PAYER_ACCT_DGT>
-        <XSCN_F033_BANK_S>90</XSCN_F033_BANK_S>
+        <XSCN_PAYER_BRANCH_NUM>3099</XSCN_PAYER_BRANCH_NUM>
+        <XSCN_PAYER_BRANCH_DGT></XSCN_PAYER_BRANCH_DGT>
+        <XSCN_PAYER_ACCT_NUM>1816</XSCN_PAYER_ACCT_NUM>
+        <XSCN_PAYER_ACCT_DGT>3</XSCN_PAYER_ACCT_DGT>
+        <XSCN_F033_BANK_S>27</XSCN_F033_BANK_S>
         <XSCN_COMPLEMENT_ACCT></XSCN_COMPLEMENT_ACCT>
         <XSCN_OU_REG_NUMBER>76107770000108</XSCN_OU_REG_NUMBER>
         <XSCN_MOVEMENT_TYPE>F</XSCN_MOVEMENT_TYPE>
@@ -969,14 +2393,14 @@
         <XSCN_COUNT_CR_CP_TIT_RT>0</XSCN_COUNT_CR_CP_TIT_RT>
         <XSCN_COUNT_DOC_D>0</XSCN_COUNT_DOC_D>
         <XSCN_COUNT_DOC_C>0</XSCN_COUNT_DOC_C>
-        <XSCN_COUNT_TED_OT>1</XSCN_COUNT_TED_OT>
+        <XSCN_COUNT_TED_OT>3</XSCN_COUNT_TED_OT>
         <XSCN_COUNT_TED_MT>0</XSCN_COUNT_TED_MT>
         <XSCN_COUNT_CHEQUE>0</XSCN_COUNT_CHEQUE>
         <XSCN_COUNT_ORDEM>0</XSCN_COUNT_ORDEM>
         <XSCN_COUNT_TIT_COBR>0</XSCN_COUNT_TIT_COBR>
         <XSCN_COUNT_TIT_COBR_OB>0</XSCN_COUNT_TIT_COBR_OB>
         <XSCN_COUNT_TIT_CONCESS>0</XSCN_COUNT_TIT_CONCESS>
-        <XSCN_COUNT_ALL>1</XSCN_COUNT_ALL>
+        <XSCN_COUNT_ALL>3</XSCN_COUNT_ALL>
         <XSCN_SUM_CR_CC>0</XSCN_SUM_CR_CC>
         <XSCN_SUM_CR_CC_TIT>0</XSCN_SUM_CR_CC_TIT>
         <XSCN_SUM_CR_CP>0</XSCN_SUM_CR_CP>
@@ -987,16 +2411,16 @@
         <XSCN_SUM_CR_CP_TIT_RT>0</XSCN_SUM_CR_CP_TIT_RT>
         <XSCN_SUM_DOC_D>0</XSCN_SUM_DOC_D>
         <XSCN_SUM_DOC_C>0</XSCN_SUM_DOC_C>
-        <XSCN_SUM_TED_OT>35090</XSCN_SUM_TED_OT>
+        <XSCN_SUM_TED_OT>152299.52</XSCN_SUM_TED_OT>
         <XSCN_SUM_TED_MT>0</XSCN_SUM_TED_MT>
         <XSCN_SUM_CHEQUE>0</XSCN_SUM_CHEQUE>
         <XSCN_SUM_ORDEM>0</XSCN_SUM_ORDEM>
         <XSCN_SUM_TIT_COBR>0</XSCN_SUM_TIT_COBR>
         <XSCN_SUM_TIT_COBR_OB>0</XSCN_SUM_TIT_COBR_OB>
         <XSCN_SUM_TIT_CONCESS>0</XSCN_SUM_TIT_CONCESS>
-        <XSCN_SUM_DOC_TED>35090</XSCN_SUM_DOC_TED>
-        <XSCN_SUM_ALL>35090</XSCN_SUM_ALL>
-        <XSCN_PAY_EXCHANGE_RATE>5</XSCN_PAY_EXCHANGE_RATE>
+        <XSCN_SUM_DOC_TED>152299.52</XSCN_SUM_DOC_TED>
+        <XSCN_SUM_ALL>152299.52</XSCN_SUM_ALL>
+        <XSCN_PAY_EXCHANGE_RATE>5.56</XSCN_PAY_EXCHANGE_RATE>
         <XSCN_VERSION>120.62.1</XSCN_VERSION>
     </XSCN9031>
 </OutboundPaymentInstruction>

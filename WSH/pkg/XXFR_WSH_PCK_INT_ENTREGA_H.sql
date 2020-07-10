@@ -13,20 +13,23 @@ create or replace package xxfr_wsh_pck_int_entrega is
 -- +==========================================================================+
 
   type tp_linhas is record (  
-    cd_tipo_ordem_venda     varchar2(50),
-    nu_ordem_venda          number,
-    nu_linha_ordem_venda    number,
-    nu_envio_linha_ordem_venda varchar2(20),
-    delivery_detail_id      number,
-    qt_quantidade           number,
-    cd_un_medida            varchar2(10),
-    qt_volumes              number,
-    cd_un_volume            varchar2(10),
-    cd_endereco_estoque     varchar2(20),
-    ds_observacoes          varchar2(400),
-    pr_percentual_gordura   varchar2(20)
+    cd_tipo_ordem_venda         varchar2(50),
+    nu_ordem_venda              number,
+    nu_linha_ordem_venda        number,
+    nu_envio_linha_ordem_venda  varchar2(20),
+    delivery_detail_id          number,
+    qt_quantidade               number,
+    cd_un_medida                varchar2(10),
+    qt_volumes                  number,
+    cd_un_volume                varchar2(10),
+    cd_endereco_estoque         varchar2(20),
+    ds_observacoes              varchar2(400),
+    pr_percentual_gordura       varchar2(20),
+    tp_referencia_origem_linha  varchar2(50),
+    cd_referencia_origem_linha  varchar2(50)
   );
   type array_linhas is varray(10) of tp_linhas;
+  
   --a_linhas array_linhas;
 
   type tp_veiculo is record (
@@ -68,20 +71,21 @@ create or replace package xxfr_wsh_pck_int_entrega is
   --a_transp array_transp;
   
   type tp_percurso is record (
-    tp_operacao                varchar2(20),
-    id_percurso                varchar2(20),
-    nm_percurso                varchar2(20),
-    cd_referencia_origem       varchar2(50),
-    tp_referencia_origem       varchar2(50),
-    ie_ajusta_distribuicao     varchar2(20),
-    cd_lacre_veiculo           varchar2(100),
-    qt_peso_tara               number,
-    qt_peso_bruto              number,
-    qt_peso_embalagem_complementar number,
-    tp_frete                   varchar2(20),
-    cd_metodo_entrega          varchar2(50),
-    cd_endereco_estoque_granel varchar2(50),
-    tp_liberacao               varchar2(30),
+    tp_operacao                     varchar2(20),
+    id_percurso                     varchar2(20),
+    nm_percurso                     varchar2(20),
+    cd_referencia_origem            varchar2(50),
+    tp_referencia_origem            varchar2(50),
+    ie_ajusta_distribuicao          varchar2(20),
+    cd_lacre_veiculo                varchar2(100),
+    qt_peso_tara                    number,
+    qt_peso_bruto                   number,
+    qt_peso_embalagem_complementar  number,
+    cd_carregamento                 varchar2(20),
+    tp_frete                        varchar2(20),
+    cd_metodo_entrega               varchar2(50),
+    cd_endereco_estoque_granel      varchar2(50),
+    tp_liberacao                    varchar2(30),
     --
     transp                     tp_transp,
     veiculo                    tp_veiculo,

@@ -11,12 +11,9 @@ CREATE OR REPLACE VIEW XXFR_RI_VW_INF_DA_LINHA_NFE as
     rctl.unit_selling_price, 
     rctl.line_type, 
     rctl.interface_line_context,
-    rctl.INTERFACE_LINE_ATTRIBUTE3 id_recebimento,
+    decode(po.segment1, null, rctl.interface_line_attribute3, null) id_recebimento,
     --
-    po.segment1,
-    po.po_header_id,
-    po.po_line_id,
-    po.line_location_id,
+    po.segment1, po.po_header_id, po.po_line_id, po.line_location_id, po.terms_id, po.authorization_status, po.approved_flag, po.closed_code, 
     --
     rctl.uom_code, 
     rctl.org_id, 
@@ -104,34 +101,53 @@ CREATE OR REPLACE VIEW XXFR_RI_VW_INF_DA_LINHA_NFE as
         )
         and rctla.extended_amount > 0
       group by rctla.customer_trx_id, rctla.link_to_cust_trx_line_id --, rctla.customer_trx_line_id
-    ) impostos,
-    (
-      select ph.segment1, pll.PO_HEADER_ID, pll.PO_LINE_ID, pll.LINE_LOCATION_ID 
+    ) impostos
+    ,(
+      select 
+        rl.customer_trx_line_id, ph.segment1, pll.po_header_id, pll.po_line_id, pll.line_location_id, 
+        ph.terms_id, ph.authorization_status, ph.approved_flag, pll.closed_code  
       from 
-        po_headers_all        ph,
-        po_line_locations_all pll
+        po_headers_all            ph,
+        po_line_locations_all     pll,
+        ra_customer_trx_lines_all rl
       where 1=1
-        and pll.PO_HEADER_ID     = ph.PO_HEADER_ID
+        and pll.po_header_id              = ph.po_header_id
+        and rl.line_type                  = 'LINE'
+        and trim(translate(interface_line_attribute3, '0123456789-,.', ' ')) is null
+        and rl.interface_line_attribute3  = pll.line_location_id
     ) po
   where 1=1
-    and rctl.line_type                 = 'LINE' 
+    and rctl.line_type                 = 'LINE'
+    and rctl.warehouse_id              is not null
     and rctl.customer_trx_line_id      = impostos.link_to_cust_trx_line_id (+)
-    and rctl.interface_line_attribute3 = po.LINE_LOCATION_ID (+)  
+    and rctl.customer_trx_line_id      = po.customer_trx_line_id (+)
 ;
 /
 
-select SEGMENT1, PO_HEADER_ID from XXFR_RI_VW_INF_DA_LINHA_NFE where customer_trx_id = 51137;
 
 
-select ph.segment1, pll.PO_HEADER_ID, pll.PO_LINE_ID, pll.LINE_LOCATION_ID 
-from 
-  po_headers_all        ph,
-  po_line_locations_all pll
-where 1=1
-  and pll.PO_HEADER_ID     = ph.PO_HEADER_ID
-  and pll.LINE_LOCATION_ID = 232092;
+/*
+12.2
+SELECT * FROM v$version;
 
-select * from ra_customer_trx_lines_all where customer_trx_id = 31013;
+SELECT
+  VALIDATE_CONVERSION(customer_trx_id AS NUMBER)           AS is_empno,
+  VALIDATE_CONVERSION(INTERFACE_LINE_ATTRIBUTE3 AS NUMBER) AS is_mgr
+FROM ra_customer_trx_lines_all;
 
 
-INTERFACE_LINE_ATTRIBUTE3
+set SERVEROUTPUT ON
+DECLARE
+  value VARCHAR(100) := 'a';
+BEGIN
+ IF (VALIDATE_CONVERSION(value AS NUMBER) = 1) THEN
+     DBMS_OUTPUT.PUT_LINE(value || ' is a number');
+ ELSE 
+     DBMS_OUTPUT.PUT_LINE(value || ' is not a number');
+ END IF;
+END;
+/
+*/
+
+
+select * from ra_terms;

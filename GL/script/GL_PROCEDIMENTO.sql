@@ -8,7 +8,7 @@ declare
   
   l_retorno       clob;
   op              number := 1;    
-  p_id_integracao number := 365;
+  p_id_integracao number := 18020;
   isCommit        boolean := false;
   
 begin
@@ -32,29 +32,32 @@ end;
 /
 
 
-	   select *
-		from q_pc_respo_padr_inic_varia_v
-	   where aplicacao='SQLGL';
+select * from xxfr_integracao_detalhe
+where CD_INTERFACE_DETALHE='PROCESSAR_CONTABILIZACAO'
+;
 
+select *
+from q_pc_respo_padr_inic_varia_v
+where aplicacao='SQLGL';
 
-/*
-
-      SELECT je_source_name, user_je_source_name
-      FROM gl_je_sources
-      WHERE user_je_source_name = populate_interface_control.user_je_source_name;
-
+SELECT je_source_name, user_je_source_name
+FROM gl_je_sources
+WHERE user_je_source_name = populate_interface_control.user_je_source_name;
 
 select * from GL_INTERFACE_ERRORS;
 
-select NVL(DS_LOG,' ') LOG
-  from xxfr_vw_logger_logs_60_min
+select DS_ESCOPO, NVL(DS_LOG,' ') LOG
+  from xxfr_logger_log --xxfr_vw_logger_logs_60_min
 WHERE 1=1
-  AND UPPER(DS_ESCOPO) = 'XXFR_GL_PCK_INT_LOTE_CONTABIL'
+  AND UPPER(DS_ESCOPO) like 'XXFR_GL_PCK_INT_LOTE_CONTABIL_%'
 order by id;
 
 
-delete from gl_interface where user_je_source_name = 'XXFR_VEI';
-select STATUS_DESCRIPTION from gl_interface 
+select * from gl_interface 
 where 1=1
-  AND user_je_source_name = 'XXFR_VEI';
-*/
+  and user_je_source_name = 'XXFR_VEI';
+
+select status from gl_interface 
+where 1=1
+  AND user_je_source_name = 'XXFR_UBL'
+order by DATE_CREATED desc;

@@ -23,14 +23,15 @@ SELECT distinct
   ,json_value(d.ds_dados_requisicao, '$.processarEntrega.percurso.idPercurso')                            id_percurso
   ,json_value(d.ds_dados_requisicao, '$.processarEntrega.percurso.nomePercurso')                          nm_percurso
   --
-  ,json_value(d.ds_dados_requisicao, '$.processarEntrega.percurso.codigoReferenciaOrigem')                cd_referencia_origem
-  ,json_value(d.ds_dados_requisicao, '$.processarEntrega.percurso.tipoReferenciaOrigem')                  tp_referencia_origem
+  ,json_value(d.ds_dados_requisicao, '$.processarEntrega.percurso.codigoReferenciaOrigem')                cd_referencia_origem  --trip attrib12
+  ,json_value(d.ds_dados_requisicao, '$.processarEntrega.percurso.tipoReferenciaOrigem')                  tp_referencia_origem  --trip attrib13
   --  
   ,json_value(d.ds_dados_requisicao, '$.processarEntrega.percurso.ajustaDistribuicao')                    ie_ajusta_distribuicao
   ,json_value(d.ds_dados_requisicao, '$.processarEntrega.percurso.lacresVeiculo')                         cd_lacre_veiculo
   ,json_value(d.ds_dados_requisicao, '$.processarEntrega.percurso.pesoTara')                              qt_peso_tara
   ,json_value(d.ds_dados_requisicao, '$.processarEntrega.percurso.pesoBruto')                             qt_peso_bruto
   ,json_value(d.ds_dados_requisicao, '$.processarEntrega.percurso.pesoEmbalagemComplementar')             qt_peso_embalagem_complementar
+  ,json_value(d.ds_dados_requisicao, '$.processarEntrega.percurso.codigoCarregamento')                    cd_carregamento        --trip attrib14
   ,json_value(d.ds_dados_requisicao, '$.processarEntrega.percurso.tipoFrete')                             tp_frete
   ,json_value(d.ds_dados_requisicao, '$.processarEntrega.percurso.codigoMetodoEntrega')                   cd_metodo_entrega
   ,json_value(d.ds_dados_requisicao, '$.processarEntrega.percurso.codigoEnderecoEstoqueGranel')           cd_endereco_estoque_granel
@@ -83,7 +84,9 @@ from
             cd_un_volume                  VARCHAR2(50)  PATH '$.codigoUnidadeMedidaVolume',
             cd_endereco_estoque           VARCHAR2(20)  PATH '$.codigoEnderecoEstoque',                  
             ds_observacoes                VARCHAR2(400) PATH '$.observacoes', 
-            pr_percentual_Gordura         VARCHAR2(20)  PATH '$.percentualGordura'
+            tp_referencia_origem_linha    Varchar2(50)  PATH '$.tipoReferenciaOrigem',   -- attrib 15 detail
+            cd_referencia_origem_linha    Varchar2(100) PATH '$.codigoReferenciaOrigem', -- attrib 15 detail
+            pr_percentual_gordura         VARCHAR2(20)  PATH '$.percentualGordura'
           )
         ) 
       ) distrib
@@ -97,13 +100,18 @@ where 1=1
   and d.cd_interface_detalhe    = 'PROCESSAR_ENTREGA'
 ;
 /
+
+
+
+
+
 /*
 select * from XXFR_WSH_VW_INT_PROC_ENTREGA 
 where 1=1
   --and nu_ordem_venda = '51'
   --AND CD_TIPO_ORDEM_VENDA = '124_VENDA'
   --and ID_INTEGRACAO_cabecalho=-90
-  and ID_INTEGRACAO_detalhe=1879
+  and ID_INTEGRACAO_detalhe=64283
   --and nm_percurso = 'SOL.790020'
 ;
 

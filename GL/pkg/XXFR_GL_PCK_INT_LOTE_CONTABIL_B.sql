@@ -16,12 +16,154 @@ create or replace package body XXFR_GL_PCK_INT_LOTE_CONTABIL as
   g_rec_retorno      	xxfr_pck_interface_integracao.rec_retorno_integracao;
   g_tab_mensagens     xxfr_pck_interface_integracao.tab_retorno_mensagens;
 
-  procedure print_out(msg   in varchar2) is
+  procedure monta_json (
+    p_gl_rec                in  XXFR_GL_PCK_INT_LOTE_CONTABIL.gl_rec,
+    x_id_integracao_detalhe out number
+  ) is
+  
+    p_seq_cab number;
+    p_seq_det number;
+    isnew     boolean := true;
+    ok        boolean;
+  
+    str_json varchar2(32000) := ('
+{
+  "idTransacao": -1,
+  "versaoPayload": 1.0,
+  "sistemaOrigem": "SIF.VEI",
+  "codigoServico": "PROCESSAR_CONTABILIZACAO",
+  "usuario": "'||fnd_profile.value('USERNAME')||'",
+  "processarContabilizacao": {
+    "livroContabil": "'||p_gl_rec.livroContabil||'",
+    "dataCriacao": "'||p_gl_rec.dataCriacao||'",
+    "dataContabil": "'||p_gl_rec.dataContabil||'",
+    "moeda": "'||p_gl_rec.moeda||'",
+    "categoriaLancamento": "'||p_gl_rec.categoriaLancamento||'",
+    "origemLancamento": "'||p_gl_rec.origemLancamento||'",
+    "descricao":"'||p_gl_rec.descricao||'",                                                  
+    "movimentosContabeis": [
+      {
+        "codigoReferenciaOrigem": "'||p_gl_rec.movimento(1).codigoReferenciaOrigem||'",
+        "tipoReferenciaOrigem": "'||p_gl_rec.movimento(1).tipoReferenciaOrigem||'", 
+        "tipoTrasacao": "'||p_gl_rec.movimento(1).tipoTransacao||'",
+        "chaveContabil": "'||p_gl_rec.movimento(1).chaveContabil||'",
+        "valor": '||p_gl_rec.movimento(1).valor||',
+        "descricao":"'||p_gl_rec.movimento(1).descricao||'"                                                 
+      },
+      {
+        "codigoReferenciaOrigem": "'||p_gl_rec.movimento(2).codigoReferenciaOrigem||'",
+        "tipoReferenciaOrigem": "'||p_gl_rec.movimento(2).tipoReferenciaOrigem||'", 
+        "tipoTrasacao": "'||p_gl_rec.movimento(2).tipoTransacao||'",
+        "chaveContabil": "'||p_gl_rec.movimento(2).chaveContabil||'",
+        "valor": '||p_gl_rec.movimento(2).valor||',
+        "descricao":"'||p_gl_rec.movimento(2).descricao||'"    
+      }                                            
+    ]
+  }
+}
+  ');
+  begin
+    print_log('  Cria Json...');
+    ok := true;
+    
+    if isnew then
+      select min(id_integracao_cabecalho) -1 into  p_seq_cab from xxfr_integracao_cabecalho;
+      select min(id_integracao_detalhe) -1 into  p_seq_det from xxfr_integracao_detalhe;
+    end if;
+    --
+    --delete xxfr_integracao_detalhe   where id_integracao_detalhe = p_seq_det;
+    --delete xxfr_integracao_cabecalho where id_integracao_cabecalho = p_seq_cab;
+    --HEADER
+    begin
+      insert into xxfr_integracao_cabecalho (
+        id_integracao_cabecalho, 
+        dt_criacao, 
+        nm_usuario_criacao, 
+        cd_programa_criacao, 
+        dt_atualizacao, 
+        nm_usuario_atualizacao, 
+        cd_programa_atualizacao, 
+        cd_sistema_origem, 
+        cd_sistema_destino, 
+        nr_sequencia_fila, 
+        cd_interface, 
+        cd_chave_interface, 
+        ie_status_integracao, 
+        dt_conclusao_integracao
+      ) values (
+        p_seq_cab,
+        sysdate,
+        fnd_profile.value('USERNAME'),
+        'PL/SQL Developer',
+        sysdate,
+        fnd_profile.value('USERNAME'),
+        '',
+        '',
+        'EBS',
+        1,
+        'PROCESSAR_CONTABILIZACAO',
+        null,
+        'NOVO',
+        null
+      );
+      print_log('  ID CABECALHO:'||p_seq_cab);
+    exception
+      when others then
+        print_log('  ERRO CABEÇALHO OTHERS :'||sqlerrm);
+        ok := false;
+    end;
+    --DETALHE
+    begin
+      insert into xxfr_integracao_detalhe (
+        id_integracao_detalhe, 
+        id_integracao_cabecalho, 
+        dt_criacao, 
+        nm_usuario_criacao, 
+        dt_atualizacao, 
+        nm_usuario_atualizacao, 
+        cd_interface_detalhe, 
+        ie_status_processamento, 
+        dt_status_processamento, 
+        ds_dados_requisicao, 
+        ds_dados_retorno
+      ) values (
+        p_seq_det,
+        p_seq_cab,
+        sysdate,
+        fnd_profile.value('USERNAME'),
+        sysdate,
+        fnd_profile.value('USERNAME'),
+        'PROCESSAR_CONTABILIZACAO',
+        'PENDENTE',
+        sysdate,
+        str_json,
+        null
+      );
+      print_log('  ID DETALHE:'||p_seq_det);
+    exception
+      when others then
+        print_log('  ERRO DETALHE OTHERS :'||sqlerrm);
+        print_log('  ID DETALHE:'||p_seq_det);
+        ok := false;
+    end;
+    --
+    if (ok) then
+      commit;
+      x_id_integracao_detalhe := p_seq_det;
+    else
+      rollback;
+      x_id_integracao_detalhe := null;
+    end if;
+    print_log('  Id_Integração_Detalhe :'||p_seq_det);
+    print_log('  Fim Cria Json...');
+  end;
+
+  procedure print_log(msg   in varchar2) is
   begin
     dbms_output.put_line(msg);
     xxfr_pck_logger.log_info(	
       p_log      => msg,
-			p_escopo   => g_escopo
+			p_escopo   => g_escopo ||'_' || g_id_integracao_detalhe
     );
   end;
 
@@ -41,7 +183,7 @@ create or replace package body XXFR_GL_PCK_INT_LOTE_CONTABIL as
     return false;
   exception 
     when no_data_found then
-      print_out('ERRO NA PRE-VALIDAÇÃO:'||sqlerrm);
+      print_log('ERRO NA PRE-VALIDAÇÃO:'||sqlerrm);
       return false;
   end;
 
@@ -63,6 +205,31 @@ create or replace package body XXFR_GL_PCK_INT_LOTE_CONTABIL as
     null;
   end;
   
+  procedure main(
+    p_gl_rec                in  xxfr_gl_pck_int_lote_contabil.gl_rec,
+    x_id_integracao_detalhe out number,
+    x_retorno               out varchar2
+  ) is
+  
+    x_clob_retorno               clob;
+    l_id_integracao_detalhe      number;
+  
+  begin
+    if (fnd_profile.value('USERNAME') is null) then
+      xxfr_gl_pck_transacoes.initialize;
+    end if;
+    monta_json(p_gl_rec, l_id_integracao_detalhe);
+    --
+    processar(l_id_integracao_detalhe, x_clob_retorno);
+    --
+    x_id_integracao_detalhe := l_id_integracao_detalhe;
+    if (ok) then
+      x_retorno := 'S';
+    else
+      x_retorno := g_rec_retorno."mensagemRetornoProcessamento";
+    end if;
+  end;
+  
   procedure processar(
     p_id_integracao_detalhe IN  NUMBER,
     p_retorno               out clob
@@ -79,16 +246,16 @@ create or replace package body XXFR_GL_PCK_INT_LOTE_CONTABIL as
       where id_integracao_detalhe = g_id_integracao_detalhe;
   
   begin
-    print_out('============================================================================');
-    print_out('GERANDO OPEN INTERFACE GL...  INICIANDO O LOOP - '|| to_char(sysdate,'HH:MI:SS'));
-    print_out('============================================================================');
     g_id_integracao_detalhe := p_id_integracao_detalhe;
+    print_log('============================================================================');
+    print_log('GERANDO OPEN INTERFACE GL...  INICIANDO O LOOP - '|| to_char(sysdate,'DD/MM/YYYY - HH24:MI:SS'));
+    print_log('============================================================================');
     begin
       if (pre_validacao) then 
         g_group_id := xxfr_fnc_sequencia_unica('PROCESSAR_LOTE_CONTABIL');
         --
-        print_out('ID INTEGRACAO:'||g_id_integracao_detalhe);
-        print_out('NUMERO LOTE  :'||g_group_id);
+        print_log('ID INTEGRACAO:'||g_id_integracao_detalhe);
+        print_log('NUMERO LOTE  :'||g_group_id);
         --
         p_retorno := NULL;
         linha := 0;
@@ -98,17 +265,19 @@ create or replace package body XXFR_GL_PCK_INT_LOTE_CONTABIL as
         
         ok := true;
         i:= 0;
-        print_out('INICIO DO LOOP...');
+        print_log('INICIO DO LOOP...');
         
         for r1 in c1 loop
           linha := linha + 1;
-          print_out('');
-          print_out('Lançamento:'||linha);
+          print_log('');
+          print_log('Lançamento:'||linha);
           begin
             select je_source_name into w_je_source_name from gl_je_sources where user_je_source_name = r1.origem_lancamento;
+            print_log('Origem    :'||r1.origem_lancamento);
+            print_log('Origem GL :'||w_je_source_name);
           exception
             when no_data_found then
-              print_out('  ORIGEM INVALIDA:'|| r1.origem_lancamento);
+              print_log('  ORIGEM INVALIDA:'|| r1.origem_lancamento);
               ok := false;
           end;
           if (ok and monta_interface(r1) = false) then
@@ -128,7 +297,7 @@ create or replace package body XXFR_GL_PCK_INT_LOTE_CONTABIL as
               p_gl_interface  =>  g_gl_interface,
               x_retorno       =>  p_retorno
             );
-            print_out('  Retorno:'||p_retorno);
+            print_log('  Retorno:'||p_retorno);
             if (p_retorno <> 'S') then
               ok := false;
               i := i+1;
@@ -142,10 +311,10 @@ create or replace package body XXFR_GL_PCK_INT_LOTE_CONTABIL as
             end if;
           end if;
         end loop;
-        print_out('FIM DO LOOP');
-        print_out('');
+        print_log('FIM DO LOOP');
+        print_log('');
         
-        print_out('PROCESSAR INTERFACE');
+        print_log('PROCESSA_INTERFACE...');
         if (ok) then
           COMMIT;
           XXFR_GL_PCK_TRANSACOES.PROCESSA_INTERFACE(
@@ -155,10 +324,10 @@ create or replace package body XXFR_GL_PCK_INT_LOTE_CONTABIL as
             x_request_id  => l_request_id,
             x_retorno     => p_retorno
           );
-          print_out('Retorno:'||p_retorno);
+          print_log('Retorno:'||p_retorno);
           if (p_retorno <> 'S') then
-            print_out(' ');
-            print_out('  ERRO !!!');
+            print_log(' ');
+            print_log('  ERRO !!!');
             ROLLBACK;
             g_rec_retorno."retornoProcessamento"        := 'ERRO';
             g_rec_retorno."mensagemRetornoProcessamento":= 'FALHA NO PROCESSAMENTO DA INTERFACE';
@@ -173,7 +342,7 @@ create or replace package body XXFR_GL_PCK_INT_LOTE_CONTABIL as
                 g_rec_retorno."registros"(1)."retornoProcessamento"        := 'ERRO';
                 g_rec_retorno."registros"(1)."mensagens"(r2.je_line_num)."tipoMensagem" := 'LINHA:'||r2.je_line_num||' - CODIGO:'||r2.status;
                 g_rec_retorno."registros"(1)."mensagens"(r2.je_line_num)."mensagem"     := p_retorno;
-                print_out(r2.je_line_num||' - '||r2.status);
+                print_log(r2.je_line_num||' - '||r2.status);
               end loop;
             else
               g_rec_retorno."registros"(1)."tipoCabecalho"               := 'FALHA DO CONCURRENT';
@@ -188,8 +357,8 @@ create or replace package body XXFR_GL_PCK_INT_LOTE_CONTABIL as
               p_ds_dados_retorno        => g_rec_retorno
             );
           else
-            print_out(' ');
-            print_out('  SUCESSO !!!');
+            print_log(' ');
+            print_log('  SUCESSO !!!');
             COMMIT;
             g_rec_retorno."retornoProcessamento"         := 'SUCESSO';
             g_rec_retorno."mensagemRetornoProcessamento" := '';
@@ -199,8 +368,8 @@ create or replace package body XXFR_GL_PCK_INT_LOTE_CONTABIL as
             );
           end if;
         else
-          print_out(' ');
-          print_out('  ERRO !!!');
+          print_log(' ');
+          print_log('  ERRO !!!');
           ROLLBACK;
           g_rec_retorno."retornoProcessamento"        := 'ERRO';
           g_rec_retorno."mensagemRetornoProcessamento":= 'FALHA NA MONTAGEM DA INTERFACE';
@@ -209,9 +378,9 @@ create or replace package body XXFR_GL_PCK_INT_LOTE_CONTABIL as
             p_ds_dados_retorno        => g_rec_retorno
           );
         end if;
-        print_out('FIM PROCESSAR INTERFACE');
+        print_log('FIM PROCESSAR INTERFACE');
   
-        print_out('');
+        print_log('');
         retornar_clob( 
           p_id_integracao_detalhe => p_id_integracao_detalhe, 
           p_retorno               => p_retorno
@@ -236,9 +405,10 @@ create or replace package body XXFR_GL_PCK_INT_LOTE_CONTABIL as
         );
     end;
     retornar_clob(g_id_integracao_detalhe, p_retorno);
-    print_out('----------------------------------------------------------------');
-    print_out('FIM DO PROCESSO:'||TO_CHAR(SYSDATE,'DD/MM/YYYY - HH24:MI:SS'));
-    print_out('----------------------------------------------------------------'); 
+    print_log(p_retorno);
+    print_log('----------------------------------------------------------------');
+    print_log('FIM DO PROCESSO:'||TO_CHAR(SYSDATE,'DD/MM/YYYY - HH24:MI:SS'));
+    print_log('----------------------------------------------------------------'); 
   end;
   
   function monta_interface(r1 XXFR_GL_VW_INT_LOTECONTABIL%rowtype) return boolean is
@@ -249,8 +419,7 @@ create or replace package body XXFR_GL_PCK_INT_LOTE_CONTABIL as
     
   begin
     l_ok := true;
-    print_out('XXFR_GL_PCK_INT_LOTE_CONTABIL.MONTA_INTERFACE');
-    print_out('  Inicio Parte 1');
+    print_log('XXFR_GL_PCK_INT_LOTE_CONTABIL.MONTA_INTERFACE');
     --SIMPLES
     begin 
       --l_n := l_n +1;
@@ -263,7 +432,7 @@ create or replace package body XXFR_GL_PCK_INT_LOTE_CONTABIL as
       --
       g_gl_interface.group_id        := g_group_id;
       --
-      print_out('  ORIGEM:'||r1.origem_lancamento);
+      print_log('  ORIGEM:'||r1.origem_lancamento);
       g_origem := r1.origem_lancamento;
       g_livro  := r1.livro_contabil;
       
@@ -411,10 +580,9 @@ create or replace package body XXFR_GL_PCK_INT_LOTE_CONTABIL as
     exception 
       when others then
         g_erro_msg := g_step || ' - '||sqlerrm;
-        print_out('  Erro:'||g_erro_msg);
+        print_log('  Erro:'||g_erro_msg);
         l_ok:=false;
     end;
-    print_out('  Inicio Parte 2');
     --PASSIVEL DE ERRO
     if (l_ok) then
       begin
@@ -459,15 +627,15 @@ create or replace package body XXFR_GL_PCK_INT_LOTE_CONTABIL as
       exception 
         when no_data_found then
           g_erro_msg := g_step || ' - NAO ENCONTRADO';
-          print_out('  ERRO:'||g_erro_msg);
+          print_log('  ERRO:'||g_erro_msg);
           l_ok:=false;
         when others then
           g_erro_msg := g_step || ' - '||sqlerrm;
-          print_out('  ERRO:'||g_erro_msg);
+          print_log('  ERRO:'||g_erro_msg);
           l_ok:=false;
       end;
     end if;
-    print_out('FIM XXFR_GL_PCK_INT_LOTE_CONTABIL.MONTA_INTERFACE');
+    print_log('FIM XXFR_GL_PCK_INT_LOTE_CONTABIL.MONTA_INTERFACE');
     return l_ok;
   end;
 

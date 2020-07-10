@@ -7,32 +7,61 @@ create or replace package XXFR_PCK_SINCRONIZAR_NOTA is
   g_versao_payload constant varchar2(5) := '1.0';
   g_cd_servico     constant varchar2(100) := 'SINCRONIZAR_NOTA_FISCAL';
 
+  type rec_percurso is record(
+    "codigoCarregamento"                  varchar2(20),
+    "numeroRomaneio"                      varchar2(20),
+    "tipoRefOrigemLinhaEntrega"           varchar2(50),
+    "codRefOrigemLinhaEntrega"            varchar2(20)
+  );
+  
+  type rec_oe_referencia is record(
+    "numeroOrdemVenda"            varchar2(20),
+    "codigoTipoOrdemVenda"        varchar2(20),
+    "numeroLinhaOrdemVenda"       varchar2(20),
+    "numeroEnvioLinhaOrdemVenda"  varchar2(20),
+    "codigoTipoOrdemVendaLinha"   varchar2(20),
+    "tipoReferenciaOrigemLinha"   varchar2(50),
+    "codigoReferenciaOrigemLinha" varchar2(20)
+  );
+  type tab_oe_referencia is table of rec_oe_referencia index by binary_integer;
+
   type rec_ordem_separacao_semente is record(
     "areaAtendida"                  number
   );
 
   type rec_ordem_venda is record(
-    "numeroOrdemVenda"              varchar2(50),
-    "codigoTipoOrdemVenda"          varchar2(50),
-    "tipoReferenciaOrigem"          varchar2(50),
-    "codigoReferenciaOrigem"        varchar2(50),
-    "numeroLinhaOrdemVenda"         varchar2(50),
-    "numeroEnvioLinhaOrdemVenda"    varchar2(50),
-    "codigoTipoOrdemVendaLinha"     varchar2(50),
-    "codigoReferenciaOrigemLinha"   varchar2(50),
-    "ordemSeparacaoSemente"         rec_ordem_separacao_semente
+    "numeroOrdemVenda"                        varchar2(50),
+    "codigoTipoOrdemVenda"                    varchar2(50),
+    "tipoReferenciaOrigem"                    varchar2(50),
+    "codigoReferenciaOrigem"                  varchar2(50),
+    --
+    "numeroLinhaOrdemVenda"                   varchar2(50),
+    "numeroEnvioLinhaOrdemVenda"              varchar2(50),
+    "codigoTipoOrdemVendaLinha"               varchar2(50),
+    "tipoReferenciaOrigemLinha"               varchar2(50),    
+    "codigoReferenciaOrigemLinha"             varchar2(50),
+    --
+    "percurso"                                rec_percurso,
+    "oeReferencia"                            tab_oe_referencia
   );
   --type tab_ordem_venda is table of rec_ordem_venda index by binary_integer;
+
+  type rec_lotes is record(
+    "codigo"        varchar2(50),
+    "quantidade"    number,
+    "ordemSeparacaoSemente"                   rec_ordem_separacao_semente
+  );
+  type tab_lotes is table of rec_lotes index by binary_integer;
 
   type rec_itens is record(
     "numeroLinha"   varchar2(50),
     "codigoItem"    varchar2(50),
-    "quantidade"    varchar2(50),
+    "quantidade"    number,
     "unidadeMedida" varchar2(50),
     "valorUnitario" number,
     "codigoMoeda"   varchar2(50),
-    "codigoLote"    varchar2(50),
     "observacao"    varchar2(400),
+    "lotes"         tab_lotes,
     "ordemVenda"    rec_ordem_venda
   );
   type tab_itens is table of rec_itens index by binary_integer;
@@ -59,15 +88,7 @@ create or replace package XXFR_PCK_SINCRONIZAR_NOTA is
     "notaFiscal"                rec_nota_fiscal
   );
   
-  l_lis_itens                   xxfr_pljson_list;
-  --
-  l_obj_processar               xxfr_pljson;
-  --
-  l_obj_ordem_separacao_semente xxfr_pljson := null;
-  l_obj_ordem_venda             xxfr_pljson := null;
-  l_obj_item                    xxfr_pljson := null;
-  l_obj_nota_fiscal             xxfr_pljson := null;
-  l_obj_publica                 xxfr_pljson := null;
+  w_obj_processar               xxfr_pljson;
   
   procedure print_log(msg   in Varchar2);
   

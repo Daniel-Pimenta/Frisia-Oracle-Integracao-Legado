@@ -66,5 +66,21 @@ create or replace PACKAGE XXFR_WMS_PCK_INT_SEPARACAO IS
     p_retorno               out clob
   );
 
+  procedure separacao_sem_oe(
+    p_id_integracao_detalhe IN  NUMBER,
+    p_retorno               out clob
+  );
+  
+  procedure cancelar_separacao(
+    p_id_integracao_detalhe in  number,
+    p_retorno               out clob
+  );
+
+  procedure cancelar_separacao(
+    p_id_integracao_detalhe in  number,
+    p_commit                in  boolean,
+    p_retorno               out clob
+  );
+
 END XXFR_WMS_PCK_INT_SEPARACAO;
 /

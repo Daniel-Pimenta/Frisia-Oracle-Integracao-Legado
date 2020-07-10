@@ -1,9 +1,15 @@
 create or replace view XXFR_AR_VW_INF_DA_NF_CABECALHO as
 select distinct
   rcta.customer_trx_id,
+  rcta.trx_number,
   rcta.interface_header_context,
   cfe.location_id,
-  rctla.warehouse_id            as "codigoOrganizacaoInventario", 
+  rctla.warehouse_id  organization_id,            
+  (
+    select ood.organization_code 
+    from org_organization_definitions ood 
+    where ood.organization_id=rctla.warehouse_id 
+  )                             as "codigoOrganizacaoInventario", 
   hou.NAME                      as "codigoUnidadeOperacional",
   cfe.registration_number       as "numeroCnpjFilial",
   cfe.establishment_name        as "nomeFilial",
@@ -66,12 +72,14 @@ where 1=1
 
 /*
 
-
 select * from XXFR_AR_VW_INF_DA_NF_CABECALHO 
 where 1=1
-  and customer_trx_id=62009
+  --and "numeroNotaFiscal"='131'
+  --and "codigoOrigemTransacao"='UBS_VENDA'
+  --and "codigoOrganizacaoInventario" = '124'
+  and customer_trx_id = 128263
 order by 8 desc;
 
-
+select * from ra_customer_trx_all;
 
 */

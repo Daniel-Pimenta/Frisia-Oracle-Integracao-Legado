@@ -58,5 +58,7 @@ where 1=1
 /
 
 
---select * from XXFR_GL_VW_INT_LOTECONTABIL;
+--
+select * from XXFR_GL_VW_INT_LOTECONTABIL
+order by 2 desc;
 

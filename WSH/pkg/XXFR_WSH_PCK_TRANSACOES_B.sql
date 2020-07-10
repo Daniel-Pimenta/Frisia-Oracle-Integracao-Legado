@@ -262,40 +262,45 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_TRANSACOES as
       x_msg_data           => l_msg_data
     );
     print_out('  Saida:'||l_return_status);
-    if (l_msg_count = 0) then
-      x_retorno := l_return_status;
-    else
-      x_retorno := '';
+    x_retorno := l_return_status;
+    if (l_msg_count > 0) then
       for i in 1 .. l_msg_count loop
         l_msg_data := fnd_msg_pub.get( 
           p_msg_index => i, 
           p_encoded   => 'F'
         );
         print_out( '  '||i|| ') '|| l_msg_data);
-        x_retorno := x_retorno || '  '||i|| ') '|| l_msg_data || chr(13);
+        --x_retorno := x_retorno || '  '||i|| ') '|| l_msg_data || chr(13);
       end loop;
     end if;
     print_out('  FIM XXFR_WSH_PCK_TRANSACOES.ASSOCIAR_LINHA_ENTREGA');
   end;
 
   procedure split_linha_delivery(
-    p_delivery_detail_id    in number, 
+    p_delivery_detail_id     in number, 
     p_quantidade             in number, 
     x_new_delivery_detail_id out number, 
     x_retorno                out varchar2
   ) is
   
-    l_return_status       Varchar2(20);
-    l_msg_count           Number;
-    l_msg_data            Varchar2(400);
-    l_from_detail_id      Number;
-    l_new_detail_id       Number;
-    l_split_quantity      Number;
-    l_split_quantity2     Number;
+    l_return_status       varchar2(20);
+    l_msg_count           number;
+    l_msg_data            varchar2(400);
+    l_from_detail_id      number;
+    l_new_detail_id       number;
+    l_split_quantity      number;
+    l_split_quantity2     number;
+    --
+    l_msg_summary         varchar2(3000);
+    l_msg_details         varchar2(3000);
+    --
+    l_organization_id     number;
+    l_inventory_item_id   number;
+    --
+    l_primary_uom_code    varchar2(20);
+    l_secondary_uom_code  varchar2(20);
+    l_delivery_uom_code   varchar2(20);
     
-    l_msg_summary       VARCHAR2(3000);
-    l_msg_details       VARCHAR2(3000);
-  
   BEGIN
     print_out('  XXFR_WSH_PCK_TRANSACOES.SPLIT_LINHA_DELIVERY');
     --
@@ -304,7 +309,41 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_TRANSACOES as
     --
     l_from_detail_id := p_delivery_detail_id;
     l_split_quantity := p_quantidade;
+    
+    begin
+      select organization_id, inventory_item_id, requested_quantity_uom 
+      into l_organization_id, l_inventory_item_id, l_delivery_uom_code  
+      from wsh_delivery_details
+      where 1=1
+        and delivery_detail_id = p_delivery_detail_id
+      ;
+      
+      select primary_uom_code, secondary_uom_code
+      into l_primary_uom_code, l_secondary_uom_code
+      from mtl_system_items_b
+      where 1=1
+        and inventory_item_id = l_inventory_item_id 
+        and organization_id   = l_organization_id
+      ;
+      
+      l_split_quantity2 := inv_convert.inv_um_convert(
+        item_id       => l_inventory_item_id,
+        precision     => null,
+        from_quantity => l_split_quantity,
+        from_unit     => l_delivery_uom_code,
+        --
+        to_unit       => l_secondary_uom_code,
+        from_name     => null,
+        to_name       => null
+      );
+    exception when others then
+      x_retorno := '** Falha no processo de Segunda UN Medida:'||sqlerrm;
+      print_out(x_retorno);
+      goto FIM;
+    end;
     --
+    print_out('  Qtd 1:'||l_split_quantity||' '||l_delivery_uom_code);
+    print_out('  Qtd 2:'||l_split_quantity2||' '||l_secondary_uom_code);
     print_out('  CHAMANDO... WSH_DELIVERY_DETAILS_PUB.SPLIT_LINE');
     
     WSH_DELIVERY_DETAILS_PUB.SPLIT_LINE(  
@@ -341,6 +380,7 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_TRANSACOES as
       x_retorno := l_msg_data;
     end if;
     print_out('    Saida:'||l_return_status);
+    <<FIM>>
     print_out('  FIM XXFR_WSH_PCK_TRANSACOES.SPLIT_LINHA_DELIVERY');
   END;
 
@@ -466,28 +506,32 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_TRANSACOES as
     
   begin
     print_out('  XXFR_WSH_PCK_TRANSACOES.PICK_RELEASE');
-    
-    if (p_delivery_id is null) then
-      print_out('    Trip_id     :'||p_trip_id);
-    else
-      print_out('    Delivery_id :'||p_delivery_id);
-    end if;
+    print_out('    Trip_id     :'||p_trip_id);
+    print_out('    Delivery_id :'||p_delivery_id);
     
     initialize(null);
     vx_request_id := null;
     
-    select distinct
-      org_id   ,organization_id   ,organization_code   ,id_tipo_ordem
-    into
-      l_org_id ,l_organization_id ,l_organization_code ,l_order_type_id
-    from xxfr_wsh_vw_inf_da_ordem_venda
-    where 1=1
-      and released_status <> 'C'
-      and delivery_id  = nvl(p_delivery_id,delivery_id)
-      and trip_id      = nvl(p_trip_id    ,trip_id)
-      and flow_status_code not in ('CANCELLED','CLOSED','INVOICE_INCOMPLETE','SHIPPED')
-    ;  
-    if (p_tipo_liberacao is not null) then
+    print_out('Buscando informações da Entrega.');
+    begin
+      select distinct
+        org_id   ,organization_id   ,organization_code   ,id_tipo_ordem
+      into l_org_id ,l_organization_id ,l_organization_code ,l_order_type_id
+      from xxfr_wsh_vw_inf_da_ordem_venda
+      where 1=1
+        and released_status <> 'C'
+        and delivery_id  = nvl(p_delivery_id, delivery_id)
+        and trip_id      = nvl(p_trip_id    , trip_id)
+        and flow_status_code not in ('CANCELLED','CLOSED','INVOICE_INCOMPLETE','SHIPPED')
+      ;  
+    exception when others then
+      x_retorno := 'Erro não previsto:'||sqlerrm;
+      print_out(x_retorno);
+      ok:=false;
+    end;
+    -- *************************************************************************************
+    -- REGRA DE LIBERAÇÃO    
+    if (ok and p_tipo_liberacao is not null) then
       print_out('    ----------------------------------------------');
       print_out('    Procurando regra:'||l_organization_code||'.'||p_tipo_liberacao);
       --RESGATA REGRAS DE PICKING
@@ -561,6 +605,10 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_TRANSACOES as
         null;
       end if;
       */
+    end if;
+    -- *************************************************************************************
+    -- FASE 1
+    if (ok) then
       print_out('    Chamando... WSH_PICKING_BATCHES_PUB.CREATE_BATCH');
       wsh_picking_batches_pub.create_batch(
         p_api_version   => 1.0,
@@ -589,11 +637,18 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_TRANSACOES as
             p_encoded   => 'T'
           );
           print_out('    '||i|| ') '|| v_msg_data);
+          if (v_return_status = 'W') then
+            XXFR_WSH_PCK_INT_ENTREGA.g_rec_retorno."registros"(1)."linhas"(1)."mensagens"(i)."tipoMensagem":= 'ADVERTENCIA';
+          else
+            XXFR_WSH_PCK_INT_ENTREGA.g_rec_retorno."registros"(1)."linhas"(1)."mensagens"(i)."tipoMensagem":= 'ERRO';
+          end if;
+          XXFR_WSH_PCK_INT_ENTREGA.g_rec_retorno."registros"(1)."linhas"(1)."mensagens"(i)."mensagem"    := v_msg_data;
         end loop;
         ok := false;
       end if;
     end if;
-    --
+    -- *************************************************************************************
+    -- FASE 2
     if (ok) then
       print_out(' ');
       print_out('    Chamando... WSH_PICKING_BATCHES_PUB.RELEASE_BATCH');
@@ -619,6 +674,12 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_TRANSACOES as
           p_encoded   => 'F'
         );
         print_out('    '||i||')-'|| v_msg_data);
+        if (v_return_status = 'W') then
+          XXFR_WSH_PCK_INT_ENTREGA.g_rec_retorno."registros"(1)."linhas"(1)."mensagens"(i)."tipoMensagem":= 'ADVERTENCIA';
+        else
+          XXFR_WSH_PCK_INT_ENTREGA.g_rec_retorno."registros"(1)."linhas"(1)."mensagens"(i)."tipoMensagem":= 'ERRO';
+        end if;
+        XXFR_WSH_PCK_INT_ENTREGA.g_rec_retorno."registros"(1)."linhas"(1)."mensagens"(i)."mensagem"    := v_msg_data;
       end loop;
       print_out(' ');
       --
@@ -631,6 +692,7 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_TRANSACOES as
       --
       if (ok) then
         if (v_return_status = 'W') then
+          x_retorno := 'A Criação do Percurso foi REVERTIDO pelo Processo de Liberação e Separação.';
           for r1 in (
             select distinct delivery_detail_id, line_released_status_name
             from xxfr_wsh_vw_inf_da_ordem_venda
@@ -1387,7 +1449,7 @@ nulo', 'Weight NULL');
     l_msg_data            varchar2(3000);
   
   begin
-
+    print_out('  XXFR_WSH_PCK_TRANSACOES.ATUALIZA_DELIVEY_DETAIL');
     fnd_msg_pub.initialize;
     
     l_changed_attributes := p_changed_attributes;
@@ -1412,6 +1474,7 @@ nulo', 'Weight NULL');
       print_out('  '|| i|| ') '|| l_msg_data);
     end loop;
     x_retorno := l_return_status;
+    print_out('  FIM XXFR_WSH_PCK_TRANSACOES.ATUALIZA_DELIVEY_DETAIL');
   end;
 
 end XXFR_WSH_PCK_TRANSACOES;

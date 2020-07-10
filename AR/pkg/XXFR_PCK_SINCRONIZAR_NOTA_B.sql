@@ -6,11 +6,14 @@ create or replace package body XXFR_PCK_SINCRONIZAR_NOTA is
 
   procedure print_log(msg   in Varchar2) is
   begin
+    XXFR_AR_PCK_INT_SINCRO_NF.print_log(msg);
+    /*
     dbms_output.put_line(msg);
     xxfr_pck_logger.log_info(	
       p_log      => msg,
 			p_escopo   => g_scope_prefix
     );
+    */
   end;
 
   function validar(p_publica rec_publica) return boolean is
@@ -29,10 +32,31 @@ create or replace package body XXFR_PCK_SINCRONIZAR_NOTA is
     l_escopo                      varchar2(500) := g_scope_prefix || 'mount';
     g_user_name                   varchar2(50);
     p_nota_fiscal                 rec_nota_fiscal;
+    ponto                         number;
+    
+    l_lis_oe_referencia           xxfr_pljson_list;
+    l_lis_itens                   xxfr_pljson_list;
+    l_lis_lotes                   xxfr_pljson_list;
+    --
+    l_obj_processar               xxfr_pljson;
+    --
+    l_obj_ordem_separacao_semente xxfr_pljson := null;
+    l_obj_percurso                xxfr_pljson := null;
+    l_obj_oe_referencia           xxfr_pljson := null;
+    l_obj_ordem_venda             xxfr_pljson := null;
+    l_obj_item                    xxfr_pljson := null;
+    l_obj_lotes                   xxfr_pljson := null;                
+    l_obj_nota_fiscal             xxfr_pljson := null;
+    l_obj_publica                 xxfr_pljson := null;
+    
+    l_ini  number;
+    l_fim  number;
   
   begin
     print_log('  XXFR_PCK_SINCRONIZAR_NOTA.MOUNT');
     -- Parametros do cabecacalho do servico
+    
+    p_nota_fiscal := null;
     
     select user_name into g_user_name
     from fnd_user 
@@ -56,6 +80,7 @@ create or replace package body XXFR_PCK_SINCRONIZAR_NOTA is
     --xxfr_pljson_printer.empty_number_not_include := true;
     l_obj_nota_fiscal := xxfr_pljson();
     print_log('    NF:'||p_nota_fiscal."numeroNotaFiscal");
+    ponto:=0;
     l_obj_nota_fiscal.put('codigoOrganizacaoInventario' , p_nota_fiscal."codigoOrganizacaoInventario");
     l_obj_nota_fiscal.put('numeroCnpjFilial'            , p_nota_fiscal."numeroCnpjFilial");
     l_obj_nota_fiscal.put('dataCriacao'                 , p_nota_fiscal."dataCriacao");
@@ -80,25 +105,93 @@ create or replace package body XXFR_PCK_SINCRONIZAR_NOTA is
       l_obj_item.put('unidadeMedida', p_nota_fiscal."itens"(idx_lin)."unidadeMedida");
       l_obj_item.put('valorUnitario', p_nota_fiscal."itens"(idx_lin)."valorUnitario");
       l_obj_item.put('codigoMoeda',   p_nota_fiscal."itens"(idx_lin)."codigoMoeda");
-      l_obj_item.put('codigoLote',    p_nota_fiscal."itens"(idx_lin)."codigoLote");
       l_obj_item.put('observacao',    p_nota_fiscal."itens"(idx_lin)."observacao");
+      
+      --LOTES
+      l_lis_lotes := xxfr_pljson_list();
+      print_log('    Iniciando Lotes...');
+      if (p_nota_fiscal."itens"(idx_lin)."lotes".count > 0) then
+        for idx_lotes in p_nota_fiscal."itens"(idx_lin)."lotes".first .. p_nota_fiscal."itens"(idx_lin)."lotes".last loop
+          print_log('      Lote:'||p_nota_fiscal."itens"(idx_lin)."lotes"(idx_lotes)."codigo");
+          l_obj_lotes := xxfr_pljson(); 
+          l_obj_lotes.put('codigo',     p_nota_fiscal."itens"(idx_lin)."lotes"(idx_lotes)."codigo");  ponto:=ponto+1;
+          l_obj_lotes.put('quantidade', p_nota_fiscal."itens"(idx_lin)."lotes"(idx_lotes)."quantidade");  ponto:=ponto+1;
+          
+          -- SEPARACAO DE SEMENTE
+          print_log('    Iniciando Separacao Sementes...');
+          l_obj_ordem_separacao_semente := xxfr_pljson();
+          l_obj_ordem_separacao_semente.put('areaAtendida',    p_nota_fiscal."itens"(idx_lin)."lotes"(idx_lotes)."ordemSeparacaoSemente"."areaAtendida"); ponto:=ponto+1;
+          l_obj_lotes.put('ordemSeparacaoSemente', l_obj_ordem_separacao_semente); ponto:=ponto+1;
+          
+          l_lis_lotes.append(l_obj_lotes.to_json_value, idx_lotes);
+        end loop;
+        l_obj_item.put('lotes',    l_lis_lotes);
+      end if;
       --
+        --ORDEM DE VENDA
         --l_lis_ordem_venda := xxfr_pljson_list();
         l_obj_ordem_venda := xxfr_pljson();
-        l_obj_ordem_venda.put('numeroOrdemVenda',            p_nota_fiscal."itens"(idx_lin)."ordemVenda"."numeroOrdemVenda");
-        l_obj_ordem_venda.put('codigoTipoOrdemVenda',        p_nota_fiscal."itens"(idx_lin)."ordemVenda"."codigoTipoOrdemVenda");
-        l_obj_ordem_venda.put('tipoReferenciaOrigem',        p_nota_fiscal."itens"(idx_lin)."ordemVenda"."tipoReferenciaOrigem");
-        l_obj_ordem_venda.put('codigoReferenciaOrigem',      p_nota_fiscal."itens"(idx_lin)."ordemVenda"."codigoReferenciaOrigem");
-        l_obj_ordem_venda.put('numeroLinhaOrdemVenda',       p_nota_fiscal."itens"(idx_lin)."ordemVenda"."numeroLinhaOrdemVenda");
-        l_obj_ordem_venda.put('numeroEnvioLinhaOrdemVenda',  p_nota_fiscal."itens"(idx_lin)."ordemVenda"."numeroEnvioLinhaOrdemVenda");
-        l_obj_ordem_venda.put('codigoTipoOrdemVendaLinha',   p_nota_fiscal."itens"(idx_lin)."ordemVenda"."codigoTipoOrdemVendaLinha");
-        l_obj_ordem_venda.put('codigoReferenciaOrigemLinha', p_nota_fiscal."itens"(idx_lin)."ordemVenda"."codigoReferenciaOrigemLinha");
+        l_obj_ordem_venda.put('numeroOrdemVenda',            p_nota_fiscal."itens"(idx_lin)."ordemVenda"."numeroOrdemVenda"); ponto:=ponto+1;
+        l_obj_ordem_venda.put('codigoTipoOrdemVenda',        p_nota_fiscal."itens"(idx_lin)."ordemVenda"."codigoTipoOrdemVenda"); ponto:=ponto+1;
+        l_obj_ordem_venda.put('tipoReferenciaOrigem',        p_nota_fiscal."itens"(idx_lin)."ordemVenda"."tipoReferenciaOrigem"); ponto:=ponto+1;
+        l_obj_ordem_venda.put('codigoReferenciaOrigem',      p_nota_fiscal."itens"(idx_lin)."ordemVenda"."codigoReferenciaOrigem"); ponto:=ponto+1;
+        l_obj_ordem_venda.put('numeroLinhaOrdemVenda',       p_nota_fiscal."itens"(idx_lin)."ordemVenda"."numeroLinhaOrdemVenda"); ponto:=ponto+1;
+        l_obj_ordem_venda.put('numeroEnvioLinhaOrdemVenda',  p_nota_fiscal."itens"(idx_lin)."ordemVenda"."numeroEnvioLinhaOrdemVenda"); ponto:=ponto+1;
+        l_obj_ordem_venda.put('codigoTipoOrdemVendaLinha',   p_nota_fiscal."itens"(idx_lin)."ordemVenda"."codigoTipoOrdemVendaLinha"); ponto:=ponto+1;
+        l_obj_ordem_venda.put('tipoReferenciaOrigemLinha',   p_nota_fiscal."itens"(idx_lin)."ordemVenda"."tipoReferenciaOrigemLinha"); ponto:=ponto+1;
+        l_obj_ordem_venda.put('codigoReferenciaOrigemLinha', p_nota_fiscal."itens"(idx_lin)."ordemVenda"."codigoReferenciaOrigemLinha"); ponto:=ponto+1;
         --
-        l_obj_ordem_separacao_semente := xxfr_pljson();
-        l_obj_ordem_separacao_semente.put('areaAtendida',    p_nota_fiscal."itens"(idx_lin)."ordemVenda"."ordemSeparacaoSemente"."areaAtendida");
-        --
-        l_obj_ordem_venda.put('ordemSeparacaoSemente', l_obj_ordem_separacao_semente);
+        /* Retirado em 26/06/2020
+        l_obj_ordem_venda.put('numeroOrdemVendaReferencia',             p_nota_fiscal."itens"(idx_lin)."ordemVenda"."numeroOrdemVendaRef");
+        l_obj_ordem_venda.put('codigoTipoOrdemVendaReferencia',         p_nota_fiscal."itens"(idx_lin)."ordemVenda"."codigoTipoOrdemVendaRef");
+        l_obj_ordem_venda.put('numeroLinhaOrdemVendaReferencia',        p_nota_fiscal."itens"(idx_lin)."ordemVenda"."nuLinhaOrdemVendaReferencia");
+        l_obj_ordem_venda.put('numeroEntregaLinhaOrdemVendaReferencia', p_nota_fiscal."itens"(idx_lin)."ordemVenda"."nuEntregaLinhaOrdemVendaRef");
+        l_obj_ordem_venda.put('codigoTipoOrdemVendaLinhaReferencia',    p_nota_fiscal."itens"(idx_lin)."ordemVenda"."cdTipoOrdemVendaLinhaRef");
+        */
+        --Incluido em 26/06/2020
+        --PERCURSO
+        print_log('    Iniciando Percurso...');
+        l_obj_percurso := xxfr_pljson();
+        l_obj_percurso.put('codigoCarregamento'                 ,p_nota_fiscal."itens"(idx_lin)."ordemVenda"."percurso"."codigoCarregamento"); ponto:=ponto+1;
+        l_obj_percurso.put('nomePercurso'                       ,p_nota_fiscal."itens"(idx_lin)."ordemVenda"."percurso"."numeroRomaneio"); ponto:=ponto+1;
+        l_obj_percurso.put('tipoReferenciaOrigemLinhaEntrega'   ,p_nota_fiscal."itens"(idx_lin)."ordemVenda"."percurso"."tipoRefOrigemLinhaEntrega"); ponto:=ponto+1;
+        l_obj_percurso.put('codigoReferenciaOrigemLinhaEntrega' ,p_nota_fiscal."itens"(idx_lin)."ordemVenda"."percurso"."codRefOrigemLinhaEntrega"); ponto:=ponto+1;
+        l_obj_ordem_venda.put('percurso', l_obj_percurso);
         
+        -- Incluido em 26/06/2020
+        -- REFERENCIA ORDEM DE VENDA.
+        print_log('    Iniciando Referencia...');
+        print_log('    Ponto:'||ponto); --15
+        --
+        if (p_nota_fiscal."itens"(idx_lin)."ordemVenda"."oeReferencia".count > 0) then
+          l_ini := nvl(p_nota_fiscal."itens"(idx_lin)."ordemVenda"."oeReferencia".first,0);
+          l_fim := nvl(p_nota_fiscal."itens"(idx_lin)."ordemVenda"."oeReferencia".last,0);
+          --
+          print_log('    Ini:'||l_ini);
+          print_log('    Fim:'||l_fim);
+          l_lis_oe_referencia := xxfr_pljson_list();
+          for idx_oeRef in l_ini .. l_fim loop
+            print_log('      Ind:'||idx_oeRef);
+            l_obj_oe_referencia := xxfr_pljson();
+            l_obj_oe_referencia.put('numeroOrdemVenda'           ,p_nota_fiscal."itens"(idx_lin)."ordemVenda"."oeReferencia"(idx_oeRef)."numeroOrdemVenda"); ponto:=ponto+1;
+            l_obj_oe_referencia.put('codigoTipoOrdemVenda'       ,p_nota_fiscal."itens"(idx_lin)."ordemVenda"."oeReferencia"(idx_oeRef)."codigoTipoOrdemVenda"); ponto:=ponto+1;
+            l_obj_oe_referencia.put('numeroLinhaOrdemVenda'      ,p_nota_fiscal."itens"(idx_lin)."ordemVenda"."oeReferencia"(idx_oeRef)."numeroLinhaOrdemVenda"); ponto:=ponto+1;
+            l_obj_oe_referencia.put('numeroEnvioLinhaOrdemVenda' ,p_nota_fiscal."itens"(idx_lin)."ordemVenda"."oeReferencia"(idx_oeRef)."numeroEnvioLinhaOrdemVenda"); ponto:=ponto+1;
+            l_obj_oe_referencia.put('codigoTipoOrdemVendaLinha'  ,p_nota_fiscal."itens"(idx_lin)."ordemVenda"."oeReferencia"(idx_oeRef)."codigoTipoOrdemVendaLinha"); ponto:=ponto+1;
+            l_obj_oe_referencia.put('tipoReferenciaOrigemLinha'  ,p_nota_fiscal."itens"(idx_lin)."ordemVenda"."oeReferencia"(idx_oeRef)."tipoReferenciaOrigemLinha"); ponto:=ponto+1;
+            l_obj_oe_referencia.put('codigoReferenciaOrigemLinha',p_nota_fiscal."itens"(idx_lin)."ordemVenda"."oeReferencia"(idx_oeRef)."codigoReferenciaOrigemLinha"); ponto:=ponto+1;
+            print_log('    Ponto:'||ponto);
+            l_lis_oe_referencia.append(l_obj_oe_referencia.to_json_value, idx_oeRef); ponto:=ponto+1;
+          end loop;
+        /*
+        else
+          l_obj_oe_referencia := xxfr_pljson(); ponto:=ponto+1;
+          l_lis_oe_referencia.append(l_obj_oe_referencia.to_json_value, 1); ponto:=ponto+1;
+        */
+          l_obj_ordem_venda.put('ordensVendaReferencia', l_lis_oe_referencia); ponto:=ponto+1;
+        end if;
+
+        --
         l_obj_item.put('ordemVenda', l_obj_ordem_venda);
         l_lis_itens.append(l_obj_item.to_json_value, idx_lin);
     end loop;
@@ -114,7 +207,7 @@ create or replace package body XXFR_PCK_SINCRONIZAR_NOTA is
     return l_obj_processar;
   exception
     when others then
-      --pack_logger.log_error(p_log => 'Exceção não tratada', p_escopo => l_escopo);
+      print_log('Erro ponto:'||ponto||' - '||sqlerrm);
       raise;
   end;
   --
@@ -126,14 +219,13 @@ create or replace package body XXFR_PCK_SINCRONIZAR_NOTA is
     p_ie_status               out NOCOPY varchar2
   ) is
   
-    l_publica     xxfr_pljson;
     l_escopo      varchar2(200) := g_scope_prefix || 'registra';
     
   begin
     print_log('XXFR_PCK_SINCRONIZAR_NOTA.REGISTRAR');
     --ok := validar(p_publica);
     if (ok) then
-      l_publica := mount(p_sistema_origem, p_publica);
+      w_obj_processar := mount(p_sistema_origem, p_publica);
       --
       print_log('  Chamando XXFR_PCK_INTERFACE_INTEGRACAO.ADICIONA...');
       p_id_integracao_detalhe := xxfr_pck_interface_integracao.adiciona(
@@ -141,7 +233,7 @@ create or replace package body XXFR_PCK_SINCRONIZAR_NOTA is
         p_cd_chave_interface  => null,
         p_cd_sistema_origem   => p_sistema_origem,
         p_cd_sistema_destino  => 'EBS',
-        p_ds_dados_requisicao => l_publica,
+        p_ds_dados_requisicao => w_obj_processar,
         p_id_transacao        => null,
         p_cd_programa         => null
       );
@@ -165,7 +257,7 @@ create or replace package body XXFR_PCK_SINCRONIZAR_NOTA is
       print_log('Erro:'||sqlerrm);
       print_log('FIM XXFR_PCK_SINCRONIZAR_NOTA.REGISTRAR');
       xxfr_pck_logger.log_error(p_log => 'Exceção não tratada', p_escopo => l_escopo);
-      raise;
+      --raise;
   end;
 
   procedure processar(

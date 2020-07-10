@@ -1,6 +1,6 @@
 --DROP VIEW XXFR_WSH_VW_INF_DA_ORDEM_VENDA;
 CREATE OR REPLACE VIEW XXFR_WSH_VW_INF_DA_ORDEM_VENDA AS
-  select distinct
+select distinct
   h.org_id,
   h.header_id         oe_header,
   l.line_id           oe_line,
@@ -13,13 +13,23 @@ CREATE OR REPLACE VIEW XXFR_WSH_VW_INF_DA_ORDEM_VENDA AS
   h.order_number               numero_ordem,
   l.line_number                linha,
   l.shipment_number            envio,
-  ood.organization_id          organization_id,
-  ood.organization_code        organization_code,
   h.order_type_id              id_tipo_ordem,
   (select name from oe_transaction_types_tl where 1=1 and LANGUAGE='PTB' and transaction_type_id = h.order_type_id) tipo_ordem,
   l.line_type_id               id_tipo_linha,
   (select name from oe_transaction_types_tl where 1=1 and LANGUAGE='PTB' and transaction_type_id = l.line_type_id) tipo_linha,
   l.flow_status_code,
+  --
+  h.sold_to_org_id             id_cliente,
+  hca.account_number           num_cliente,  
+  hp.party_name                cliente, 
+  --
+  wdd.organization_id          organization_id,
+  (
+    select ood.organization_code 
+    from org_organization_definitions ood 
+    where ood.organization_id=wdd.organization_id
+  ) organization_code,
+  --
   wdd.released_status,
   (
   select meaning
@@ -56,10 +66,6 @@ CREATE OR REPLACE VIEW XXFR_WSH_VW_INF_DA_ORDEM_VENDA AS
   wdd.locator_id, 
   wdd.transaction_id,
   --
-  h.sold_to_org_id              id_cliente,
-  hca.account_number            num_cliente,  
-  hp.party_name                 cliente, 
-  --
   wnd.delivery_id               delivery_id,
   wnd.name                      nome_entrega,
   wdd.delivery_detail_id,
@@ -76,7 +82,7 @@ CREATE OR REPLACE VIEW XXFR_WSH_VW_INF_DA_ORDEM_VENDA AS
   wdd.requested_quantity         qtd,
   wdd.requested_quantity_uom     unidade,
   -- 
-  wdd.unit_price                preco_unitario, 
+  wdd.unit_price                 preco_unitario, 
   wdd.currency_code,
   --
   wnd.gross_weight               peso_pedido,
@@ -100,6 +106,7 @@ CREATE OR REPLACE VIEW XXFR_WSH_VW_INF_DA_ORDEM_VENDA AS
   wnd.global_attribute9        cod_lacres,
   wnd.attribute1               cod_controle_entrega_cliente,
   wdd.attribute1               percentual_gordura,
+  wdd.attribute15              referencias,
   --
   trip.trip_id, 
   trip.name                    nome_percurso,
@@ -108,21 +115,30 @@ CREATE OR REPLACE VIEW XXFR_WSH_VW_INF_DA_ORDEM_VENDA AS
   trip.vehicle_number,
   trip.vehicle_organization_id,
   --
-  trip.attribute1              cpf_motorista,
   trip.operator                nome_motorista,
+  trip.attribute1              cpf_motorista,
   nvl(trip.attribute2,0)       peso_bruto,
   nvl(trip.attribute3,0)       tara,
   nvl(trip.attribute4,0)       peso_liquido,
   nvl(trip.attribute6,0)       peso_embalagem,
-  nvl(trip.attribute5,0)       cod_lacre_veiculo,
+  trip.attribute7              placa_veiculo,
+  trip.attribute5              cod_lacre_veiculo,
+  trip.attribute13             tipo_referencia_origem,
+  trip.attribute14             codigo_referencia_origem,
   trip.status_code             status_percurso,
   wnd.planned_flag             conteudo_firme,
-  trip.planned_flag            percurso_firme
+  trip.planned_flag            percurso_firme,
+  --
+  'SACARIA'                    OM05,
+  --
+  trip.ATTRIBUTE8  Sacaria_Item,
+  trip.ATTRIBUTE9  Sacaria_QTD,
+  trip.ATTRIBUTE10 Sacaria_Cliente_Remessa,
+  trip.ATTRIBUTE11 Sacaria_Endereco,
+  'FIM'   Trailer
 from 
   oe_order_headers_all         h,
   oe_order_lines_all           l,
-  --
-  org_organization_definitions ood,
   --
   apps.hz_locations            hl,
   apps.hz_party_sites          hps,
@@ -147,28 +163,9 @@ from
   ) wnd,
   (
     select
-      wdl.delivery_id,
-      wt.trip_id,
-      wt.name,
+      wdl.delivery_id     trip_delivery_id,
       wdl.delivery_leg_id,
-      --
-      wt.planned_flag,
-      wt.vehicle_item_id,
-      wt.vehicle_number,
-      wt.vehicle_organization_id,
-      wt.carrier_id,
-      wt.ship_method_code,
-      wt.service_level,
-      wt.mode_of_transport,
-      --
-      wt.status_code,
-      wt.operator,
-      wt.attribute1,  --cpf morotista
-      wt.attribute2,  --bruto
-      wt.attribute3,  --tara
-      wt.attribute4,  --liquido
-      wt.attribute6,   --embalagem
-      wt.attribute5   --cod_lacre_veiculo
+      wt.*
     from   
       wsh_trips_v              wt,
       wsh_trip_stops           wtp,
@@ -187,12 +184,8 @@ where 1=1
   and h.header_id            = wdd.source_header_id (+)
   and l.line_id              = wdd.source_line_id (+)
   --
-  and ood.operating_unit     = h.org_id
-  and ood.organization_id    = wdd.organization_id --(+)
-  --
   and wdd.delivery_detail_id = wnd.delivery_detail_id (+)
-  and wnd.delivery_id        = trip.delivery_id (+)
-  --and trip.trip_id           = wtd.trip_id (+)
+  and wnd.delivery_id        = trip.trip_delivery_id (+)
   --
   and hcsua.site_use_code     = 'BILL_TO'
   --
@@ -207,42 +200,46 @@ where 1=1
   --
   and hl.location_id          = hps.location_id
   and hps.party_id            = hp.party_id
+  --
+  --and h.order_number = '2'
+  --and l.line_number  = '1'
 ;
 /
 
-select *
+select * from oe_order_headers_all ;
+
+
+
+select distinct *
 --select NUMERO_ORDEM, LINHA, ENVIO, TIPO_ORDEM, LINE_RELEASED_STATUS_NAME, CLIENTE, NOME_ENTREGA, ORDERED_ITEM, ITEM_DESCRIPTION, QTD_ORIGINAL, UNIDADE_ORIGINAL, NOME_PERCURSO, CONTEUDO_FIRME, PERCURSO_FIRME
 from XXFR_WSH_VW_INF_DA_ORDEM_VENDA
 WHERE 1=1
+  --and sacaria_item is not null
   --AND RELEASED_STATUS <> 'C'
   --AND flow_status_code NOT IN ('CANCELLED','CLOSED','INVOICE_INCOMPLETE','SHIPPED')
+  --and RELEASED_STATUS = 'Y'
   --and MOVE_ORDER_LINE_ID is not null
   --and STATUS_PERCURSO is null
   --and PICK_STATUS_NAME like '%Back%'
   --and delivery_id  in (198024, 198025)
-  and trip_id = 82062
-  --and OE_HEADER = 229099
+  --and trip_id = 53043
+  and OE_HEADER = 210828
+  --and oe_line in (145451, 152656)
   --AND delivery_detail_id  IN (73066)
   --and nome_percurso = 'SOL.814154.6' 
   --and ORDERED_ITEM    = '90170'  
   --and ORGANIZATION_CODE = substr('011_VENDA_CONTRA_ORDEM',1,3)
-  --   Linhas:{ OE :5 1. / 191_VENDA - 
-  --and numero_ordem      in ('164')
-  --and tipo_ordem        = '22L_VENDA_ORDEM_INDUSTRIAL'
+  --   Linhas:{  OE:124-2.3 / 358_VENDA_ORDEM_ADQ
+  --and numero_ordem      in ('126')
+  --and tipo_ordem        = '124_VENDA_FUTURA'
   --and linha             = '3'
   --and envio             = '1'
+  --and organization_id = 137
   --and SPLIT_FROM_DELIVERY_DETAIL_ID is null
-ORDER BY TIPO_ORDEM, NUMERO_ORDEM, LINHA, ENVIO, DELIVERY_DETAIL_ID, RELEASED_STATUS
+ORDER BY NUMERO_ORDEM, LINHA, ENVIO
 ;
 
-
-Calling program unit OE_MSG_PUB.GET
-ORA-20002: 3825: Erro '-1427 - ORA-01427: a subconsulta de uma única linha retorna mais de uma linha' encontrado na execução da função da Regra 'XXFR_OM_PCK_EVENTOS_COMERCIAIS.alteracao_status' do evento 'oracle.apps.ont.oip.statuschange.update' com a cha
-Error msg: ORA-20002: 3825: Erro '-1427 - ORA-01427: a subconsulta de uma única 
-linha retorna mais de uma linha' encontrado na execução da função da Regra 'XXFR
-_OM_PCK_EVENTOS_COMERCIAIS.alteracao_status' do evento 'oracle.apps.ont.oip.sta
-          ERROR
-
+    Percurso:{ Id Percurso        :117057
 
 select * from XXFR_WSH_VW_INT_PROC_ENTREGA 
 where 1=1

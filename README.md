@@ -1,5 +1,44 @@
 "# Frisia-Oracle-Integração-Legado" 
 
+<h3>VR 1.3 10-07-2020</h3>
+<ul>
+	<li>OPM#35 - Em Desenvolvimento</li>
+	<li>OPM#55 - Em Teste</li>
+		<span>
+		<ul>
+			<li>Adequanção em andamento</li>
+			<li>Incluido Banco Itau. Em testes</li>
+			<li>Incluido Banco Bradesco. Em testes</li>
+			<li>Incluido Banco Sicred. Em testes</li>
+		</ul>
+		</span>
+	<li>AR - Em Teste</li>
+		<ul>
+		  <li>Sincronização de NF entre EBS e Legado. Estavel. Em teste</li>
+		  <li>Criação de NF de Entrada no RI. Estavel. Em teste</li>
+		</ul>
+	<li>Frente de Caixa</li>
+		<ul>
+			<li>Cadastro de Clientes. Estavel em teste</li>
+		</ul>
+	<li>GL - Estavel</li>
+	<li>MWA - Congelado</li>
+	<li>RI  - Estavel. Em teste.</li>
+		<ul>
+		  <li>Devolução de NF. Estavel. Em teste</li>
+		  Em desenvolvimento:Return do Vendor (Fisico)<br>
+		</ul>
+	<li>WMS - Estavel. Em teste</li>
+		<ul>
+			<li>Separação de Sementes.</li>
+		</ul>
+	<li>WSH - Estavel. Em teste</li>
+		<ul>
+			<li>Expedição Portaria. Estavel. Em teste</li>
+		</ul>
+</ul>
+
+
 <h3>VR 1.2 28-05-2020</h3>
 <ul>
 	<li>AP - Em Teste</li>

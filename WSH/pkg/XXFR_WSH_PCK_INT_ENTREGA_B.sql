@@ -18,7 +18,7 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_INT_ENTREGA IS
       --Entrega
       ie_dividir_linha, ie_conteudo_firme, ie_liberar_separacao, 
       --Percurso
-      id_percurso, tp_operacao, nm_percurso, ie_ajusta_distribuicao, cd_lacre_veiculo, qt_peso_tara, qt_peso_bruto, qt_peso_embalagem_complementar, tp_frete, cd_metodo_entrega, 
+      id_percurso, tp_operacao, nm_percurso, ie_ajusta_distribuicao, cd_lacre_veiculo, qt_peso_tara, qt_peso_bruto, qt_peso_embalagem_complementar, tp_frete, cd_metodo_entrega, cd_carregamento,
       cd_referencia_origem, tp_referencia_origem, cd_endereco_estoque_granel, tp_liberacao,
       --  OBTENDO INF. DA TRANSPOSTADORAdor
       cd_transportador, nm_motorista, nu_cpf_motorista, 
@@ -44,7 +44,9 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_INT_ENTREGA IS
   cursor c3(i_id_int_det number, i_cd_cliente number, i_cd_ship_to varchar2, i_idx_distribuicao number) is
     select 
       id_integracao_detalhe, 
-      cd_tipo_ordem_venda, nu_ordem_venda, nu_linha_ordem_venda, nu_envio_linha_ordem_venda, nu_entrega, qt_quantidade, cd_un_medida, qt_volumes, cd_un_volume, cd_endereco_estoque, ds_observacoes, pr_percentual_gordura
+      cd_tipo_ordem_venda, nu_ordem_venda, nu_linha_ordem_venda, nu_envio_linha_ordem_venda, nu_entrega, 
+      qt_quantidade, cd_un_medida, qt_volumes, cd_un_volume, cd_endereco_estoque, ds_observacoes, pr_percentual_gordura,
+      cd_referencia_origem_linha, tp_referencia_origem_linha
     from xxfr_wsh_vw_int_proc_entrega
     where 1=1
       --and ie_status_processamento = 'PENDENTE'
@@ -102,8 +104,14 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_INT_ENTREGA IS
 
   g_qtd_alocada_pedido        number;
   g_seq_delivery              number;
+  w                           number;
+  --
+  g_peso_pedido               number;
+  g_peso_pedido_calculado     number;
+  
+  g_attribute15               varchar2(200);
 
-  procedure print_out(msg   in Varchar2) is
+  procedure print_out(msg   in varchar2) is
     l_diff   number;
     l_msg    varchar2(3000);
   begin
@@ -350,11 +358,11 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_INT_ENTREGA IS
       print_out('               Ajusta Distribuição:'||r1.ie_ajusta_distribuicao);
       print_out('               Endereço do Estoque:'||r1.cd_endereco_estoque_granel);
       print_out('               Tipo de Operação   :'||r1.tp_operacao);
-      if (r1.tp_operacao = 'ALTERAR') then
+      --if (r1.tp_operacao = 'ALTERAR') then
         print_out('                 Tara             :'||nvl(r1.qt_peso_tara,0));
         print_out('                 Peso Bruto       :'||nvl(r1.qt_peso_bruto,0));
         print_out('                 Peso Embalagem   :'||nvl(r1.qt_peso_embalagem_complementar,0));
-      end if;
+      --end if;
       l_percurso.tp_operacao                    := r1.tp_operacao; 
       l_percurso.id_percurso                    := r1.id_percurso;
       l_percurso.nm_percurso                    := r1.nm_percurso;
@@ -370,6 +378,7 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_INT_ENTREGA IS
       l_percurso.qt_peso_tara                   := nvl(r1.qt_peso_tara,0);
       l_percurso.qt_peso_bruto                  := nvl(r1.qt_peso_bruto,0);
       l_percurso.qt_peso_embalagem_complementar := nvl(r1.qt_peso_embalagem_complementar,0);
+      l_percurso.cd_carregamento                := r1.cd_carregamento;
       --
       l_percurso.tp_frete                       := r1.tp_frete;
       l_percurso.cd_metodo_entrega              := r1.cd_metodo_entrega;
@@ -455,6 +464,9 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_INT_ENTREGA IS
               ponto:=ponto+1; l_linhas.cd_endereco_estoque        := r3.cd_endereco_estoque;
               ponto:=ponto+1; l_linhas.ds_observacoes             := r3.ds_observacoes;
               ponto:=ponto+1; l_linhas.pr_percentual_gordura      := r3.pr_percentual_gordura;
+              --
+              ponto:=ponto+1; l_linhas.tp_referencia_origem_linha := r3.tp_referencia_origem_linha;
+              ponto:=ponto+1; l_linhas.cd_referencia_origem_linha := r3.cd_referencia_origem_linha;
               
               l_portaria(i).entrega.percurso.dist(d).linhas(l)    := l_linhas;
               print_out('        }');
@@ -669,78 +681,6 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_INT_ENTREGA IS
               end if;
             end if;
             ok := pre_validacao(p_id_integracao_detalhe);
-            /*
-            if (ok) then
-              begin    
-                l_trip_id := null;
-                for r1 in d1(g_tp_percurso.nm_percurso) loop
-                  -- Valida Percurso
-                  l_trip_id := r1.trip_id;
-                  g_tp_percurso.id_percurso := r1.trip_id;
-                  if (g_tp_percurso.tp_operacao ='INCLUIR') THEN
-                    print_out('Validando o percurso:'||g_tp_percurso.nm_percurso);
-                    begin
-                      select distinct released_status, status_percurso 
-                      into l_released_status, l_status_percurso
-                      from xxfr_wsh_vw_inf_da_ordem_venda 
-                      where 1=1
-                        and nome_percurso = g_tp_percurso.nm_percurso
-                      ;
-                      print_out('Informação: Já existe um percurso criado com o nome Informado...');
-                      if (l_released_status = 'C' and l_status_percurso = 'CL') then
-                        ok:=false;
-                        l_retorno := 'O percurso informado já foi processado e fechado !';
-                        exit;
-                      end if;
-                      if (l_status_percurso = 'OP') then
-                        ok:=false;
-                        l_retorno := 'O percurso informado já esta associado a uma entrega !';
-                        exit;
-                      end if;
-                    exception when no_data_found then
-                      ok:=true;
-                      print_out('  Checagem de nome de percurso OK !');
-                    end;
-                  end if;
-                  --
-                  if (ok and g_tp_percurso.tp_operacao ='INCLUIR' and l_trip_id is null) then
-                    print_out('  OPERAÇÃO:'||g_tp_percurso.tp_operacao);
-                    print_out('  PERCURSO:'||r1.name||' - ENTREGA:'||r1.delivery_id||' - STATUS:'||r1.flow_status_code);
-                    print_out('  RENOMEANDO PERCURSO:'||r1.trip_id||' -> de '||g_tp_percurso.nm_percurso||' para '||r1.trip_id);
-                    g_tp_percurso.nm_percurso := r1.trip_id;
-                    --
-                    criar_atualizar_percurso(
-                      p_percurso    => g_tp_percurso, 
-                      p_trip_id     => r1.trip_id,
-                      p_action_code => 'UPDATE',
-                      x_trip_id     => l_trip_id,
-                      x_retorno     => l_retorno
-                    );
-                    
-                    begin
-                      select trip_id into l_trip_id from wsh_trips where name = g_tp_percurso.nm_percurso;
-                      ok:=false;
-                      l_retorno := 'O Percurso não foi renomeado !';
-                      print_out(l_retorno);
-                    exception when no_data_found then
-                      null;
-                    end ;
-                    
-                    g_tp_percurso := a_portaria(i).entrega.percurso;
-                    if (l_retorno <> 'S') then
-                      ok := false;
-                      exit;
-                    end if;             
-                  end if;
-                end loop;
-              exception 
-                when others then
-                  print_out('ERRO OUTROS:'||SQLERRM);
-                  ok := false;
-                  EXIT;
-              end;
-            end if;          
-            */
             -- CRIAR/RESGATAR PERCURSO  
             if (ok) then        
               if (g_tp_percurso.tp_operacao = 'INCLUIR' and l_trip_id is null) then
@@ -824,18 +764,53 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_INT_ENTREGA IS
                   -- FIM CRIAR ENTREGA                    
                   -- SPLIT DA LINHA 
                   if (ok) then
-                    g_delivery_detail_id_tbl.delete;
+                    g_delivery_detail_id_tbl.delete;                   
                     for l in 1 .. a_portaria(i).entrega.percurso.dist(d).linhas.count loop
                       g_tp_dist := a_portaria(i).entrega.percurso.dist(d);
                       g_tp_linhas := g_tp_dist.linhas(l);
                       print_out('');
-                      --print_out('INICIANDO CHECAGEM PARA SPLIT DE LINHA...');
-                      controle_split(
-                        p_linha                   => g_tp_linhas,
-                        x_retorno                 => l_retorno
-                      );
-                      --print_out('FIM CHECAGEM PARA SPLIT DE LINHA...');
-                    end loop; 
+                      if (a_portaria(i).entrega.ie_dividir_linha = 'SIM') then 
+                        controle_split(
+                          p_linha                   => g_tp_linhas,
+                          x_retorno                 => l_retorno
+                        );                        
+                      else
+                        ok := false; -- Volta a se TRUE quando a QTD for compativel com a QTD da entrega
+                        for r1 in (
+                          select delivery_detail_id, inventory_item_id, qtd, unidade
+                          from xxfr_wsh_vw_inf_da_ordem_venda
+                          where 1=1
+                            and released_status <> 'C'
+                            and flow_status_code not in ('CANCELLED','CLOSED','INVOICE_INCOMPLETE','SHIPPED')
+                            and delivery_id is null
+                            --
+                            and numero_ordem  = g_tp_linhas.nu_ordem_venda
+                            and linha         = g_tp_linhas.nu_linha_ordem_venda
+                            and envio         = g_tp_linhas.nu_envio_linha_ordem_venda
+                            and tipo_ordem    = g_tp_linhas.cd_tipo_ordem_venda
+                        ) loop   
+                          l_qtd := inv_convert.inv_um_convert(
+                            item_id       => r1.inventory_item_id,
+                            precision     => null,
+                            from_quantity => r1.qtd,
+                            from_unit     => r1.unidade,
+                            to_unit       => g_tp_linhas.cd_un_medida,
+                            from_name     => null,
+                            to_name       => null
+                          );                    
+                          if (l_qtd = r1.qtd) then
+                            g_delivery_detail_id_tbl(1) := r1.delivery_detail_id;
+                            ok:=true;
+                            exit;
+                          end if;
+                        end loop;
+                        if (ok = false) then
+                          l_retorno := ' ** A quantidade Disponivel é diferente da quantidade Requerida !';
+                          print_out(l_retorno);
+                          ok := false;
+                        end if;
+                      end if;
+                    end loop;
                   end if;
                   -- FIM SPLIT DA LINHA
                   -- ASSOCIAR DELIVERY AS LINHAS
@@ -949,6 +924,7 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_INT_ENTREGA IS
               ---------------------------------------------------------------------------------------------------------
               -- Processo SEM Distribuição no JSON (ALTERAÇÃO DO PERCURSO)
               if (a_portaria(i).entrega.percurso.dist.count = 0) then
+                g_qtd_alocada_pedido := 0;
                 print_out('Informação:Distribuição (Entrega) NAO informada');
                 --RESGATANDO A ENTREGA
                 d:=0;
@@ -992,30 +968,103 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_INT_ENTREGA IS
                 g_tp_percurso := a_portaria(i).entrega.percurso;
                 if (ok and g_tp_percurso.ie_ajusta_distribuicao = 'SIM' and g_tp_percurso.cd_endereco_estoque_granel is null) then
                   g_delivery_detail_id_tbl.delete;
-                  for d1 in (select * from xxfr_wsh_vw_inf_da_ordem_venda where trip_id = g_tp_percurso.id_percurso) loop
-                    g_tp_linhas.cd_tipo_ordem_venda        := d1.tipo_ordem;
-                    g_tp_linhas.nu_ordem_venda             := d1.numero_ordem;
-                    g_tp_linhas.nu_linha_ordem_venda       := d1.linha;
-                    g_tp_linhas.nu_envio_linha_ordem_venda := d1.envio;
-                    g_tp_linhas.delivery_detail_id         := d1.delivery_detail_id;
-                    g_tp_linhas.qt_quantidade              := (g_tp_percurso.qt_peso_bruto - g_tp_percurso.qt_peso_tara - g_tp_percurso.qt_peso_embalagem_complementar);
-                    g_tp_linhas.cd_un_medida               := 'KG';
-                    --print_out('INICIANDO CHECAGEM PARA SPLIT DE LINHA...');
-                    controle_split(
-                      p_linha                   => g_tp_linhas,
-                      x_retorno                 => l_retorno
-                    );
-                    --print_out('FIM CHECAGEM PARA SPLIT DE LINHA...');
-                    if (ok) then
-                      g_delivery_detail_id_tbl(1) := d1.delivery_detail_id;
-                      xxfr_wsh_pck_transacoes.associar_linha_entrega(
-                        p_delivery_id         => d1.delivery_id,
-                        p_delivery_detail_tab => g_delivery_detail_id_tbl,
-                        p_action              => 'UNASSIGN',
-                        x_retorno             => l_retorno 
+                  print_out('==============================================');
+                  print_out('INICIANDO SPLIT...');
+                  w:=0;
+                  --
+                  g_qtd_alocada_pedido := 0;
+                  g_peso_pedido_calculado := (g_tp_percurso.qt_peso_bruto - g_tp_percurso.qt_peso_tara - g_tp_percurso.qt_peso_embalagem_complementar);
+                  --
+                  select sum(qtd) 
+                  into g_peso_pedido 
+                  from xxfr_wsh_vw_inf_da_ordem_venda 
+                  where trip_id = g_tp_percurso.id_percurso
+                  ;
+                  --
+                  print_out('Peso total pedido          :'||g_peso_pedido);
+                  print_out('Peso total pedido (Balança):'||g_peso_pedido_calculado);
+                  if (g_peso_pedido <> g_peso_pedido_calculado) then                    
+                    for d0 in (
+                      select trip_id, delivery_id, peso_pedido 
+                      from xxfr_wsh_vw_inf_da_ordem_venda 
+                      where trip_id = g_tp_percurso.id_percurso
+                      order by 3 desc
+                    ) loop
+                      for d1 in (
+                        select *
+                        from xxfr_wsh_vw_inf_da_ordem_venda 
+                        where 1=1
+                          and trip_id     = g_tp_percurso.id_percurso
+                          and delivery_id = d0.delivery_id
+                        order by qtd
+                      ) loop
+
+                        g_tp_linhas.cd_tipo_ordem_venda        := d1.tipo_ordem;
+                        g_tp_linhas.nu_ordem_venda             := d1.numero_ordem;
+                        g_tp_linhas.nu_linha_ordem_venda       := d1.linha;
+                        g_tp_linhas.nu_envio_linha_ordem_venda := d1.envio;
+                        g_tp_linhas.delivery_detail_id         := d1.delivery_detail_id;
+                        g_tp_linhas.cd_un_medida               := 'KG';
+                        print_out('Peso Alocado               :'||g_qtd_alocada_pedido);
+                        if (d1.qtd > (g_peso_pedido - g_peso_pedido_calculado)) then
+                          g_tp_linhas.qt_quantidade              := g_peso_pedido - g_peso_pedido_calculado;
+                          xxfr_wsh_pck_int_entrega.dividir_linha_entrega(
+                            p_linhas                 => g_tp_linhas, 
+                            x_new_delivery_detail_id => l_new_delivery_detail_id,
+                            x_retorno                => l_retorno
+                          );
+                          if (ok) then
+                            g_delivery_detail_id_tbl(1) := l_new_delivery_detail_id;
+                            xxfr_wsh_pck_transacoes.associar_linha_entrega(
+                              p_delivery_id         => d1.delivery_id,
+                              p_delivery_detail_tab => g_delivery_detail_id_tbl,
+                              p_action              => 'UNASSIGN',
+                              x_retorno             => l_retorno 
+                            );
+                            if (ok) then
+                              g_qtd_alocada_pedido := g_peso_pedido_calculado;
+                              exit;
+                            end if;
+                          end if;
+                        end if;
+                        
+                      end loop;
+                      if (g_qtd_alocada_pedido = g_peso_pedido_calculado) then
+                        exit;
+                      end if;
+                      /*                   
+                      w:=w+1;
+                      print_out('');
+                      print_out('** Passo:'||w);
+                      g_tp_linhas.cd_tipo_ordem_venda        := d1.tipo_ordem;
+                      g_tp_linhas.nu_ordem_venda             := d1.numero_ordem;
+                      g_tp_linhas.nu_linha_ordem_venda       := d1.linha;
+                      g_tp_linhas.nu_envio_linha_ordem_venda := d1.envio;
+                      g_tp_linhas.delivery_detail_id         := d1.delivery_detail_id;
+                      g_tp_linhas.qt_quantidade              := (g_tp_percurso.qt_peso_bruto - g_tp_percurso.qt_peso_tara - g_tp_percurso.qt_peso_embalagem_complementar);
+                      g_tp_linhas.cd_un_medida               := 'KG';
+                      controle_split(
+                        p_linha                   => g_tp_linhas,
+                        x_retorno                 => l_retorno
                       );
-                    end if;
-                  end loop; 
+                      if (ok) then
+                        g_delivery_detail_id_tbl(1) := d1.delivery_detail_id;
+                        print_out('');
+                        xxfr_wsh_pck_transacoes.associar_linha_entrega(
+                          p_delivery_id         => d1.delivery_id,
+                          p_delivery_detail_tab => g_delivery_detail_id_tbl,
+                          p_action              => 'UNASSIGN',
+                          x_retorno             => l_retorno 
+                        );
+                      end if;
+                      if (g_qtd_alocada_pedido = g_tp_linhas.qt_quantidade) then
+                        exit;
+                      end if;
+                      */
+                    end loop; 
+                  end if;
+                  print_out('FIM SPLIT...');
+                  print_out('==============================================');
                 end if;
                 -- FIM SPLIT DA LINHA
                 -- INICIO DO PROCESSO DE RESERVA 
@@ -1132,6 +1181,30 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_INT_ENTREGA IS
         l_trip_id := a_portaria(1).entrega.percurso.id_percurso;
         -- PICK RELEASE
         if (ok and a_portaria(1).entrega.percurso.tp_liberacao is not null) then
+          -- CONTEUDO e PERCURSO FIRME
+          if (ok) then
+            for r1 in (select distinct delivery_id, conteudo_firme from XXFR_WSH_VW_INF_DA_ORDEM_VENDA where trip_id = l_trip_id) loop
+              if (ok) then -- and r1.conteudo_firme = 'N') then
+                l_delivery_id_tbl(1) := r1.delivery_id;
+                print_out('Chamando WSH_NEW_DELIVERY_ACTIONS.FIRM...');
+                WSH_NEW_DELIVERY_ACTIONS.FIRM (
+                  p_del_rows      => l_delivery_id_tbl,
+                  x_return_status => l_retorno
+                );
+                print_out('Retorno:'||l_retorno);
+              end if;
+            end loop;
+            -- PERCURSO FIRME
+            if (ok) then
+              print_out('Chamando WSH_TRIPS_ACTIONS.PLAN...');
+              wsh_trips_actions.plan(
+                p_trip_rows       => l_trip_id_tbl,
+                p_action          => 'FIRM',
+                x_return_status   => l_retorno
+              );
+              print_out('Retorno:'||l_retorno);
+            end if;
+          end if;
           proc_delivery_pick_release(
             p_delivery_id    => NULL, --l_delivery_id_tbl(r),
             p_trip_id        => a_portaria(1).entrega.percurso.id_percurso,
@@ -1143,13 +1216,8 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_INT_ENTREGA IS
           print_out('Retorno :'||l_retorno);
           if (l_retorno <> 'S') then
             g_rec_retorno."registros"(1)."linhas"(1)."tipoLinha"                   := 'PICK RELEASE';
-            --g_rec_retorno."registros"(1)."linhas"(r)."codigoLinha"                 := l_delivery_id_tbl(r);
             g_rec_retorno."registros"(1)."linhas"(1)."tipoReferenciaLinhaOrigem"   := g_tp_referencia_origem;
             g_rec_retorno."registros"(1)."linhas"(1)."codigoReferenciaLinhaOrigem" := g_cd_referencia_origem;
-            if (l_retorno <> 'HOLD') then
-              g_rec_retorno."registros"(1)."linhas"(1)."mensagens"(1)."tipoMensagem" := 'ERRO';
-              g_rec_retorno."registros"(1)."linhas"(1)."mensagens"(1)."mensagem"     := l_retorno;
-            end if;
             ok:= false;
             --exit;
           end if;
@@ -1158,6 +1226,7 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_INT_ENTREGA IS
         if (ok and a_portaria(1).entrega.percurso.ie_ajusta_distribuicao = 'SIM') then
           g_tp_percurso := a_portaria(1).entrega.percurso;
           --
+          /*
           criar_atualizar_percurso(
             p_percurso     => g_tp_percurso,
             p_trip_id      => l_trip_id,
@@ -1165,6 +1234,7 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_INT_ENTREGA IS
             x_trip_id      => l_trip_id,
             x_retorno      => l_retorno
           );
+          */
           --
           if (a_portaria(1).entrega.percurso.cd_endereco_estoque_granel is not null) then
             print_out('Peso Tara   :'||g_tp_percurso.qt_peso_tara);
@@ -1181,30 +1251,6 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_INT_ENTREGA IS
             );
           end if;
         end if;            
-        -- CONTEUDO e PERCURSO FIRME
-        if (ok) then
-          for r1 in (select distinct delivery_id, conteudo_firme from XXFR_WSH_VW_INF_DA_ORDEM_VENDA where trip_id = l_trip_id) loop
-            if (ok) then -- and r1.conteudo_firme = 'N') then
-              l_delivery_id_tbl(1) := r1.delivery_id;
-              print_out('Chamando WSH_NEW_DELIVERY_ACTIONS.FIRM...');
-              WSH_NEW_DELIVERY_ACTIONS.FIRM (
-                p_del_rows      => l_delivery_id_tbl,
-                x_return_status => l_retorno
-              );
-              print_out('Retorno:'||l_retorno);
-            end if;
-          end loop;
-          -- PERCURSO FIRME
-          if (ok) then
-            print_out('Chamando WSH_TRIPS_ACTIONS.PLAN...');
-            wsh_trips_actions.plan(
-              p_trip_rows       => l_trip_id_tbl,
-              p_action          => 'FIRM',
-              x_return_status   => l_retorno
-            );
-            print_out('Retorno:'||l_retorno);
-          end if;
-        end if;
       exception
         when others then
           print_out('ERRO FIM DE PROCESSO - OUTROS:'||SQLERRM);
@@ -1750,7 +1796,7 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_INT_ENTREGA IS
     print_out('');
     print_out('XXFR_WSH_PCK_INT_ENTREGA.CRIAR_ATUALIZAR_PERCURSO('||p_action_code||')');
     l_trip_rec.trip_id    := p_trip_id;
-
+    /*
     if (p_percurso.ie_ajusta_distribuicao <> 'SIM') then
       l_trip_rec.name               := nvl(p_percurso.nm_percurso                   ,p_trip_id);
       l_trip_rec.operator           := nvl(p_percurso.transp.nm_motorista           ,l_trip_rec.operator);
@@ -1759,11 +1805,23 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_INT_ENTREGA IS
       l_trip_rec.vehicle_num_prefix := 'PR';
       l_trip_rec.vehicle_number     := nvl(p_percurso.veiculo.nu_placa1,l_trip_rec.vehicle_number);
     end if;
+    */
+    l_trip_rec.name               := nvl(p_percurso.nm_percurso                   ,p_trip_id);
+    l_trip_rec.operator           := nvl(p_percurso.transp.nm_motorista           ,l_trip_rec.operator);
+    l_trip_rec.vehicle_num_prefix := 'PR';
+    l_trip_rec.vehicle_number     := nvl(p_percurso.veiculo.nu_placa1             ,l_trip_rec.vehicle_number);
     --
+    print_out(1);
+    l_trip_rec.attribute1         := nvl(p_percurso.transp.nu_cpf_motorista       ,l_trip_rec.attribute1);
     l_trip_rec.attribute2         := p_percurso.qt_peso_bruto;
     l_trip_rec.attribute3         := p_percurso.qt_peso_tara;
-    l_trip_rec.attribute4         :=(p_percurso.qt_peso_bruto - p_percurso.qt_peso_tara - p_percurso.qt_peso_embalagem_complementar );
+    l_trip_rec.attribute4         := to_char(p_percurso.qt_peso_bruto - p_percurso.qt_peso_tara - p_percurso.qt_peso_embalagem_complementar );
+    l_trip_rec.attribute5         := nvl(p_percurso.cd_lacre_veiculo              ,l_trip_rec.attribute5);    
     l_trip_rec.attribute6         := p_percurso.qt_peso_embalagem_complementar;
+    l_trip_rec.attribute7         := nvl(p_percurso.veiculo.nu_placa1             ,l_trip_rec.attribute7);
+    l_trip_rec.attribute12        := nvl(p_percurso.cd_referencia_origem          ,l_trip_rec.attribute12);
+    l_trip_rec.attribute13        := nvl(p_percurso.tp_referencia_origem          ,l_trip_rec.attribute13);
+    l_trip_rec.attribute14        := nvl(p_percurso.cd_carregamento               ,l_trip_rec.attribute14);
     --
     l_trip_rec.vehicle_item_id    := null;
     --
@@ -2720,30 +2778,6 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_INT_ENTREGA IS
     print_out('FIM XXFR_WSH_PCK_INT_ENTREGA.PROCESSAR_TRIP_CONFIRM('||p_action_code||')');
   end;  
 
-  procedure processar_conteudo_firme(
-    p_delivery_id in number ,
-    p_action_code in varchar2,
-    x_retorno     out varchar2
-  ) is
-
-    l_delivery_id    number;
-    l_conteudo_firme varchar2(10);
-    l_trip_name      varchar2(100);
-    l_retorno        varchar2(4000);
-
-  begin
-    print_out('');
-    print_out('XXFR_WSH_PCK_INT_ENTREGA.PROCESSAR_CONTEUDO_FIRME('||p_action_code||')');
-    l_delivery_id := p_delivery_id;
-    xxfr_wsh_pck_transacoes.atribuir_conteudo_firme(
-      p_delivery_id  => l_delivery_id,
-      p_action_code  => p_action_code,
-      x_retorno      => l_retorno
-    );
-    x_retorno := l_retorno;
-    print_out('FIM XXFR_WSH_PCK_INT_ENTREGA.PROCESSAR_CONTEUDO_FIRME('||p_action_code||')');
-  end;
-
   procedure criar_reserva(
     p_linhas                 IN tp_linhas,
     p_operacao               IN varchar2,
@@ -2821,33 +2855,6 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_INT_ENTREGA IS
     print_out('FIM XXFR_WSH_PCK_INT_ENTREGA.CRIAR_RESERVA');
   end;
 
-  procedure processar_percurso_firme (
-    p_trip_id     in number,
-    p_action_code in varchar2,
-    x_retorno     out varchar2
-  ) is
-  
-    l_percurso_firme  varchar2(10);
-  
-  begin
-    --print_out('XXFR_WSH_PCK_INT_ENTREGA.PROCESSAR_PERCURSO_FIRME('||p_action_code||')');
-    select distinct percurso_firme 
-    into l_percurso_firme 
-    from xxfr_wsh_vw_inf_da_ordem_venda 
-    where trip_id = p_trip_id;
-    --
-    if (l_percurso_firme = 'Y' and p_action_code = 'PLAN') or (l_percurso_firme = 'N' and p_action_code = 'UNPLAN') then
-      x_retorno := 'S';
-    else
-      processar_trip_confirm(
-        p_trip_id     => p_trip_id,
-        p_action_code => p_action_code,
-        x_retorno     => x_retorno
-      );
-    end if;
-    --print_out('FIM XXFR_WSH_PCK_INT_ENTREGA.PROCESSAR_PERCURSO_FIRME');
-  end;
-
   procedure controle_split(
     p_linha                   in xxfr_wsh_pck_int_entrega.tp_linhas,
     x_retorno                 out varchar2
@@ -2911,7 +2918,7 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_INT_ENTREGA IS
       backorder integer := 0;
     
     begin
-      print_out('Checagem de saldo da Ordem de Venda...');
+      print_out('  Checagem de saldo da Ordem de Venda...');
       select 
         sum(
           case 
@@ -2940,7 +2947,7 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_INT_ENTREGA IS
         and flow_status_code not in ('CANCELLED','CLOSED','INVOICE_INCOMPLETE','SHIPPED')
         and released_status <> 'C'
         --and status_percurso is null
-        --OE:38-2.1 / 358_VENDA_ORDEM_ADQ
+        --OE:126-1.1 / 358_VENDA
         and numero_ordem     = p_linha.nu_ordem_venda
         and tipo_ordem       = p_linha.cd_tipo_ordem_venda
         and linha            = p_linha.nu_linha_ordem_venda
@@ -2953,16 +2960,16 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_INT_ENTREGA IS
       ;
       --
       --livre := livre - g_qtd_alocada_pedido;
-      print_out('  Qtd Pedido               :'||qtd_pedido);
-      print_out('  Qtd Livre                :'||livre);
-      print_out('  Qtd em Backorder         :'||backorder);
-      print_out('  Qtd Alocada              :'||alocado);
-      print_out('  Qtd Alocada nesta entrega:'||g_qtd_alocada_pedido);
+      print_out('    Qtd Pedido               :'||nvl(qtd_pedido,0));
+      print_out('    Qtd Livre                :'||nvl(livre,0));
+      print_out('    Qtd em Backorder         :'||nvl(backorder,0));
+      print_out('    Qtd Alocada              :'||nvl(alocado,0));
+      print_out('    Qtd Alocada nesta entrega:'||nvl(g_qtd_alocada_pedido,0));
       --
-      livre := livre + backorder;
+      livre := nvl(livre,0) + nvl(backorder,0);
       
-      if (livre >= qtd_pedido) then
-        print_out('Checagem Ok...');
+      if (livre >= nvl(qtd_pedido,0)) then
+        print_out('  Checagem Ok...');
         print_out('');
         return true;
       end if;
@@ -2973,7 +2980,7 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_INT_ENTREGA IS
         x_retorno := 'Não há saldo suficiente disponivel para a ordem:'||p_linha.nu_ordem_venda;
       end if;
       
-      if (alocado > 0) then
+      if (nvl(alocado,0) > 0) then
         x_retorno := x_retorno || '. Atenção:Existe uma entrega pendente para esse pedido !';
       end if;
       
@@ -3067,9 +3074,9 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_INT_ENTREGA IS
           x_retorno := 'S';
         end if;        
         -- Percentual de Gordura
-        if (ok) then
+        if (ok) then -- and l_linha.pr_percentual_gordura is not null) then
           begin
-            print_out('  Gravando percentual de gordura...');
+            --print_out('  Gravando percentual de gordura...');
             select organization_id into l_organization_id
             from wsh_delivery_details 
             where DELIVERY_DETAIL_ID = g_delivery_detail_id_tbl(i);
@@ -3080,6 +3087,13 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_INT_ENTREGA IS
             
             l_changed_attributes(1).attribute_category := l_organization_id;
             l_changed_attributes(1).attribute1         := l_linha.pr_percentual_gordura;
+            l_changed_attributes(1).attribute15        := '
+{
+  "tipoReferenciaOrigem" : "'||l_linha.tp_referencia_origem_linha||'",
+  "codigoReferenciaOrigem" : "'||l_linha.cd_referencia_origem_linha||'"
+}
+';            
+            print_out('    Referencias       :'||l_changed_attributes(1).attribute15);
             l_changed_attributes(1).delivery_detail_id := g_delivery_detail_id_tbl(i);
             --
             XXFR_WSH_PCK_TRANSACOES.atualiza_delivey_detail (
@@ -3087,8 +3101,10 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_INT_ENTREGA IS
               x_retorno            => l_retorno
             );
           exception when others then
+            print_out('Erro:'||sqlerrm);
             l_retorno := sqlerrm;
             ok:=false;
+            return;
           end;
         end if;
 
@@ -3315,6 +3331,65 @@ create or replace PACKAGE BODY XXFR_WSH_PCK_INT_ENTREGA IS
     return 'S';
   end;
 
+  procedure processar_percurso_firme (
+    p_trip_id     in number,
+    p_action_code in varchar2,
+    x_retorno     out varchar2
+  ) is
+  
+    l_percurso_firme  varchar2(10);
+  
+  begin
+    --print_out('XXFR_WSH_PCK_INT_ENTREGA.PROCESSAR_PERCURSO_FIRME('||p_action_code||')');
+    select distinct nvl(percurso_firme,'N') 
+    into l_percurso_firme 
+    from xxfr_wsh_vw_inf_da_ordem_venda 
+    where trip_id = p_trip_id;
+    --
+    if (l_percurso_firme in ('F','Y') and p_action_code = 'PLAN') or (l_percurso_firme = 'N' and p_action_code = 'UNPLAN') then
+      x_retorno := 'S';
+    else
+      processar_trip_confirm(
+        p_trip_id     => p_trip_id,
+        p_action_code => p_action_code,
+        x_retorno     => x_retorno
+      );
+    end if;
+    --print_out('FIM XXFR_WSH_PCK_INT_ENTREGA.PROCESSAR_PERCURSO_FIRME');
+  exception when others then
+    print_out('ERRO em PROCESSAR_PERCURSO_FIRME:'||sqlerrm);
+  end;
 
+  procedure processar_conteudo_firme(
+    p_delivery_id in number ,
+    p_action_code in varchar2,
+    x_retorno     out varchar2
+  ) is
+
+    l_conteudo_firme varchar2(10);
+    l_trip_name      varchar2(100);
+    l_retorno        varchar2(4000);
+
+  begin
+    --print_out('XXFR_WSH_PCK_INT_ENTREGA.PROCESSAR_CONTEUDO_FIRME('||p_action_code||')');
+    select distinct nvl(conteudo_firme,'N') 
+    into l_conteudo_firme 
+    from xxfr_wsh_vw_inf_da_ordem_venda 
+    where delivery_id = p_delivery_id;
+    --
+    if (l_conteudo_firme in ('F','Y') and p_action_code = 'PLAN') or (l_conteudo_firme = 'N' and p_action_code = 'UNPLAN') then
+      x_retorno := 'S';
+    else
+      xxfr_wsh_pck_transacoes.atribuir_conteudo_firme(
+        p_delivery_id  => p_delivery_id,
+        p_action_code  => p_action_code,
+        x_retorno      => l_retorno
+      );
+    end if;
+    x_retorno := l_retorno;
+    --print_out('FIM XXFR_WSH_PCK_INT_ENTREGA.PROCESSAR_CONTEUDO_FIRME('||p_action_code||')');
+  exception when others then
+    print_out('ERRO em PROCESSAR_PERCURSO_FIRME:'||sqlerrm);
+  end;
 
 END XXFR_WSH_PCK_INT_ENTREGA;

@@ -3,10 +3,10 @@ declare
   p_customer_trx_id number;
   x_retorno         varchar2(3000);
 begin 
-  XXFR_AR_PCK_GERA_RI.main(
-    p_customer_trx_id   => 51143, 
-    p_processar         => true, --  <-- Indica se processa a Interface ou não
-    p_sequencial        => '',
+  XXFR_AR_PCK_GERA_RI.main2(
+    p_customer_trx_id   => 124256, 
+    p_processar         => false, --  <-- Indica se processa a Interface ou não
+    p_sequencial        => '222',
     x_retorno           => x_retorno
   );
   dbms_output.put_line(x_retorno);
@@ -14,8 +14,23 @@ end ;
 /
 
 /*
-select * from xxfr_ri_vw_inf_da_nfentrada where TRX_NUMBER = '16';
+select * from xxfr_ri_vw_inf_da_nfentrada where TRX_NUMBER = '14';
 
+select *
+from cll_f189_invoices_interface 
+where 1=1
+  --and PROCESS_FLAG IN ('3','1')
+  --and source       in ('XXFR_NFE_FORNECEDOR','XXFR_NFE_DEV_FORNECEDOR')
+order by creation_date desc
+;
+
+select * from cll_f189_invoices_interface where interface_invoice_id = 81447;
+
+select CUSTOMER_NUMBER, DOCUMENT_NUMBER, CUST_ACCT_SITE_ID from CLL_F189_QUERY_CUSTOMERS_V where document_number = '15897982953';
+
+select * from CLL_F189_QUERY_VENDORS_V where entity_id = 17222; --document_number = '15897982953';
+
+select object_name from all_objects where object_type='VIEW' and object_name like 'CLL_F189%';
 
 set serveroutput on
 declare
@@ -88,14 +103,18 @@ exception when others then
 end;
 /
 
+4003; --  NAO SE APLICA
+
+SELECT TERM_ID, END_DATE_ACTIVE, NAME, DESCRIPTION FROM AP_TERMS;
+
+
 select ds_escopo, nvl(ds_log,' ') log
 from xxfr_logger_log
 where 1=1
-and upper(ds_escopo) like 'XXFR_RI_PCK_INTEGRACAO_AR%'
-and DT_CRIACAO >= sysdate -1
+  and upper(ds_escopo) like 'XXFR_RI_PCK_INTEGRACAO_AR_%'
+  and DT_CRIACAO >= sysdate -0.25
 order by 
-  --DT_CRIACAO desc
-  id
+  DT_CRIACAO desc
 ;
 
 select * from xxfr_ri_vw_inf_da_nfentrada

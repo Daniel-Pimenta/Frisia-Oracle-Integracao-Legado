@@ -1,9 +1,9 @@
 SET SERVEROUTPUT ON
 DECLARE
 
-  p_seq_cab NUMBER := 9;
-  p_seq_det NUMBER := -13;
-  isNew     boolean := true;
+  p_seq_cab NUMBER := -294;
+  p_seq_det NUMBER := -318;
+  isNew     boolean := false;
   OK        BOOLEAN;
   
   
@@ -11,34 +11,27 @@ DECLARE
   --Devolução da NF de Entrada :DCO009
 
   STR_JSON VARCHAR2(32000) := ('
-{
-  "idTransacao" : -1,
-  "versaoPayload" : 1,
-  "sistemaOrigem" : "SIF.EGR",
-  "codigoServico" : "PROCESSAR_NF_DEVOLUCAO_FORNECEDOR",
-  "usuario" : "HENRIQUE.EIFERT",
-  "processarNotaFiscalDevolucao" : {
-    "codigoUnidadeOperacional" : "UO_FRISIA",
-    "aprovaRequisicao" : "SIM",
-    "notaFiscalDevolucao" : [{
-      "codigoFornecedor" : 1865,
-      "numeroPropriedadeFornecedor" : 195606,
-      "tipoReferenciaOrigem" : "EGR_NOTAEMI_PROPRIEDADE",
-      "codigoReferenciaOrigem" : "344854.1",
-      "linhas" : [{
-        "numeroLinhaDevolucao" : 1,
-        "cnpjEmissor" : "76107770000108",
-        "numeroNotaFiscal" : 16,
-        "codigoSerie" : "0",
-        "numeroLinhaNotaFiscal" : 1,
-        "quantidade" : 1000,
-        "unidadeMedida" : "KG",
-        "tipoReferenciaOrigemLinha" : "EGR_NOTAEMI_PROPRIEDADE",
-        "codigoReferenciaOrigemLinha" : "344854.1"
-      }]
-    }]
+  {
+    "idTransacao": -1,
+    "versaoPayload": 1,
+    "sistemaOrigem": "SIF.EGR",
+    "codigoServico": "PROCESSAR_NF_DEVOLUCAO_FORNECEDOR",
+    "usuario": "DANIEL.PIMENTA",
+    "processarNotaFiscalDevolucao": {
+      "codigoUnidadeOperacional": "UO_FRISIA",
+      "aprovaRequisicao": "SIM",
+      "notaFiscalDevolucao": {
+        "codigoChaveAcesso": "250620201608",
+        "tipoReferenciaOrigem": "EGR_NOTAEMI_PROPRIEDADE",
+        "codigoReferenciaOrigem": "344854.1",
+        "linha": {
+          "numero": 1,
+          "quantidade": 1,
+          "unidadeMedida": "KG"
+        }
+      }
+    }
   }
-}
 ');
 
   procedure print_out(msg varchar2) is

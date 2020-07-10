@@ -56,7 +56,15 @@ where 1=1
   --and d.ID_INTEGRACAO_detalhe   = 1780
 ;
 /
---select * from XXFR_WMS_VW_INT_PROC_SEPARACAO where ID_INTEGRACAO_detalhe=5317;
+--
+
+
+select * --distinct usuario, cd_unidade_operacional, nu_ordem_venda, cd_tipo_ordem_venda, nu_ordem_venda_linha
+from XXFR_WMS_VW_INT_PROC_SEPARACAO 
+where ID_INTEGRACAO_detalhe=54914;
+
+
+
 --select * from xxfr_integracao_detalhe where ID_INTEGRACAO_detalhe=5317;
 /*
 TRATAMENTO

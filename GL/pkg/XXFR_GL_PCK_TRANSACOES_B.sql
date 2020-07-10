@@ -5,49 +5,20 @@ create or replace package body xxfr_gl_pck_transacoes as
   
   procedure print_out(msg   in varchar2) is
   begin
+    XXFR_GL_PCK_INT_LOTE_CONTABIL.print_log(msg);
+    /*
     dbms_output.put_line(msg);
     xxfr_pck_logger.log_info(	
       p_log      => msg,
 			p_escopo   => g_escopo
     );
+    */
   end;
 
   procedure initialize is
   begin
     xxfr_pck_variaveis_ambiente.inicializar('SQLGL','UO_FRISIA');  
   end;
-
-  /*
-  procedure initialize(p_modulo in varchar2) is
-    l_org_id              number := fnd_profile.value('ORG_ID');
-    l_user_id             number;
-    l_resp_id             number;
-    l_resp_app_id         number;
-  begin
-    select distinct fr.responsibility_id, frx.application_id
-    into l_resp_id, l_resp_app_id
-    from 
-      apps.fnd_responsibility frx,
-      apps.fnd_responsibility_tl fr
-    where 1=1
-      and fr.responsibility_id = frx.responsibility_id
-      and fr.responsibility_name = 'FRISIA_OM_SUPERUSUARIO'
-    ;
-    select user_id into l_user_id from fnd_user 
-    where user_name = 'DANIEL.PIMENTA'
-    ;
-    fnd_global.apps_initialize (
-      l_user_id
-      ,l_resp_id
-      ,l_resp_app_id 
-      ,l_org_id
-    );
-    --EXECUTE IMMEDIATE 'ALTER SESSION SET NLS_LANGUAGE= ''AMERICAN''';
-    --print_out('  ORG_ID:'||l_org_id);
-    mo_global.set_policy_context('S', l_org_id);
-    mo_global.init(p_modulo);
-  end;
-  */
   
   procedure gravar_interface(
     p_gl_interface     in apps.gl_interface%rowtype,

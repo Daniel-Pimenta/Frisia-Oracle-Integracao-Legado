@@ -13,10 +13,12 @@ declare
   l_delivery_id   number := 40071;
   l_trip_id       number := NULL;
   
-  op              number := 2;
-  p_id_integracao number := 12648;    
   --op              number := 1;
-  --p_id_integracao number := 4936; --2282;
+  --p_id_integracao number := 15364;    
+  
+  op              number := 1;
+  p_id_integracao number := 64283;
+  
   isCommit        boolean := false;
   
 begin
@@ -182,7 +184,7 @@ where 1=1
 
 select * from xxfr_integracao_detalhe 
 where 1=1
-  and id_integracao_detalhe = 6908
+  --and id_integracao_detalhe = 18874
   --and id_transacao = 159508
   and cd_interface_detalhe = 'PROCESSAR_ENTREGA'
   --and cd_interface_detalhe = 'CONFIRMAR_ENTREGA'
@@ -194,19 +196,20 @@ order by dt_atualizacao desc
 select * 
 from xxfr_integracao_detalhe 
 where 1=1
-  --and CD_INTERFACE_DETALHE = 'PROCESSAR_ENTREGA' 
-  and id_integracao_detalhe = 6585
+  --and CD_INTERFACE_DETALHE = 'CONFIRMAR_ENTREGA' 
+  --and id_integracao_detalhe = 6585
+  and id_transacao = 383788
 order by 1 desc
 ;
 
 select id_integracao_detalhe, ie_status_processamento, tp_operacao, dt_criacao, dt_atualizacao, nm_percurso, cd_tipo_ordem_venda, nu_ordem_venda, nu_linha_ordem_venda, nu_envio_linha_ordem_venda 
 from xxfr_wsh_vw_int_proc_entrega 
 where 1=1
-  --and nu_ordem_venda = '42'
-  --and cd_tipo_ordem_venda = '358_VENDA'
+  and nu_ordem_venda = '26'
+  and cd_tipo_ordem_venda = '365_TRANSF_COM_IND'
   --and nu_linha_ordem_venda = '1'
   --and nu_envio_linha_ordem_venda = '1'
-  and nm_percurso = '49033'
+  --and nm_percurso = '49033'
   --and id_integracao_detalhe=29522
   --and id_integraco_detalhe= 11154
 order by DT_CRIACAO desc --nu_ordem_venda, nu_linha_ordem_venda, nu_envio_linha_ordem_venda, ID_INTEGRACAO_DETALHE
@@ -217,8 +220,8 @@ order by DT_CRIACAO desc --nu_ordem_venda, nu_linha_ordem_venda, nu_envio_linha_
 select ds_escopo, nvl(ds_log,' ') log
 from xxfr_logger_log
 where 1=1
-  and upper(ds_escopo) = 'CONFIRMAR_ENTREGA_11251'
-  --and DT_CRIACAO >= sysdate -0.5
+  --and upper(ds_escopo) = 'CONFIRMAR_ENTREGA_13180'
+  and DT_CRIACAO >= sysdate -0.25
 order by 
   --DT_CRIACAO desc,
   id
@@ -233,10 +236,12 @@ order by ID ;
 select ds_escopo, nvl(ds_log,' ') log
 from xxfr_logger_log --s_60_min x
 where 1=1 
-  and upper(ds_escopo) = upper('processar_entrega_8378')
+  and upper(ds_escopo) like 'PROCESSAR_ENTREGA_%'
+  --and upper(ds_escopo) = 'PROCESSAR_ENTREGA_17397'
   and DT_CRIACAO >= sysdate -0.5
 order by id;
 
+id_integração detalhe = 14852
 -- ***************************************************************************************************
 --  OUTROS
 -- ***************************************************************************************************

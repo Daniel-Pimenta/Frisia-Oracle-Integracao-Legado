@@ -2,55 +2,73 @@ SET SERVEROUTPUT ON
 DECLARE
 
 --8288	57590
-  p_seq_cab NUMBER := -293;
-  p_seq_det NUMBER := -315;
+  p_seq_cab NUMBER := -295;
+  p_seq_det NUMBER := -319;
 
   isNew     boolean := false;
   OK        BOOLEAN;
 
   STR_JSON VARCHAR2(32000) := ('
 {
-  "idTransacao" : "-1",
-  "versaoPayload" : "1.0",
-  "sistemaOrigem" : "SIF.TRI.ROMANEIO",
+  "idTransacao" : -1,
+  "versaoPayload" : 1.0,
+  "sistemaOrigem" : "SIF.DAT",
   "codigoServico" : "PROCESSAR_ENTREGA",
-  "usuario" : "ALEX.ROTH",
+  "usuario" : "KETELIN.PINHEIRO",
   "processarEntrega" : {
     "codigoUnidadeOperacional" : "UO_FRISIA",
     "dividirLinha" : "SIM",
     "conteudoFirme" : "SIM",
     "liberarSeparacao" : "SIM",
-    "percurso" : [{
-      "operacao" : "ALTERAR",
-      "idPercurso" : 49032,
-      "nomePercurso" : "49032",
-      "codigoReferenciaOrigem" : "113135",
-      "tipoReferenciaOrigem" : "TRI_ROMANEIO",
-      "ajustaDistribuicao" : "SIM",
-      "lacresVeiculo" : " LACRE(s) BAG: 9,10",
-      "pesoTara" : 10000,
-      "pesoBruto" : 10500,
-      "pesoEmbalagemComplementar" : 5,
+    "percurso" : [ {
+      "operacao" : "INCLUIR",
+      "nomePercurso" : "SOL.99999.181B",
+      "codigoReferenciaOrigem" : "9999999",
+      "tipoReferenciaOrigem" : "SOLICITACAO_RETIRADA",
+      "ajustaDistribuicao" : "NAO",
+      "lacresVeiculo" : null,
+      "pesoTara" : 0,
+      "pesoBruto" : 0,
       "codigoCarregamento" : null,
-      "tipoFrete" : null,
+      "tipoFrete" : "FOB",
       "codigoEnderecoEstoqueGranel" : null,
-      "codigoMetodoEntrega" : "000001_7610744000_L_LTL",
+      "codigoMetodoEntrega" : "000001_OPROPRIO_T_LTL",
       "tipoLiberacao" : "NORMAL",
       "transportador" : {
-        "codigoTransportador" : "76107440000104",
-        "nomeMotorista" : "JO"
+        "codigoTransportador" : "OPROPRIO",
+        "nomeMotorista" : "O MESMO",
+        "cpfMotorista" : "37327690972"
       },
       "veiculo" : {
-        "codigoRegistroANTT" : "ABC12345678",
+        "codigoRegistroANTT" : null,
         "codigoRegistroANTTCavalo" : null,
-        "codigoPlaca1" : "MOI0100",
+        "codigoPlaca1" : "ABK6123",
         "codigoPlaca2" : null,
         "codigoPlaca3" : null,
         "codigoPlaca4" : null,
         "codigoPlaca5" : null
       },
-      "distribuicao" : []
-    }]
+      "distribuicao" : [ {
+        "nomeDistribuicao" : null,
+        "codigoCliente" : "757",
+        "codigoLocalEntregaCliente" : "757.460",
+        "valorFrete" : 0,
+        "codigoMoeda" : "BRL",
+        "codigoControleEntregaCliente" : null,
+        "codigosLacres" : null,
+        "dadosAdicionais" : null,
+        "linhasEntrega" : [ {
+          "codigoTipoOrdemVenda" : "124_VENDA_FUTURA",
+          "numeroOrdemVenda" : "181",
+          "numeroLinhaOrdemVenda" : "6",
+          "numeroEnvioLinhaOrdemVenda" : "1",
+          "quantidade" : "40",
+          "codigoUnidadeMedida" : "L",
+          "codigoEnderecoEstoque" : null,
+          "observacao" : null
+        } ]
+      } ]
+    } ]
   }
 }
 ');

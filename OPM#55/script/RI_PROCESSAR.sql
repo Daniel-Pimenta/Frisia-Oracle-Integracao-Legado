@@ -1,161 +1,107 @@
 SET SERVEROUTPUT ON
-DECLARE
+declare
 
-  p_seq_cab NUMBER := 9;
-  p_seq_det NUMBER := -13;
-  isNew     boolean := true;
-  OK        BOOLEAN;
-  
-  
-  --Nota de Entrada            :CMP014
-  --Devolução da NF de Entrada :DCO009
-
-  STR_JSON VARCHAR2(32000) := ('
-{
-  "idTransacao" : -1,
-  "versaoPayload" : 1,
-  "sistemaOrigem" : "XXX.XXX",
-  "codigoServico" : "PROCESSAR_NF_DEVOLUCAO_INSUMOS",
-  "usuario" : "DANIEL.PIMENTA",
-  "processarNotaFiscalDevolucao" : {
-    "codigoUnidadeOperacional" : "UO_FRISIA",
-    "aprovaRequisicao" : "SIM",
-    "notaFiscalDevolucao" : [{
-      "codigoFornecedor" : 1865,
-      "numeroPropriedadeFornecedor" : 195606,
-      "tipoReferenciaOrigem" : "EGR_NOTAEMI_PROPRIEDADE",
-      "codigoReferenciaOrigem" : "344854.1",
-      "linhas" : [{
-        "numeroLinhaDevolucao" : 1,
-        "cnpjEmissor" : "76107770000108",
-        "numeroNotaFiscal" : 16,
-        "codigoSerie" : "0",
-        "numeroLinhaNotaFiscal" : 1,
-        "quantidade" : 1000,
-        "unidadeMedida" : "KG",
-        "tipoReferenciaOrigemLinha" : "EGR_NOTAEMI_PROPRIEDADE",
-        "codigoReferenciaOrigemLinha" : "344854.1"
-      }]
-    }]
-  }
-}
-');
-
-  procedure print_out(msg varchar2) is
-  begin
-    DBMS_OUTPUT.PUT_LINE(msg);
-  end;
-
-BEGIN
-  OK := TRUE;
-  
-  if isNew then
-    select min(ID_INTEGRACAO_CABECALHO) -1 into  p_seq_cab from xxfr_integracao_cabecalho;
-    select min(ID_INTEGRACAO_DETALHE) -1 into  p_seq_det from xxfr_integracao_detalhe;
-  end if;
+  l_chave_eletronica      varchar2(300);
+  l_linha                 number;
+  l_uom                   varchar2(20);
+  l_operation_id          number; 
+  l_organization_code     varchar2(50);
   --
-  delete xxfr_integracao_detalhe   WHERE ID_INTEGRACAO_DETALHE = p_seq_det;
-  delete xxfr_integracao_cabecalho WHERE ID_INTEGRACAO_CABECALHO = p_seq_cab;
+  l_id_integracao_detalhe number;
+  p_retorno               clob;
+
+begin
+
+  select distinct --h.operation_id, 
+    eletronic_invoice_key, nvl(item_number, item_id), uom, h.operation_id, h.organization_code
+    into l_chave_eletronica, l_linha, l_uom, l_operation_id, l_organization_code
+  from 
+    xxfr_ri_vw_inf_da_invoice h,
+    cll_f189_invoice_lines    l
+  where 1=1
+    and h.invoice_id        = l.invoice_id
+    and h.operation_id      = 306
+    and h.organization_code = '011'
+  ;
+  xxfr_ri_pck_dev_simb_insumos.initialize;
+  xxfr_ri_pck_dev_simb_insumos.cria_json(
+    p_chave_eletronica      => l_chave_eletronica,
+    p_linha                 => l_linha,
+    p_quantity              => 1,
+    p_uom                   => l_uom,
+    p_operation_id          => l_operation_id,
+    p_organization_code     => l_organization_code,
+    x_id_integracao_detalhe => l_id_integracao_detalhe
+  );
   --
-  BEGIN
-    insert into xxfr_integracao_cabecalho (
-      ID_INTEGRACAO_CABECALHO, 
-      DT_CRIACAO, 
-      NM_USUARIO_CRIACAO, 
-      CD_PROGRAMA_CRIACAO, 
-      DT_ATUALIZACAO, 
-      NM_USUARIO_ATUALIZACAO, 
-      CD_PROGRAMA_ATUALIZACAO, 
-      CD_SISTEMA_ORIGEM, 
-      CD_SISTEMA_DESTINO, 
-      NR_SEQUENCIA_FILA, 
-      CD_INTERFACE, 
-      CD_CHAVE_INTERFACE, 
-      IE_STATUS_INTEGRACAO, 
-      DT_CONCLUSAO_INTEGRACAO
-    ) values (
-      p_seq_cab,
-      SYSDATE,
-      'DANIEL.PIMENTA',
-      'PL/SQL Developer',
-      SYSDATE,
-      'DANIEL.PIMENTA',
-      'PL/SQL Developer',
-      'SIF.VEI',
-      'EBS',
-      1,
-      'PROCESSAR_NF_DEVOLUCAO_FORNECEDOR',
-      NULL,
-      'NOVO',
-      NULL
-    );
-    PRINT_OUT('ID CABECALHO:'||p_seq_cab);
-  EXCEPTION
-    WHEN OTHERS THEN
-      PRINT_OUT('ERRO CABEÇALHO OTHERS :'||SQLERRM);
-      OK := FALSE;
-  END;
-  BEGIN
-    INSERT INTO xxfr_integracao_detalhe (
-      ID_INTEGRACAO_DETALHE, 
-      ID_INTEGRACAO_CABECALHO, 
-      DT_CRIACAO, 
-      NM_USUARIO_CRIACAO, 
-      DT_ATUALIZACAO, 
-      NM_USUARIO_ATUALIZACAO, 
-      CD_INTERFACE_DETALHE, 
-      IE_STATUS_PROCESSAMENTO, 
-      DT_STATUS_PROCESSAMENTO, 
-      --ID_SOA_COMPOSITE, 
-      --NM_SOA_COMPOSITE, 
-      DS_DADOS_REQUISICAO, 
-      DS_DADOS_RETORNO
-    ) VALUES (
-      p_seq_det,
-      p_seq_cab,
-      SYSDATE,
-      'DANIEL.PIMENTA',
-      SYSDATE,
-      'DANIEL.PIMENTA',
-      'PROCESSAR_NF_DEVOLUCAO_FORNECEDOR',
-      'PENDENTE',
-      SYSDATE,
-      --NULL,
-      --NULL,
-      STR_JSON,
-      NULL
-    );
-    PRINT_OUT('ID DETALHE:'||p_seq_det);
-  EXCEPTION
-    WHEN OTHERS THEN
-      PRINT_OUT('ERRO DETALHE OTHERS :'||SQLERRM);
-      PRINT_OUT('  ID DETALHE:'||p_seq_det);
-      OK := FALSE;
-  END;
-  IF OK THEN
-    COMMIT;
-  ELSE
-    ROLLBACK;
-  END IF;
-END;
+  xxfr_ri_pck_int_dev_work.processar_devolucao(
+    l_id_integracao_detalhe, 
+    p_retorno
+  );  
+end;
 /
 
 /*
+
+begin
+    fnd_global.apps_initialize ( 
+      user_id      => 1131,
+      resp_id      => 51165,
+      resp_appl_id => 552 
+    );
+end;
+
+
+      select distinct
+        i.organization_id, i.organization_code, i.entity_id, i.operation_id, i.invoice_id, i.invoice_num, i.eletronic_invoice_key,
+        r.description2,
+        ' - '  linha,
+        l.item_number, l.item_id, l.quantity, l.uom, l.unit_price, l.creation_date,
+        ' - ' devolucao,
+        r.line_id, r.quantity2, r.uom_code2,
+        m.primary_unit_of_measure,
+        'FIM'  trailer
+      from 
+        xxfr_ri_vw_inf_da_invoice      i,
+        cll_f189_invoice_lines         l,
+        xxfr_opm_vw_dev_simb_insumos_r r,
+        mtl_system_items               m
+      where 1=1
+        and i.invoice_id        = l.invoice_id
+        and i.cust_acct_site_id = r.cust_acct_site_id
+        and r.inventory_item_id = l.item_id
+        and r.inventory_item_id = m.inventory_item_id
+        and i.organization_id   = m.organization_id
+        --and i.invoice_type_code NOT LIKE 'D%'
+        --and r.header_id = 4 --p_header_id
+      order by 4
+      ;
+
+select * from xxfr_opm_vw_dev_simb_insumos_r;
+
 SELECT * FROM xxfr_integracao_detalhe 
 WHERE 1=1
   and ID_INTEGRACAO_DETALHE = 6019
   --and CD_INTERFACE_DETALHE like '%ENTREGA%'
 order by 3 desc;
+
+SELECT * FROM XXFR_DEV_SIMB_INSUMOS_ERRO;
+
+select id, DS_ESCOPO, DS_LOG  
+from xxfr_logger_log
+where 1=1 
+  and dt_criacao >= sysdate -0.25
+  and upper(DS_ESCOPO) like 'XXFR%INSUMOS%'
+order by id
+;
+
+select id, DS_ESCOPO, DS_LOG  
+from xxfr_logger_log
+where 1=1 
+  and dt_criacao >= sysdate -0.5
+  and upper(DS_ESCOPO) = 'DEVOLUCAO_NF_FORNECEDOR_-376'
+order by id;
+
 */
 
 
-/*
-  select * from cll_f189_invoices_interface 
-  where 1=1
-    and INVOICE_TYPE_CODE = 'DCO009'
-    --and source like 'XXFR%'
-  order by creation_date desc;
-*/
-
---select * from cll_f189_invoice_lines_iface where interface_invoice_id in (
---select interface_invoice_id from cll_f189_invoices_interface where source like 'XXFR%');

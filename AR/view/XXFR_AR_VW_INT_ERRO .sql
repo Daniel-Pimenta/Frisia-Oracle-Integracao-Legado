@@ -4,6 +4,7 @@ select
   ,d.dt_criacao
   ,d.nm_usuario_criacao
   ,d.ie_status_processamento
+  ,d.cd_interface_detalhe 
   ,json_value(d.ds_dados_retorno, '$.status')                status
   ,json_value(d.ds_dados_retorno, '$.statusCode')            cd_status 
   ,json_value(d.ds_dados_retorno, '$.reasonPhrase')          tx_reason_phrase
@@ -25,7 +26,7 @@ from
 where 1=1
   and c.cd_interface            = d.cd_interface_detalhe
   and c.id_integracao_cabecalho = d.id_integracao_cabecalho
-  and cd_interface_detalhe      = 'SINCRONIZAR_NOTA_FISCAL'
+  --and cd_interface_detalhe      = 'SINCRONIZAR_NOTA_FISCAL'
   --and d.id_integracao_detalhe = 11354
 ;
 /
